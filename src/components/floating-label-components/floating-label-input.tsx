@@ -1,27 +1,29 @@
 import * as React from "react";
 
 import { Input, InputProps } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 
 import { cn } from "@/lib/utils";
 
+import { FloatingLabel, FloatingLabelProps } from "./floating-label";
+
 import "./style.css";
 
-interface FloatingLabelInputProps extends InputProps {
-  id?: string;
-  placeholder?: string;
-  type?: "text" | "password" | "email" | "number" | "tel" | "url";
-}
+// interface FloatingLabelInputProps extends FloatingLabelProps {
+//   type?: "text" | "password" | "email" | "number" | "tel" | "url";
+// }
 
 const FloatingLabelInput = React.forwardRef<
-  HTMLInputElement,
-  FloatingLabelInputProps
->(({ id, placeholder, type = "text", className, ...props }, ref) => {
+  React.ElementRef<typeof Input>,
+  React.ComponentPropsWithoutRef<typeof Input> & FloatingLabelProps
+>(({ id, label, type = "text", className, ...props }, ref) => {
   return (
-    <div className="relative mt-4">
+    <FloatingLabel
+      label={label}
+      labelClassName="input-text absolute -top-5 left-3 rounded-md text-sm text-muted-foreground/80 transition duration-200"
+    >
       <Input
         type={type}
-        placeholder={placeholder}
+        placeholder={label}
         ref={ref}
         id={id}
         className={cn(
@@ -30,13 +32,7 @@ const FloatingLabelInput = React.forwardRef<
         )}
         {...props}
       />
-      <Label
-        className="input-text absolute -top-5 left-3 rounded-md text-sm text-muted-foreground/80 transition duration-200"
-        htmlFor={id}
-      >
-        {placeholder}
-      </Label>
-    </div>
+    </FloatingLabel>
   );
 });
 FloatingLabelInput.displayName = "FloatingLabelInput";

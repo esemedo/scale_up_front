@@ -16,24 +16,25 @@ import {
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 
-const employeeSchema = z.object({
+const contributorSchema = z.object({
   firstName: z.string(),
   lastName: z.string(),
   phone: z.string(),
   email: z.string().email(),
 });
 
-interface EmployeeFormProps {
-  onSubmit: (data: z.infer<typeof employeeSchema>) => void;
+export type ContributorSchemaType = z.infer<typeof contributorSchema>;
+
+interface ContributorFormProps {
+  onSubmit: (data: ContributorSchemaType) => void;
   onCancel: () => void;
 }
-
-export default function EmployeeForm({
+export default function ContributorForm({
   onSubmit,
   onCancel,
-}: EmployeeFormProps) {
-  const form = useForm<z.infer<typeof employeeSchema>>({
-    resolver: zodResolver(employeeSchema),
+}: ContributorFormProps) {
+  const form = useForm<ContributorSchemaType>({
+    resolver: zodResolver(contributorSchema),
     defaultValues: {
       firstName: "",
       lastName: "",
@@ -51,11 +52,7 @@ export default function EmployeeForm({
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <FloatingLabelInput
-                  {...field}
-                  id="firstName"
-                  placeholder="Prénom"
-                />
+                <FloatingLabelInput {...field} id="firstName" label="Prénom" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -68,11 +65,7 @@ export default function EmployeeForm({
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <FloatingLabelInput
-                  {...field}
-                  id="lastName"
-                  placeholder="Nom"
-                />
+                <FloatingLabelInput {...field} id="lastName" label="Nom" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -85,11 +78,7 @@ export default function EmployeeForm({
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <FloatingLabelInput
-                  {...field}
-                  id="phone"
-                  placeholder="Téléphone"
-                />
+                <FloatingLabelInput {...field} id="phone" label="Téléphone" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -102,7 +91,7 @@ export default function EmployeeForm({
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <FloatingLabelInput {...field} id="email" placeholder="Email" />
+                <FloatingLabelInput {...field} id="email" label="Email" />
               </FormControl>
               <FormMessage />
             </FormItem>

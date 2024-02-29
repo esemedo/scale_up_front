@@ -125,7 +125,7 @@ export default function CompanyForm({
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <FloatingLabelInput {...field} id="name" placeholder="Nom" />
+                <FloatingLabelInput {...field} id="name" label="Nom" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -137,7 +137,7 @@ export default function CompanyForm({
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <FloatingLabelInput {...field} id="siret" placeholder="SIRET" />
+                <FloatingLabelInput {...field} id="siret" label="SIRET" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -149,17 +149,13 @@ export default function CompanyForm({
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <FloatingLabelInput
-                  {...field}
-                  id="address"
-                  placeholder="Adresse"
-                />
+                <FloatingLabelInput {...field} id="address" label="Adresse" />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <div className="flex flex-col space-y-2 sm:space-x-2 sm:space-y-0 md:grid-cols-3 md:flex-row md:space-x-0 lg:grid">
+        <div className="flex flex-col space-y-2 sm:flex-row sm:space-x-0 sm:space-x-2 sm:space-y-0 md:grid md:grid-cols-3">
           <FormField
             control={form.control}
             name="zipCode"
@@ -169,7 +165,7 @@ export default function CompanyForm({
                   <FloatingLabelInput
                     {...field}
                     id="zipCode"
-                    placeholder="Code postal"
+                    label="Code postal"
                   />
                 </FormControl>
                 <FormMessage />
@@ -182,11 +178,7 @@ export default function CompanyForm({
             render={({ field }) => (
               <FormItem className="flex-1">
                 <FormControl>
-                  <FloatingLabelInput
-                    {...field}
-                    id="city"
-                    placeholder="Ville"
-                  />
+                  <FloatingLabelInput {...field} id="city" label="Ville" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -213,15 +205,15 @@ export default function CompanyForm({
                             ? countries.find(
                                 (language) => language.value === field.value,
                               )?.label
-                            : "Select language"}
+                            : "Selectionnez un pays"}
                           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                         </FloatingLabelButton>
                       </FormControl>
                     </DrawerTrigger>
-                    <DrawerContent className=" w-[200px] p-0">
+                    <DrawerContent className="p-0">
                       <Command>
-                        <CommandInput placeholder="Search language..." />
-                        <CommandEmpty>No language found.</CommandEmpty>
+                        <CommandInput placeholder="Chercher un pays..." />
+                        <CommandEmpty>Aucun pays trouvé</CommandEmpty>
                         <CommandGroup className="max-h-[200px] overflow-y-auto overflow-x-hidden">
                           {countries.map((country) => (
                             <CommandItem

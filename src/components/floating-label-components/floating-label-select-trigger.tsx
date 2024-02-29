@@ -1,23 +1,19 @@
 import * as React from "react";
 
-import { Label } from "@/components/ui/label";
 import { SelectTrigger } from "@/components/ui/select";
 
 import { cn } from "@/lib/utils";
 
-import "./style.css";
+import { FloatingLabel, FloatingLabelProps } from "./floating-label";
 
-interface FloatingLabelSelectTriggerProps {
-  label?: string;
-}
+import "./style.css";
 
 const FloatingLabelSelectTrigger = React.forwardRef<
   React.ElementRef<typeof SelectTrigger>,
-  React.ComponentPropsWithoutRef<typeof SelectTrigger> &
-    FloatingLabelSelectTriggerProps
+  React.ComponentPropsWithoutRef<typeof SelectTrigger> & FloatingLabelProps
 >(({ id, label, className, children, ...props }, ref) => {
   return (
-    <div className="relative mt-4">
+    <FloatingLabel label={label}>
       <SelectTrigger
         id={id}
         className={cn(
@@ -29,13 +25,7 @@ const FloatingLabelSelectTrigger = React.forwardRef<
       >
         {children}
       </SelectTrigger>
-      <Label
-        className="absolute -top-11 left-2 rounded-md bg-white px-1 text-sm text-gray-300"
-        htmlFor={id}
-      >
-        {label}
-      </Label>
-    </div>
+    </FloatingLabel>
   );
 });
 FloatingLabelSelectTrigger.displayName = "FloatingLabelSelectTrigger";

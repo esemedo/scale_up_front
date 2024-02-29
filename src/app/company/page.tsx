@@ -8,9 +8,10 @@ import {
 } from "@/components/ui/card";
 
 import { Company } from "@/types/company";
+import { Contributor } from "@/types/contributor";
 
-import EmployeesList from "./employees-list";
 import CompanyForm from "./company-form";
+import ContributorList from "./contributor-list";
 
 export default async function CompanyPage() {
   const countriesIso: string[] = await fetch(
@@ -34,6 +35,12 @@ export default async function CompanyPage() {
     `http://localhost:3000/api/users/${user.id}/company`,
   ).then((res) => res.json());
 
+  console.log(company);
+
+  const contributors: Contributor[] = await fetch(
+    `http://localhost:3000/api/companies/${company.id}/contributors`,
+  ).then((res) => res.json());
+
   return (
     <>
       <section className="mx-2">
@@ -52,11 +59,11 @@ export default async function CompanyPage() {
           <CardHeader>
             <CardTitle>Mes Employés</CardTitle>
             <CardDescription>
-              Employés et intervenants de ma structure
+              Employés et prestataires de ma structure
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <EmployeesList />
+            <ContributorList company={company} contributors={contributors} />
           </CardContent>
         </Card>
       </section>
