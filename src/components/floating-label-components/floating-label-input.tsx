@@ -1,9 +1,9 @@
 import * as React from "react";
 
-import { cn } from "@/lib/utils";
+import { Input, InputProps } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
-import { Input, InputProps } from "../ui/input";
-import { Label } from "../ui/label";
+import { cn } from "@/lib/utils";
 
 import "./style.css";
 
@@ -19,12 +19,6 @@ const FloatingLabelInput = React.forwardRef<
 >(({ id, placeholder, type = "text", className, ...props }, ref) => {
   return (
     <div className="relative mt-4">
-      <Label
-        className="input-text absolute -top-5 left-3 rounded-md text-sm text-muted-foreground/80 transition duration-200"
-        htmlFor={id}
-      >
-        {placeholder}
-      </Label>
       <Input
         type={type}
         placeholder={placeholder}
@@ -36,6 +30,12 @@ const FloatingLabelInput = React.forwardRef<
         )}
         {...props}
       />
+      <Label
+        className="input-text absolute -top-5 left-3 rounded-md text-sm text-muted-foreground/80 transition duration-200"
+        htmlFor={id}
+      >
+        {placeholder}
+      </Label>
     </div>
   );
 });

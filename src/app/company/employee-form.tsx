@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 
-import { FloatingLabelInput } from "@/components/floating-label-input";
+import { FloatingLabelInput } from "@/components/floating-label-components";
 import { Button } from "@/components/ui/button";
 import {
   Form,

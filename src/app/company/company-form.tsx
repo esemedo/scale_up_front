@@ -5,7 +5,11 @@ import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 
-import { FloatingLabelInput } from "@/components/floating-label-input";
+import {
+  FloatingLabelButton,
+  FloatingLabelInput,
+  FloatingLabelSelectTrigger,
+} from "@/components/floating-label-components";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -101,9 +105,9 @@ export default function CompanyForm({
                 defaultValue={field.value}
               >
                 <FormControl>
-                  <SelectTrigger id="status">
+                  <FloatingLabelSelectTrigger id="status" label="Statut">
                     <SelectValue placeholder="Choisissez votre statut" />
-                  </SelectTrigger>
+                  </FloatingLabelSelectTrigger>
                 </FormControl>
                 <SelectContent>
                   <SelectItem value="temp-worker">Vacataire</SelectItem>
@@ -197,13 +201,13 @@ export default function CompanyForm({
                   <Drawer>
                     <DrawerTrigger asChild>
                       <FormControl>
-                        <Button
-                          variant="outline"
+                        <FloatingLabelButton
                           role="combobox"
                           className={cn(
                             "w-full justify-between",
                             !field.value && "text-muted-foreground",
                           )}
+                          label="Pays"
                         >
                           {field.value
                             ? countries.find(
@@ -211,7 +215,7 @@ export default function CompanyForm({
                               )?.label
                             : "Select language"}
                           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                        </Button>
+                        </FloatingLabelButton>
                       </FormControl>
                     </DrawerTrigger>
                     <DrawerContent className=" w-[200px] p-0">
