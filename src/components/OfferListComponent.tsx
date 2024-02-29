@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 
 import Link from "next/link";
@@ -31,7 +30,7 @@ export default function OfferListComponent() {
     return(
         <>
             <div className="bg-slate-50 shadow-md p-6 w-1/3 h-full mx-2 rounded-md">
-                <p>Matières du contrat :</p>
+                <p>Contrats :</p>
                 {offers.map((offer, index) => {
                         return(
                             <>

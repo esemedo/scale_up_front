@@ -16,7 +16,7 @@ interface Syllabus {
     subjectId: number,
     authorId: number,
     offerId: number,
-    file: string,
+    fileName: string,
     createdAt: Date,
     user: User
 }
@@ -38,23 +38,28 @@ export default function SubjectList() {
                 subjectId: subject.id,
                 authorId: placeholderID,
                 offerId: parseInt(params.offerID),
-                file: e.currentTarget.files[0].name,
+                fileName: e.currentTarget.files[0].name,
                 createdAt: new Date(),
                 user: { id: placeholderID } 
             }
             setSyllabusFile(newSyllabus)
         }
-      }
+    }
 
-    function handleSubmit() {
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(syllabusFile)
-        };
-        fetch('http://localhost:3000/api/uploadSyllabus', requestOptions)
-        .then(response => response.json())
-        .then(res => console.log(res));
+    async function handleSubmit() {
+        try {
+            await fetch('http://localhost:3000/api/uploadSyllabusFile', {
+              method: 'POST',
+              body: new FormData(document.querySelector('form')!),
+            }).then(() => {
+                return fetch('http://localhost:3000/api/uploadSyllabus', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(syllabusFile)
+            })})
+          } catch (error) {
+            console.error('Error:', error);
+          }
     }
 
     useEffect(() => {
