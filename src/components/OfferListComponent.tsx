@@ -21,7 +21,7 @@ export default function OfferListComponent() {
     }
 
     function getPath(offer: Offer): string {
-        return `/offers/Subjects/${offer.needId}`
+        return `/offers/subject/${offer.id}/${offer.needId}`
     }
 
     useEffect(() => {

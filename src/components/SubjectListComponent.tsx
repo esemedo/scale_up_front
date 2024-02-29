@@ -23,22 +23,24 @@ interface Syllabus {
 
 export default function SubjectList() {
 
-    const params = useParams<{ needId: string }>();
+    const params = useParams<{ offerID: string, needID: string }>();
 
     const [syllabusFileName, setSyllabusFileName] = useState("");
     const [syllabusFile, setSyllabusFile] = useState<Syllabus>();
     const [subjects, setSubjects] = useState<Subject[]>([]);
+
+    const placeholderID = 1;
     
     function handleChange(e: React.FormEvent<HTMLInputElement>, subject: Subject) {
         if(e.currentTarget != null && e.currentTarget.files != null && e.currentTarget.files[0] != null){
             setSyllabusFileName(e.currentTarget?.files[0].name)
             const newSyllabus: Syllabus = {
                 subjectId: subject.id,
-                authorId: 1,
-                offerId: 1,
+                authorId: placeholderID,
+                offerId: parseInt(params.offerID),
                 file: e.currentTarget.files[0].name,
                 createdAt: new Date(),
-                user: { id: 1 } 
+                user: { id: placeholderID } 
             }
             setSyllabusFile(newSyllabus)
         }
@@ -56,11 +58,11 @@ export default function SubjectList() {
     }
 
     useEffect(() => {
-        fetch(`http://localhost:3000/api/getSubjects?needId=${params.needId}`)
+        fetch(`http://localhost:3000/api/getSubjects?needId=${params.needID}`)
         .then(response => response.json())
         .then(json => setSubjects(json))
         .catch(error => console.error(error));
-      }, []);
+      }, [params.needID]);
 
     return(
         <>
