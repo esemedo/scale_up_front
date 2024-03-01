@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import NextAuthProvider from "@/app/context/NextAuthProvider";
+import Link from "next/link";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,9 +19,10 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`h-screen ${inter.className} bg-back-pattern bg-light-gray bg-background bg-cover bg-center bg-no-repeat font-light`}
+        className={`h-screen ${inter.className} bg-background bg-light-gray bg-back-pattern bg-cover bg-center bg-no-repeat font-light`}
       >
         <NextAuthProvider>{children}</NextAuthProvider>
+        <Link href="/src/app/contract"></Link>
       </body>
     </html>
   );
