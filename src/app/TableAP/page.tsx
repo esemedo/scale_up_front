@@ -2,12 +2,19 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
+interface Dei {
+  id: number;
+  sashaStatus: boolean;
+}
+
 const Page = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<Dei[]>([]); // Specify type Dei[] for data state
+  const [selectedItem, setItemSelected] = useState<Dei | null>(null); // Specify type Dei | null for selectedItem state
 
   useEffect(() => {
-    axios.get("http://localhost:3000/dei")
-        .then((result) => {
+    axios
+      .get<Dei[]>("http://localhost:3000/dei") // Specify the response type as Dei[]
+      .then((result) => {
         setData(result.data);
         console.log(result.data);
       })
@@ -15,6 +22,11 @@ const Page = () => {
         console.error("Error:", error);
       });
   }, []);
+
+  const handleItemClick = (itemId: number) => {
+    const selectedItem = data.find((item) => item.id === itemId);
+    setItemSelected(selectedItem ?? null);
+  };
 
   return (
     <div className="bg-[#f0f2fc]">
@@ -37,17 +49,25 @@ const Page = () => {
             </select>
           </div>
           <ul className="task-list">
-            {data.map((item: { id: number; sashaStatus: number; }) => (
-              <li key={item.id} className="bg-[#f0f2fc]">
+            {data.map((item: { id: number; sashaStatus: boolean }) => (
+              <li
+                key={item.id}
+                className={`bg-[#f0f2fc] ${
+                  selectedItem === item ? "selected" : ""
+                }`}
+                onClick={() => handleItemClick(item.id)}
+              >
                 <h4>Tâche n°{item.id}</h4>
-                {item.sashaStatus}
+                {item.sashaStatus ? "Complété" : "En cours"}
               </li>
             ))}
           </ul>
         </div>
         <div className="right-side mx-auto w-4/6">
           <div className="top mx-auto mt-2 flex flex-col gap-y-2 rounded-3xl bg-white p-8 shadow-lg">
-            <h1 className="text-3xl font-bold text-[#41494e]">Tâche n. {/* {item.id} */}</h1>
+            <h1 className="text-3xl font-bold text-[#41494e]">
+              Tâche n. {selectedItem ? selectedItem.id : ""}
+            </h1>
             <div className="flex justify-between">
               {/* <input type="text" className="appearance-none block w-full px-16 py-3 border border-black rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"/> */}
               <div className="relative w-1/3">
@@ -169,7 +189,7 @@ const Page = () => {
             <h3 className="text-lg">Calendrier</h3>
             <ul className="flex flex-row ">
               <li className="day-body w-44 rounded-2xl bg-[#f0f2fc]">
-                <div className="day-header rounded-t-xl bg-[#c6cbe7] text-center">
+                <div className="day-header bg-light-gray rounded-t-xl text-center">
                   <h6>Ajourd&apos;hui</h6>
                 </div>
                 <div className="day-content h-28"></div>
