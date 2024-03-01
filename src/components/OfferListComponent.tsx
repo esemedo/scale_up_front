@@ -51,7 +51,9 @@ export default function OfferListComponent() {
         <>
             <div className="bg-slate-50 shadow-md p-6 w-1/3 h-full mx-2 rounded-md">
                 <p>Contrats :</p>
-                {offers.map((offer, index) => {
+                {offers.length <= 0 ? <>
+                    <p className="my-2 p-2 h-full rounded-md bg-slate-200">Vous n&apos;avez pas de d&apos;offres</p>
+                </> : offers.map((offer, index) => {
                         return(
                             <>
                                 <form key={index} className="flex bg-slate-200 h-full rounded-md my-2 p-2 items-center" action={() => handleSubmit()}>
