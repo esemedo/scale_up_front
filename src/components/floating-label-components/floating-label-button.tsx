@@ -2,6 +2,8 @@ import * as React from "react";
 
 import { Button } from "@/components/ui/button";
 
+import { cn } from "@/lib/utils";
+
 import { FloatingLabel, FloatingLabelProps } from "./floating-label";
 
 import "./style.css";
@@ -11,11 +13,11 @@ const FloatingLabelButton = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof Button> & FloatingLabelProps
 >(({ id, label, children, className, ...props }, ref) => {
   return (
-    <FloatingLabel label={label}>
+    <FloatingLabel id={id} label={label}>
       <Button
         id={id}
         variant="outline"
-        className={className}
+        className={cn("rounded-md", className)}
         ref={ref}
         {...props}
       >

@@ -155,7 +155,7 @@ export default function CompanyForm({
             </FormItem>
           )}
         />
-        <div className="flex flex-col space-y-2 sm:flex-row sm:space-x-0 sm:space-x-2 sm:space-y-0 md:grid md:grid-cols-3">
+        <div className="flex flex-col space-y-2 sm:flex-row sm:space-x-2 sm:space-y-0 md:grid md:grid-cols-3">
           <FormField
             control={form.control}
             name="zipCode"
@@ -194,6 +194,7 @@ export default function CompanyForm({
                     <DrawerTrigger asChild>
                       <FormControl>
                         <FloatingLabelButton
+                          id="country"
                           role="combobox"
                           className={cn(
                             "w-full justify-between",
@@ -205,7 +206,7 @@ export default function CompanyForm({
                             ? countries.find(
                                 (language) => language.value === field.value,
                               )?.label
-                            : "Selectionnez un pays"}
+                            : "Sélectionnez un pays"}
                           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                         </FloatingLabelButton>
                       </FormControl>
@@ -237,7 +238,7 @@ export default function CompanyForm({
           />
         </div>
 
-        <div className="flex justify-end gap-1">
+        <div className="mt-4 flex justify-end gap-1">
           <Button variant="destructive">Annuler</Button>
           <Button type="submit">Enregistrer</Button>
         </div>

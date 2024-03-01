@@ -13,7 +13,7 @@ const FloatingLabelSelectTrigger = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof SelectTrigger> & FloatingLabelProps
 >(({ id, label, className, children, ...props }, ref) => {
   return (
-    <FloatingLabel label={label}>
+    <FloatingLabel id={id} label={label}>
       <SelectTrigger
         id={id}
         className={cn(

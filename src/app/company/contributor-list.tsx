@@ -15,6 +15,7 @@ import { Company } from "@/types/company";
 import { Contributor } from "@/types/contributor";
 
 import ContributorForm, { ContributorSchemaType } from "./contributor-form";
+import { Trash } from "lucide-react";
 
 interface ContributorListProps {
   company: Company;
@@ -67,7 +68,7 @@ export default function ContributorList({
       {contributorList.length > 0 ? (
         <div className="grid-col-1 grid gap-4">
           {contributorList.map((contributor) => (
-            <Card key={contributor.id}>
+            <Card key={contributor.id} className="relative">
               <CardContent className="pt-2">
                 <p className="font-bold">
                   {contributor.firstName} {contributor.lastName}
@@ -75,15 +76,14 @@ export default function ContributorList({
                 <p>{contributor.phone}</p>
                 <p>{contributor.mail}</p>
               </CardContent>
-              <CardFooter className="flex justify-end">
-                <Button
-                  onClick={() => handleRemoveContributor(contributor)}
-                  variant="destructive"
-                  size="sm"
-                >
-                  Supprimer
-                </Button>
-              </CardFooter>
+              <Button
+                className="absolute -right-2 -top-2"
+                onClick={() => handleRemoveContributor(contributor)}
+                variant="destructive"
+                size="icon"
+              >
+                <Trash />
+              </Button>
             </Card>
           ))}
         </div>
