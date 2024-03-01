@@ -1,5 +1,6 @@
 'use client';
 
+import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
 
@@ -9,15 +10,9 @@ interface Offer {
 }
 
 export default function OfferListComponent() {
+    const { data: session, status } = useSession();
 
     const [offers, setOffers] = useState<Offer[]>([]);
-
-    async function getOffers() {
-        await fetch('http://localhost:3000/api/getOffers')
-          .then(response => response.json())
-          .then(json => setOffers(json))
-          .catch(error => console.error(error));
-    }
 
     function getPath(offer: Offer): string {
         return `/offers/subject/${offer.id}/${offer.needId}`
@@ -44,14 +39,24 @@ export default function OfferListComponent() {
     }
 
     useEffect(() => {
-        getOffers()
-      }, []);
+        if (status === "unauthenticated") {
+            signIn("keycloak", {
+              callbackUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/`,
+            }); // Force sign in if not authenticated
+            }
+        if(session != null) {
+        fetch(`http://localhost:3000/api/getOffers?userID=${session.user.id}`)
+        .then(response => response.json())
+        .then(json => setOffers(json))
+        .catch(error => console.error(error));
+            }
+        }, [session, status]);
 
     return(
         <>
             <div className="bg-slate-50 shadow-md p-6 w-1/3 h-full mx-2 rounded-md">
                 <p>Offres :</p>
-                {offers.length <= 0 ? <>
+                {offers == null || offers.length <= 0 ? <>
                     <p className="my-2 p-2 h-full rounded-md bg-slate-200">Vous n&apos;avez pas de d&apos;offres</p>
                 </> : offers.map((offer, index) => {
                         return(
