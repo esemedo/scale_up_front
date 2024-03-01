@@ -1,5 +1,6 @@
 'use client';
 
+import { signIn, useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
 import React, { useState, useEffect } from "react";
 
@@ -9,7 +10,7 @@ interface Subject {
 }
 
 interface User {
-    id: number,
+    uuid: string,
 }
 
 interface Syllabus {
@@ -22,6 +23,7 @@ interface Syllabus {
 }
 
 export default function SubjectList() {
+    const { data: session, status } = useSession();
 
     const params = useParams<{ offerID: string, needID: string }>();
 
@@ -33,7 +35,7 @@ export default function SubjectList() {
     const placeholderID = 1;
     
     function handleChange(e: React.FormEvent<HTMLInputElement>, subject: Subject) {
-        if(e.currentTarget != null && e.currentTarget.files != null && e.currentTarget.files[0] != null){
+        if(session != null && e.currentTarget != null && e.currentTarget.files != null && e.currentTarget.files[0] != null){
             setSyllabusFileName(e.currentTarget?.files[0].name)
             const newSyllabus: Syllabus = {
                 subjectId: subject.id,
@@ -41,7 +43,7 @@ export default function SubjectList() {
                 offerId: parseInt(params.offerID),
                 fileName: e.currentTarget.files[0].name,
                 createdAt: new Date(),
-                user: { id: placeholderID } 
+                user: { uuid: session.user.id } 
             }
             setSyllabusFile(newSyllabus)
         }
@@ -65,6 +67,11 @@ export default function SubjectList() {
     }
 
     useEffect(() => {
+        if (status === "unauthenticated") {
+            signIn("keycloak", {
+              callbackUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/`,
+            }); // Force sign in if not authenticated
+            }
         fetch(`http://localhost:3000/api/getSubjects?needId=${params.needID}`)
         .then(response => response.json())
         .then(json => setSubjects(json))
