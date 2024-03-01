@@ -10,10 +10,11 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import ContributorForm, { ContributorSchemaType } from "./employee-form";
-import { Contributor } from "@/types/contributor";
-import { useRouter } from "next/navigation";
+
 import { Company } from "@/types/company";
+import { Contributor } from "@/types/contributor";
+
+import ContributorForm, { ContributorSchemaType } from "./contributor-form";
 
 interface ContributorListProps {
   company: Company;
@@ -63,9 +64,9 @@ export default function ContributorList({
 
   return (
     <>
-      {contributors.length > 0 ? (
+      {contributorList.length > 0 ? (
         <div className="grid-col-1 grid gap-4">
-          {contributors.map((contributor) => (
+          {contributorList.map((contributor) => (
             <Card key={contributor.id}>
               <CardContent className="pt-2">
                 <p className="font-bold">

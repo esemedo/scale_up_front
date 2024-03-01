@@ -1,3 +1,5 @@
+import axios from "axios";
+
 import {
   Card,
   CardContent,
@@ -37,9 +39,11 @@ export default async function CompanyPage() {
 
   console.log(company);
 
-  const contributors: Contributor[] = await fetch(
-    `http://localhost:3000/api/companies/${company.id}/contributors`,
-  ).then((res) => res.json());
+  const contributors: Contributor[] = await axios
+    .get(`http://localhost:3000/api/companies/${company.id}/contributors`)
+    .then((res) => res.data);
+
+  console.log(contributors);
 
   return (
     <>
