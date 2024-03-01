@@ -36,31 +36,39 @@ export default function SubjectList() {
     
     function handleChange(e: React.FormEvent<HTMLInputElement>, subject: Subject) {
         if(session != null && e.currentTarget != null && e.currentTarget.files != null && e.currentTarget.files[0] != null){
-            setSyllabusFileName(e.currentTarget?.files[0].name)
-            const newSyllabus: Syllabus = {
-                subjectId: subject.id,
-                authorId: placeholderID,
-                offerId: parseInt(params.offerID),
-                fileName: e.currentTarget.files[0].name,
-                createdAt: new Date(),
-                user: { uuid: session.user.id } 
+            const file = e.currentTarget.files[0]
+            if(file.type == 'application/pdf' || file.type == 'application/docx') {
+                setSyllabusFileName(file.name)
+                const newSyllabus: Syllabus = {
+                    subjectId: subject.id,
+                    authorId: placeholderID,
+                    offerId: parseInt(params.offerID),
+                    fileName: file.name,
+                    createdAt: new Date(),
+                    user: { uuid: session.user.id } 
+                }
+                setSyllabusFile(newSyllabus)
+            } else {
+                setFeedback('Please upload a PDF or DOCX')
             }
-            setSyllabusFile(newSyllabus)
         }
     }
 
     async function handleSubmit() {
         try {
-            await fetch('http://localhost:3000/api/uploadSyllabusFile', {
-              method: 'POST',
-              body: new FormData(document.querySelector('form')!),
-            }).then(() => {
-                return fetch('http://localhost:3000/api/uploadSyllabus', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(syllabusFile)
-                }).then(response => response.ok ? setFeedback('Upload successful') : setFeedback('Error occurred'))
-             })
+            if(syllabusFile != null) {
+                await fetch('http://localhost:3000/api/uploadSyllabusFile', {
+                    method: 'POST',
+                    body: new FormData(document.querySelector('form')!),
+                }).then(async () => {
+                    const response = await fetch('http://localhost:3000/api/uploadSyllabus', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(syllabusFile)
+                    });
+                    return response.ok ? setFeedback('Upload successful') : setFeedback('Error occurred');
+                })
+            }
           } catch (error) {
             console.error('Error:', error);
           }
@@ -76,7 +84,7 @@ export default function SubjectList() {
         .then(response => response.json())
         .then(json => setSubjects(json))
         .catch(error => console.error(error));
-      }, [params.needID]);
+      }, [params.needID, status]);
 
     return(
         <>

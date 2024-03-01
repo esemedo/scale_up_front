@@ -18,21 +18,30 @@ export default function OfferListComponent() {
         return `/offers/subject/${offer.id}/${offer.needId}`
     }
 
-    const [ptfFileName, setSyllabusFileName] = useState("");
+    const [ptfFileName, setPtfFileName] = useState("");
     const [feedback, setFeedback] = useState("");
     
     function handleChange(e: React.FormEvent<HTMLInputElement>) {
         if(e.currentTarget != null && e.currentTarget.files != null && e.currentTarget.files[0] != null){
-            setSyllabusFileName(e.currentTarget?.files[0].name)
-        }
+            const file = e.currentTarget.files[0]
+            if(file.type == 'application/pdf' || file.type == 'application/docx') {
+                setPtfFileName(file.name)
+            } else {
+                setFeedback('Please upload a PDF or DOCX')
+            }
+    } else {
+        setFeedback('Please upload a PDF or DOCX')
+    }
     }
 
     async function handleSubmit() {
         try {
-            await fetch('http://localhost:3000/api/uploadPTF', {
-              method: 'POST',
-              body: new FormData(document.querySelector('form')!),
-            }).then(response => response.ok ? setFeedback('Upload successful') : setFeedback('Error occurred'))
+            if(ptfFileName != "") {
+                await fetch('http://localhost:3000/api/uploadPTF', {
+                method: 'POST',
+                body: new FormData(document.querySelector('form')!),
+                }).then(response => response.ok ? setFeedback('Upload successful') : setFeedback('Error occurred'))
+            }
           } catch (error) {
             console.error('Error:', error);
           }
