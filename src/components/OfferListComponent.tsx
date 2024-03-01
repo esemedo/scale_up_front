@@ -50,14 +50,14 @@ export default function OfferListComponent() {
     return(
         <>
             <div className="bg-slate-50 shadow-md p-6 w-1/3 h-full mx-2 rounded-md">
-                <p>Contrats :</p>
+                <p>Offres :</p>
                 {offers.length <= 0 ? <>
                     <p className="my-2 p-2 h-full rounded-md bg-slate-200">Vous n&apos;avez pas de d&apos;offres</p>
                 </> : offers.map((offer, index) => {
                         return(
                             <>
                                 <form key={index} className="flex bg-slate-200 h-full rounded-md my-2 p-2 items-center" action={() => handleSubmit()}>
-                                    <Link key={index} href={getPath(offer)} className="w-1/2 px-1 py-6 m-2 rounded-md bg-slate-300 hover:bg-slate-400 active:bg-slate-500">Contrat n°{offer.id}</Link>
+                                    <Link key={index} href={getPath(offer)} className="w-1/2 px-1 py-6 m-2 rounded-md bg-slate-300 hover:bg-slate-400 active:bg-slate-500">Offre n°{offer.id}</Link>
                                     <label htmlFor="ptfBtn" className="bg-slate-300 overflow-hidden text-ellipsis p-2 h-20 hover:bg-slate-400 m-2 active:bg-slate-500 w-1/4 rounded-md">{ptfFileName == "" ?
                                         "📎 upload PTF" : ptfFileName
                                     }</label>
