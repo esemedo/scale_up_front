@@ -1,15 +1,18 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import StatusBanner from "@/components/Assistant/StatusBanner";
 
 interface Dei {
   id: number;
   sashaStatus: boolean;
+  status: number
 }
 
 const Page = () => {
   const [data, setData] = useState<Dei[]>([]); // Specify type Dei[] for data state
   const [selectedItem, setItemSelected] = useState<Dei | null>(null); // Specify type Dei | null for selectedItem state
+  const [statusUpdated, setStatusUpdated] = useState<boolean>(false); 
 
   useEffect(() => {
     axios
@@ -17,19 +20,22 @@ const Page = () => {
       .then((result) => {
         setData(result.data);
         console.log(result.data);
+        setItemSelected(result.data[0])
       })
       .catch((error) => {
         console.error("Error:", error);
       });
-  }, []);
+  }, [statusUpdated]);
 
   const handleItemClick = (itemId: number) => {
+    
     const selectedItem = data.find((item) => item.id === itemId);
+    console.log(selectedItem);
     setItemSelected(selectedItem ?? null);
   };
 
   return (
-    <div className="bg-[#f0f2fc]">
+    <div className="">
       <div className="group-componen mx-36 mt-8 flex justify-center gap-3 rounded-lg p-8 pt-16 font-main">
         <div className="left-side mx-auto mt-2 w-2/6 rounded-3xl bg-white p-8 shadow-lg">
           <h3 className="text-lg ">Mes tâches</h3>
@@ -49,22 +55,23 @@ const Page = () => {
             </select>
           </div>
           <ul className="task-list">
-            {data.map((item: { id: number; sashaStatus: boolean }) => (
+            {data.map((item: { id: number; status: number }) => (
               <li
                 key={item.id}
-                className={`bg-[#f0f2fc] ${
-                  selectedItem === item ? "selected" : ""
+                className={`bg-[#f0f2fc] mb-3 p-5 mt-3 rounded-lg  ${
+                  selectedItem === item ? "selected border-2 border-electric-blue border-solid" : ""
                 }`}
                 onClick={() => handleItemClick(item.id)}
               >
                 <h4>Tâche n°{item.id}</h4>
-                {item.sashaStatus ? "Complété" : "En cours"}
+                {item.status ? "Complété" : "En cours"}
               </li>
             ))}
           </ul>
         </div>
-        <div className="right-side mx-auto w-4/6">
-          <div className="top mx-auto mt-2 flex flex-col gap-y-2 rounded-3xl bg-white p-8 shadow-lg">
+        <div className="right-side mx-auto w-4/5">
+          <div className="top mx-auto mt-2 flex flex-row gap-y-2 rounded-3xl bg-white shadow-lg ">
+           <div className="top-left w-3/4 p-8">
             <h1 className="text-3xl font-bold text-[#41494e]">
               Tâche n. {selectedItem ? selectedItem.id : ""}
             </h1>
@@ -184,6 +191,10 @@ const Page = () => {
                 className="w-full rounded-md border border-black py-3"
               />
             </div>
+            </div>
+            <div className="top-right w-1/4">
+            <StatusBanner dei={selectedItem} setStatusUpdated={setStatusUpdated}/>
+          </div>
           </div>
           <div className="bottom mx-auto mt-4 flex flex-col rounded-3xl bg-white p-8 shadow-lg">
             <h3 className="text-lg">Calendrier</h3>
