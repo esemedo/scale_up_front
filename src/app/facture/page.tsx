@@ -15,6 +15,12 @@ export default function Factures() {
         }
       }
 
+
+      //getAllContracts (demande la fonction de Coralie stv)
+      //tu affiches tous les contrats avec un .map comme dans mes autres listes (OfferList, SubjectList)
+      //ensuite tu peux essayer de copier mes submits et mes requêtes, si t'y arrives pas tu reviens me voir
+
+
     return(
         <>
         <form className="flex bg-slate-200 p-4 rounded-md items-center" action="http://localhost:3000/api/uploadPDF" method="post" encType="multipart/form-data">
