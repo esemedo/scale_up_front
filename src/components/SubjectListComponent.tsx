@@ -28,6 +28,7 @@ export default function SubjectList() {
     const [syllabusFileName, setSyllabusFileName] = useState("");
     const [syllabusFile, setSyllabusFile] = useState<Syllabus>();
     const [subjects, setSubjects] = useState<Subject[]>([]);
+    const [feedback, setFeedback] = useState("");
 
     const placeholderID = 1;
     
@@ -56,7 +57,8 @@ export default function SubjectList() {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(syllabusFile)
-            })})
+                }).then(response => response.ok ? setFeedback('Upload successful') : setFeedback('Error occurred'))
+             })
           } catch (error) {
             console.error('Error:', error);
           }
@@ -75,14 +77,17 @@ export default function SubjectList() {
                 <p>Matières du contrat :</p>
                 {subjects.map((subject, index) => {
                         return(
-                            <form key={index} className="flex bg-slate-200 h-full rounded-md my-2 items-center" action={() => handleSubmit()}>
-                                <p className="w-1/2 m-2">{subject.name}</p>
-                                <label htmlFor="syllabusBtn" className="bg-slate-300 hover:bg-slate-400 m-2 active:bg-slate-500 w-1/4 rounded-md">{syllabusFileName == "" ?
-                                    "📎 upload syllabus" : syllabusFileName
-                                }</label>
-                                <input id="syllabusBtn" className="hidden" type="file" name="syllabus" onChange={(e) => handleChange(e, subject)}/>
-                                <button type="submit" className="bg-slate-400 hover:bg-slate-500 m-2 active:bg-slate-600 w-1/4 rounded-md">Upload</button>
-                            </form>
+                            <>
+                                <form key={index} className="flex bg-slate-200 h-full rounded-md my-2 p-2 items-center" action={() => handleSubmit()}>
+                                    <p className="w-1/2 m-2">{subject.name}</p>
+                                    <label htmlFor="syllabusBtn" className="bg-slate-300 overflow-hidden text-ellipsis p-2 h-20 hover:bg-slate-400 m-2 active:bg-slate-500 w-1/4 rounded-md">{syllabusFileName == "" ?
+                                        "📎 upload syllabus" : syllabusFileName
+                                    }</label>
+                                    <input id="syllabusBtn" className="hidden" type="file" name="syllabus" onChange={(e) => handleChange(e, subject)}/>
+                                    <button type="submit" className="bg-slate-400 hover:bg-slate-500 m-2 active:bg-slate-600 w-1/4 rounded-md">Upload</button>
+                                </form> 
+                                {feedback == "" ? <></> : <p className="bg-slate-200 p-2 rounded-md">{feedback}</p>}
+                            </>
                         )
                     })}
             </div>
