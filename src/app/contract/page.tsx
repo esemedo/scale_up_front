@@ -87,7 +87,9 @@ export default function Page() {
         )}
 
         <button disabled={isSubmitting} type="submit">
-          {isSubmitting ? "En cours de génération" : "Générer le contat"}
+          {isSubmitting
+            ? "Contrat en cours de génération"
+            : "Générer le contat"}
         </button>
 
         {errors.root && (
