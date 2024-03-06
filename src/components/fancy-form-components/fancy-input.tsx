@@ -15,12 +15,13 @@ interface FancyInputProps extends FancyLabelProps {
 const FancyInput = React.forwardRef<
   React.ElementRef<typeof Input>,
   React.ComponentPropsWithoutRef<typeof Input> & FancyInputProps
->(({ id, label, type = "text", className, ...props }, ref) => {
+>(({ id, label, required, type = "text", className, ...props }, ref) => {
   return (
     <FancyLabel
       id={id}
       label={label}
-      labelClassName="input-text absolute -top-5 left-3 rounded-md text-sm text-muted-foreground/80 transition duration-200"
+      className="fancy-input-label absolute left-3 top-[.6rem] rounded-md text-sm text-muted-foreground/80 transition duration-200"
+      required={required}
     >
       <Input
         type={type}

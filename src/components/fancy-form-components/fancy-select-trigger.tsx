@@ -9,9 +9,9 @@ import { FancyLabel, FancyLabelProps } from "@/components/fancy-label";
 const FancySelectTrigger = React.forwardRef<
   React.ElementRef<typeof SelectTrigger>,
   React.ComponentPropsWithoutRef<typeof SelectTrigger> & FancyLabelProps
->(({ id, label, className, children, ...props }, ref) => {
+>(({ id, label, required, className, children, ...props }, ref) => {
   return (
-    <FancyLabel id={id} label={label}>
+    <FancyLabel id={id} label={label} required={required}>
       <SelectTrigger
         id={id}
         className={cn(

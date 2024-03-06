@@ -7,42 +7,29 @@ import { cn } from "@/lib/utils";
 export interface FancyLabelProps {
   id: string;
   label: string;
-  labelClassName?: string;
   required?: boolean;
 }
 
 const FancyLabel = React.forwardRef<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<"div"> & FancyLabelProps
->(
-  (
-    {
-      id,
-      label,
-      labelClassName,
-      required = false,
-      children,
-      className,
-      ...props
-    },
-    ref,
-  ) => {
-    return (
-      <div className={cn("relative mt-4", className)} {...props} ref={ref}>
-        <Label
-          className={cn(
-            "absolute -top-11 left-2 rounded-md bg-white px-1 text-sm text-gray-300",
-            labelClassName,
-          )}
-          htmlFor={id}
-        >
-          {label} {required && <span className="text-red-500">*</span>}
-        </Label>
-        {children}
-      </div>
-    );
-  },
-);
+>(({ id, label, required, children, className, ...props }, ref) => {
+  return (
+    <div className="relative mt-4" {...props} ref={ref}>
+      <Label
+        className={cn(
+          "absolute -top-[.65rem] left-2 scale-[.9] transform rounded-md bg-white px-1 text-sm text-gray-300",
+          className,
+        )}
+        htmlFor={id}
+      >
+        {label}{" "}
+        {required && <span className="relative top-0.5 text-red-500">*</span>}
+      </Label>
+      {children}
+    </div>
+  );
+});
 FancyLabel.displayName = "FancyLabel";
 
 export { FancyLabel };

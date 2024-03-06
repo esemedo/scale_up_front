@@ -1,6 +1,7 @@
 "use client";
 
 import { ChevronsUpDown } from "lucide-react";
+import { isValidPhoneNumber } from "react-phone-number-input";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -10,13 +11,14 @@ import {
   FancySelectTrigger,
   FancyTriggerButton,
 } from "@/components/fancy-form-components";
+import { FancyLabel } from "@/components/fancy-label";
+import { PhoneInput } from "@/components/phone-input";
 import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import {
@@ -54,6 +56,8 @@ import { Company } from "@/types/company";
 const companySchema = z.object({
   status: z.enum(["temp-worker", "freelance", "llc"]),
   name: z.string(),
+  email: z.string().email(),
+  phone: z.string().refine(isValidPhoneNumber, { message: "Numéro incorrect" }),
   siret: z.string(),
   address: z.string(),
   zipCode: z.string(),
@@ -80,6 +84,8 @@ export default function CompanyForm({
     defaultValues: {
       status: "llc",
       name: company.name || "",
+      email: company.mail || "",
+      phone: company.phone || "",
       siret: "",
       address: "",
       zipCode: "",
@@ -126,7 +132,33 @@ export default function CompanyForm({
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <FancyInput {...field} id="name" label="Nom" />
+                <FancyInput {...field} id="name" label="Nom" required />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <FancyInput {...field} id="email" label="Email" required />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="phone"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <FancyLabel id="phone" label="Téléphone">
+                  <PhoneInput {...field} defaultCountry="FR" />
+                </FancyLabel>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -138,7 +170,7 @@ export default function CompanyForm({
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <FancyInput {...field} id="siret" label="SIRET" />
+                <FancyInput {...field} id="siret" label="SIRET" required />
               </FormControl>
               <FormMessage />
             </FormItem>
