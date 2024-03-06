@@ -1,15 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { ChevronsUpDown } from "lucide-react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 
 import {
-  FloatingLabelButton,
-  FloatingLabelInput,
-  FloatingLabelSelectTrigger,
-} from "@/components/floating-label-components";
+  FancyInput,
+  FancySelectTrigger,
+  FancyTriggerButton,
+} from "@/components/fancy-form-components";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -38,7 +38,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { ChevronsUpDown } from "lucide-react";
 import {
   Command,
   CommandEmpty,
@@ -46,8 +45,10 @@ import {
   CommandInput,
   CommandItem,
 } from "@/components/ui/command";
-import { cn } from "@/lib/utils";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
+
+import { cn } from "@/lib/utils";
+
 import { Company } from "@/types/company";
 
 const companySchema = z.object({
@@ -105,9 +106,9 @@ export default function CompanyForm({
                 defaultValue={field.value}
               >
                 <FormControl>
-                  <FloatingLabelSelectTrigger id="status" label="Statut">
+                  <FancySelectTrigger id="status" label="Statut">
                     <SelectValue placeholder="Choisissez votre statut" />
-                  </FloatingLabelSelectTrigger>
+                  </FancySelectTrigger>
                 </FormControl>
                 <SelectContent>
                   <SelectItem value="temp-worker">Vacataire</SelectItem>
@@ -125,7 +126,7 @@ export default function CompanyForm({
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <FloatingLabelInput {...field} id="name" label="Nom" />
+                <FancyInput {...field} id="name" label="Nom" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -137,7 +138,7 @@ export default function CompanyForm({
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <FloatingLabelInput {...field} id="siret" label="SIRET" />
+                <FancyInput {...field} id="siret" label="SIRET" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -149,7 +150,7 @@ export default function CompanyForm({
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <FloatingLabelInput {...field} id="address" label="Adresse" />
+                <FancyInput {...field} id="address" label="Adresse" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -162,11 +163,7 @@ export default function CompanyForm({
             render={({ field }) => (
               <FormItem className="flex-1">
                 <FormControl>
-                  <FloatingLabelInput
-                    {...field}
-                    id="zipCode"
-                    label="Code postal"
-                  />
+                  <FancyInput {...field} id="zipCode" label="Code postal" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -178,7 +175,7 @@ export default function CompanyForm({
             render={({ field }) => (
               <FormItem className="flex-1">
                 <FormControl>
-                  <FloatingLabelInput {...field} id="city" label="Ville" />
+                  <FancyInput {...field} id="city" label="Ville" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -193,7 +190,7 @@ export default function CompanyForm({
                   <Drawer>
                     <DrawerTrigger asChild>
                       <FormControl>
-                        <FloatingLabelButton
+                        <FancyTriggerButton
                           id="country"
                           role="combobox"
                           className={cn(
@@ -208,7 +205,7 @@ export default function CompanyForm({
                               )?.label
                             : "Sélectionnez un pays"}
                           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                        </FloatingLabelButton>
+                        </FancyTriggerButton>
                       </FormControl>
                     </DrawerTrigger>
                     <DrawerContent className="p-0">

@@ -1,3 +1,5 @@
+"use client";
+
 import { HandCoins, Hotel, UsersRound } from "lucide-react";
 import Link from "next/link";
 

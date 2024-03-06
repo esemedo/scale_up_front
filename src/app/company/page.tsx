@@ -62,9 +62,7 @@ export default async function CompanyPage() {
         <Card className="mx-auto mt-4 md:max-w-[800px]">
           <CardHeader>
             <CardTitle>Mes Employés</CardTitle>
-            <CardDescription>
-              Employés et prestataires de ma structure
-            </CardDescription>
+            <CardDescription>Prestataires de ma structure</CardDescription>
           </CardHeader>
           <CardContent>
             <ContributorList company={company} contributors={contributors} />

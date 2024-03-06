@@ -4,16 +4,14 @@ import { SelectTrigger } from "@/components/ui/select";
 
 import { cn } from "@/lib/utils";
 
-import { FloatingLabel, FloatingLabelProps } from "./floating-label";
+import { FancyLabel, FancyLabelProps } from "@/components/fancy-label";
 
-import "./style.css";
-
-const FloatingLabelSelectTrigger = React.forwardRef<
+const FancySelectTrigger = React.forwardRef<
   React.ElementRef<typeof SelectTrigger>,
-  React.ComponentPropsWithoutRef<typeof SelectTrigger> & FloatingLabelProps
+  React.ComponentPropsWithoutRef<typeof SelectTrigger> & FancyLabelProps
 >(({ id, label, className, children, ...props }, ref) => {
   return (
-    <FloatingLabel id={id} label={label}>
+    <FancyLabel id={id} label={label}>
       <SelectTrigger
         id={id}
         className={cn(
@@ -25,9 +23,9 @@ const FloatingLabelSelectTrigger = React.forwardRef<
       >
         {children}
       </SelectTrigger>
-    </FloatingLabel>
+    </FancyLabel>
   );
 });
-FloatingLabelSelectTrigger.displayName = "FloatingLabelSelectTrigger";
+FancySelectTrigger.displayName = "FancySelectTrigger";
 
-export { FloatingLabelSelectTrigger };
+export { FancySelectTrigger };

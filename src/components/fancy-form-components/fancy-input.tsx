@@ -1,23 +1,23 @@
 import * as React from "react";
 
-import { Input, InputProps } from "@/components/ui/input";
+import { Input } from "@/components/ui/input";
 
 import { cn } from "@/lib/utils";
 
-import { FloatingLabel, FloatingLabelProps } from "./floating-label";
+import { FancyLabel, FancyLabelProps } from "@/components/fancy-label";
 
 import "./style.css";
 
-// interface FloatingLabelInputProps extends FloatingLabelProps {
-//   type?: "text" | "password" | "email" | "number" | "tel" | "url";
-// }
+interface FancyInputProps extends FancyLabelProps {
+  type?: "text" | "password" | "email" | "number" | "tel" | "url";
+}
 
-const FloatingLabelInput = React.forwardRef<
+const FancyInput = React.forwardRef<
   React.ElementRef<typeof Input>,
-  React.ComponentPropsWithoutRef<typeof Input> & FloatingLabelProps
+  React.ComponentPropsWithoutRef<typeof Input> & FancyInputProps
 >(({ id, label, type = "text", className, ...props }, ref) => {
   return (
-    <FloatingLabel
+    <FancyLabel
       id={id}
       label={label}
       labelClassName="input-text absolute -top-5 left-3 rounded-md text-sm text-muted-foreground/80 transition duration-200"
@@ -33,9 +33,9 @@ const FloatingLabelInput = React.forwardRef<
         ref={ref}
         {...props}
       />
-    </FloatingLabel>
+    </FancyLabel>
   );
 });
-FloatingLabelInput.displayName = "FloatingLabelInput";
+FancyInput.displayName = "FancyInput";
 
-export { FloatingLabelInput };
+export { FancyInput };

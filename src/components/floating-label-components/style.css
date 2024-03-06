@@ -1,4 +1,0 @@
-input[type="text"]:focus ~ .input-text,
-input[type="text"]:not(:placeholder-shown) ~ .input-text {
-  @apply -translate-x-1 -translate-y-6 transform bg-white px-1 text-gray-300;
-}

@@ -4,16 +4,14 @@ import { Button } from "@/components/ui/button";
 
 import { cn } from "@/lib/utils";
 
-import { FloatingLabel, FloatingLabelProps } from "./floating-label";
+import { FancyLabel, FancyLabelProps } from "@/components/fancy-label";
 
-import "./style.css";
-
-const FloatingLabelButton = React.forwardRef<
+const FancyTriggerButton = React.forwardRef<
   React.ElementRef<typeof Button>,
-  React.ComponentPropsWithoutRef<typeof Button> & FloatingLabelProps
+  React.ComponentPropsWithoutRef<typeof Button> & FancyLabelProps
 >(({ id, label, children, className, ...props }, ref) => {
   return (
-    <FloatingLabel id={id} label={label}>
+    <FancyLabel id={id} label={label}>
       <Button
         id={id}
         variant="outline"
@@ -23,9 +21,9 @@ const FloatingLabelButton = React.forwardRef<
       >
         {children}
       </Button>
-    </FloatingLabel>
+    </FancyLabel>
   );
 });
-FloatingLabelButton.displayName = "FloatingLabelButton";
+FancyTriggerButton.displayName = "FancyTriggerButton";
 
-export { FloatingLabelButton };
+export { FancyTriggerButton };

@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 
-import { FloatingLabelInput } from "@/components/floating-label-components";
+import { FancyInput } from "@/components/fancy-form-components";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -52,7 +52,7 @@ export default function ContributorForm({
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <FloatingLabelInput {...field} id="firstName" label="Prénom" />
+                <FancyInput {...field} id="firstName" label="Prénom" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -65,7 +65,7 @@ export default function ContributorForm({
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <FloatingLabelInput {...field} id="lastName" label="Nom" />
+                <FancyInput {...field} id="lastName" label="Nom" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -78,7 +78,7 @@ export default function ContributorForm({
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <FloatingLabelInput {...field} id="phone" label="Téléphone" />
+                <FancyInput {...field} id="phone" label="Téléphone" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -91,7 +91,7 @@ export default function ContributorForm({
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <FloatingLabelInput {...field} id="email" label="Email" />
+                <FancyInput {...field} id="email" label="Email" />
               </FormControl>
               <FormMessage />
             </FormItem>
