@@ -12,6 +12,9 @@ function Home() {
       }); // Force sign in if not authenticated
       //!!! ROLES ARE IN session.user.roles when authenticated !!!
     }
+    if (status === "authenticated") {
+      console.log(session);
+    }
   }, [session]);
   if (status === "loading" || status === "unauthenticated")
     return (
