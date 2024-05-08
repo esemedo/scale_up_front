@@ -17,7 +17,7 @@ const Page = () => {
   const [priority, setPriority] = useState<number|string>(''); 
 
   useEffect(() => {
-    let url = "http://localhost:3000/dei"
+    let url = "http://localhost:3000/api/dei"
     if(priority !== ""){
         url += `?priority=${priority}`
     }
@@ -55,7 +55,7 @@ const Page = () => {
               <InputInfoDei label="Titre" position="relative" value={""} readOnly={true} type="text"/>
               <InputInfoDei label="Date d'échéance" position="relative" value={""} readOnly={true} type="date"/>
               <SelectComponentLabel label="Priorité" position="relative" value={selectedItem?.priority !== undefined? selectedItem.priority:0}  options={PRIORITY} onChange={(value : string)=>{
-              axios.patch(`http://localhost:3000/dei/${selectedItem?.id}/priority`, {priority: parseInt(value)}).then(result =>{
+              axios.patch(`http://localhost:3000/api/dei/${selectedItem?.id}/priority`, {priority: parseInt(value)}).then(result =>{
                 setStatusUpdated(prev => !prev)
               }).catch(e => {
                 console.log(e.error);
@@ -64,7 +64,7 @@ const Page = () => {
             
             </div>
             <SelectComponentLabel label="Statut Sacha" position="relative" value={selectedItem?.sashaStatus !== undefined? selectedItem.sashaStatus:0}  options={SACHA_STATUS} onChange={(value : string)=>{
-              axios.patch(`http://localhost:3000/dei/${selectedItem?.id}/sachaStatus`, {sachaStatus: parseInt(value)}).then(result =>{
+              axios.patch(`http://localhost:3000/api/dei/${selectedItem?.id}/sachaStatus`, {sachaStatus: parseInt(value)}).then(result =>{
                 setStatusUpdated(prev => !prev)
               }).catch(e => {
                 console.log(e.error);
