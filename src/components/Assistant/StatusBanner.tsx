@@ -13,7 +13,7 @@ const  StatusBanner : FC<Dei> = ({dei, setStatusUpdated}) => {
   const updateStatus = async (newStatus : number)=>{
     if(dei?.id){
     try {
-        const result = await axios.patch(`http://localhost:3000/dei/${dei.id}`, {status: newStatus})
+        const result = await axios.patch(`http://localhost:3000/dei/${dei.id}/status`, {status: newStatus})
         console.log(result.data);
         setStatusUpdated((prev: any) => !prev)
         
