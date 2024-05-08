@@ -96,7 +96,7 @@ const SubjectsTab: React.FC = () => {
     }, []);
 
     const filteredSubjects = subjects
-    .filter(subject => subject.name.toLowerCase().includes(searchTerm.toLowerCase()))
+    .filter(subject => subject && subject.name && subject.name.toLowerCase().includes(searchTerm.toLowerCase()))
     .sort((a, b) => {
         if (sortLevel) {
             return a.level.localeCompare(b.level);

@@ -55,8 +55,8 @@ const PromotionTab = () => {
     const promotionNeeds = needs.filter(need => need.idPromotion === selectedPromotion?.id);
 
     const filteredPromotions = promotions.filter(promotion => 
-        promotion.startSchoolYear.toString().includes(searchTerm) || 
-        promotion.endSchoolYear.toString().includes(searchTerm)
+        (promotion.startSchoolYear?.toString().includes(searchTerm) || 
+        promotion.endSchoolYear?.toString().includes(searchTerm))
     );
 
     const sortedPromotions = [...filteredPromotions].sort((a, b) => {
