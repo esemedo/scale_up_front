@@ -1,4 +1,4 @@
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import KeycloakProvider from "next-auth/providers/keycloak";
 import axios, { AxiosError } from "axios";
 
@@ -86,7 +86,7 @@ async function doFinalSignoutHandshake(jwt: JWT) {
   }
 }
 
-const handler = NextAuth({
+export const nextAuthOption = {
   providers: [keycloakProvider],
   callbacks: {
     async signIn(params) {
@@ -138,6 +138,8 @@ const handler = NextAuth({
   events: {
     signOut: ({ token }) => doFinalSignoutHandshake(token),
   },
-});
+} as NextAuthOptions
+
+const handler = NextAuth(nextAuthOption);
 
 export { handler as GET, handler as POST };
