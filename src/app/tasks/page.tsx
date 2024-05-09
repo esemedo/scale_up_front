@@ -50,11 +50,11 @@ const Page = () => {
             <h1 className="text-3xl font-bold text-[#41494e]">
               Tâche n. {selectedItem ? selectedItem.id : ""}
             </h1>
-            <div className="flex justify-between">
+            <div className="flex justify-between gap-2">
              
-              <InputInfoDei label="Titre" position="relative" value={""} readOnly={true} type="text"/>
-              <InputInfoDei label="Date d'échéance" position="relative" value={""} readOnly={true} type="date"/>
-              <SelectComponentLabel label="Priorité" position="relative" value={selectedItem?.priority !== undefined? selectedItem.priority:0}  options={PRIORITY} onChange={(value : string)=>{
+              <InputInfoDei label="Titre" position="relative w-1/3" value={""} readOnly={true} type="text"/>
+              <InputInfoDei label="Date d'échéance" position="relative w-1/3" value={""} readOnly={true} type="date"/>
+              <SelectComponentLabel label="Priorité" position="relative w-1/3" value={selectedItem?.priority !== undefined? selectedItem.priority:0}  options={PRIORITY} onChange={(value : string)=>{
               axios.patch(`http://localhost:3000/api/dei/${selectedItem?.id}/priority`, {priority: parseInt(value)}).then(result =>{
                 setStatusUpdated(prev => !prev)
               }).catch(e => {
