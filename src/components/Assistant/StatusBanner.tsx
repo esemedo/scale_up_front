@@ -2,8 +2,8 @@
 
 import axios from "axios";
 import React , { FC } from "react";
+import { STATUS } from "./constants";
 
-const STATUS = ['En Cours', "Complétée"]
 type Dei = {
   setStatusUpdated : Function,
     dei: {id:number, status: number} |undefined |null,
@@ -13,8 +13,7 @@ const  StatusBanner : FC<Dei> = ({dei, setStatusUpdated}) => {
   const updateStatus = async (newStatus : number)=>{
     if(dei?.id){
     try {
-        const result = await axios.patch(`http://localhost:3000/api/dei/${dei.id}/status`, {status: newStatus})
-        console.log(result.data);
+       await axios.patch(`http://localhost:3000/api/dei/${dei.id}/status`, {status: newStatus})
         setStatusUpdated((prev: any) => !prev)
         
     } catch (error) {

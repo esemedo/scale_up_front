@@ -45,7 +45,7 @@ const Page = () => {
       <div className="group-componen mx-36 mt-8 flex justify-center gap-3 rounded-lg p-8 pt-16 font-main">
         <ListTasks data={data} selectedItem={selectedItem} handleItemClick={handleItemClick} handleChangePriority={handleChangePriority} priority={priority}/>
         <div className="right-side mx-auto w-4/5">
-         {selectedItem !== null && <div className="top mx-auto mt-2 flex flex-row gap-y-2 rounded-3xl bg-white shadow-lg ">
+         {selectedItem !== null && selectedItem !== undefined && <div className="top mx-auto mt-2 flex flex-row gap-y-2 rounded-3xl bg-white shadow-lg ">
            <div className="top-left w-3/4 p-8">
             <h1 className="text-3xl font-bold text-[#41494e]">
               Tâche n. {selectedItem ? selectedItem.id : ""}
@@ -64,7 +64,7 @@ const Page = () => {
             
             </div>
             <SelectComponentLabel label="Statut Sacha" position="relative" value={selectedItem?.sashaStatus !== undefined? selectedItem.sashaStatus:0}  options={SACHA_STATUS} onChange={(value : string)=>{
-              axios.patch(`http://localhost:3000/api/dei/${selectedItem?.id}/sachaStatus`, {sachaStatus: parseInt(value)}).then(result =>{
+              axios.patch(`http://localhost:3000/api/dei/${selectedItem?.id}/sachaStatus`, {sachaStatus: parseInt(value)}).then(result =>{ 
                 setStatusUpdated(prev => !prev)
               }).catch(e => {
                 console.log(e.error);

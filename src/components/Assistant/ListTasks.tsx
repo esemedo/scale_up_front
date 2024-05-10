@@ -1,5 +1,5 @@
 import React from 'react'
-import { PRIORITY } from './constants';
+import { PRIORITY, STATUS } from './constants';
 import SelectComponent from './SelectComponent';
 
 function ListTasks({data, handleItemClick, selectedItem, priority, handleChangePriority} :ListTasksParams) {
@@ -19,7 +19,7 @@ function ListTasks({data, handleItemClick, selectedItem, priority, handleChangeP
                 onClick={() => handleItemClick(item.id)}
               >
                 <h4>Tâche n°{item.id}</h4>
-                {item.status ? "Complété" : "En cours"}
+                {STATUS[item.status?1:0]}
               </li>
             ))}
           </ul>
