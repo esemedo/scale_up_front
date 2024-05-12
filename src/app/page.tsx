@@ -1,4 +1,4 @@
-import HistoriqueBesoins from '../components/HistoriqueDesBesoins';
+import HistoriqueBesoins from '../components/historiqueDesBesoins';
 
 export default function Home() {
   return (
