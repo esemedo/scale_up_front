@@ -53,7 +53,7 @@ const Page = () => {
             {data.map((item) => (
               <li
                 key={item.id}
-                className={`bg-[#f0f2fc] ${
+                className={`bg-[#f0f2fc] rounded-lg ${
                   selectedItem === item ? "selected" : ""
                 }`}
                 onClick={() => handleItemClick(item.id)}
@@ -100,7 +100,7 @@ const Page = () => {
                     className="rounded-md border border-black px-1 py-2"
                   />
                 </div>
-                <div className="relative w-16">
+                <div className="relative">
                   <label
                     htmlFor="priority"
                     className="absolute -top-2 left-2 bg-white px-1 text-xs transition-all duration-200 ease-in-out peer-placeholder-shown:top-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:opacity-100 peer-focus:top-1 peer-focus:scale-75 peer-focus:opacity-100"
@@ -111,7 +111,7 @@ const Page = () => {
                     type="text"
                     name="priority"
                     id="priority"
-                    className="rounded-md border border-black px-1 py-2"
+                    className="w-16 rounded-md border border-black px-1 py-2"
                     placeholder="Elevé"
                   />
                 </div>
@@ -190,10 +190,16 @@ const Page = () => {
           </div>
           <div className="bottom mx-auto mt-4 flex flex-col rounded-3xl bg-white p-8 shadow-lg">
             <h3 className="text-lg">Calendrier</h3>
-            <ul className="flex flex-row ">
+            <ul className="flex flex-row gap-2 overflow-auto">
               <li className="day-body w-44 rounded-2xl bg-[#f0f2fc]">
-                <div className="day-header rounded-t-xl bg-light-gray text-center">
+                <div className="day-header rounded-t-xl py-1 bg-light-gray text-center">
                   <h6>Ajourd&apos;hui</h6>
+                </div>
+                <div className="day-content h-28"></div>
+              </li>
+              <li className="day-body w-44 rounded-2xl bg-[#f0f2fc]">
+                <div className="day-header rounded-t-xl py-1 bg-light-gray text-center">
+                  <h6>Demain</h6>
                 </div>
                 <div className="day-content h-28"></div>
               </li>
