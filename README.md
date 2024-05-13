@@ -4,7 +4,7 @@
 docker compose -f docker/docker-compose-dev.yml build
 ```
 
-## Lunch front
+## Launch front
 
 ```bash
 docker compose -f docker/docker-compose-dev.yml up
