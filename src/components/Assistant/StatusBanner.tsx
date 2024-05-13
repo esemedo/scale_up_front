@@ -3,17 +3,19 @@
 import axios from "axios";
 import React , { FC } from "react";
 import { STATUS } from "./constants";
+import { useSession } from "next-auth/react";
 
 type Dei = {
   setStatusUpdated : Function,
     dei: {id:number, status: number} |undefined |null,
   }
 const  StatusBanner : FC<Dei> = ({dei, setStatusUpdated}) => {
+  const { data: session  } = useSession();
 
   const updateStatus = async (newStatus : number)=>{
     if(dei?.id){
     try {
-       await axios.patch(`http://localhost:3000/api/dei/${dei.id}/status`, {status: newStatus})
+       await axios.patch(`http://localhost:3000/api/dei/${dei.id}/status`, {status: newStatus}, {headers:{Authorization: `Bearer ${session?.accessToken}`}})
         setStatusUpdated((prev: any) => !prev)
         
     } catch (error) {
