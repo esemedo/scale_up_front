@@ -1,7 +1,7 @@
 interface Dei {
     id: number;
     sashaStatus: number;
-    status: number;
+    status: boolean;
     totalPrice: number;
     hourlyPrice: number;
     priority: string;
@@ -19,7 +19,7 @@ interface Dei {
 }
 
 type ListTasksParams = {
-    data : Array<{ id: number; status: number }>;
+    data : Array<{ id: number; status: boolean }>;
     handleItemClick: Function;
     selectedItem: Dei | null;
     handleChangePriority: Function;

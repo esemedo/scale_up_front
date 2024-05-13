@@ -17,22 +17,24 @@ const Page = () => {
   const [statusUpdated, setStatusUpdated] = useState<boolean>(false); 
   const [priority, setPriority] = useState<number|string>(''); 
   const { data: session  } = useSession();
-
-  useEffect(() => {
+    
+  React.useEffect(() => {
     if(session){
+      let url = "http://localhost:3000/api/dei"
+      if(priority !== ""){
+          url += `?priority=${priority}`
+      }
+      axios
+        .get<Dei[]>(url, {headers:{Authorization: `Bearer ${session?.accessToken}`}}) 
+        .then((result) => {
+          setData(result.data);
+          if(selectedItem)
+            setItemSelected(result.data.find(item => item.id === selectedItem.id)?? null)
 
-    let url = "http://localhost:3000/api/dei"
-    if(priority !== ""){
-        url += `?priority=${priority}`
-    }
-    axios
-      .get<Dei[]>(url, {headers:{Authorization: `Bearer ${session?.accessToken}`}}) 
-      .then((result) => {
-        setData(result.data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
     }
   }, [session,statusUpdated, priority]);
 
@@ -45,7 +47,6 @@ const Page = () => {
   }
 
   return (
-
       <div className="group-componen mx-36 mt-8 flex justify-center gap-3 rounded-lg p-8 pt-16 font-main">
         <ListTasks data={data} selectedItem={selectedItem} handleItemClick={handleItemClick} handleChangePriority={handleChangePriority} priority={priority}/>
         <div className="right-side mx-auto w-4/5">
@@ -91,7 +92,7 @@ const Page = () => {
                 className="w-full rounded-md border border-black py-3" />
             </div>
           </div><div className="top-right w-1/4">
-              <StatusBanner dei={selectedItem} setStatusUpdated={setStatusUpdated} />
+              <StatusBanner session={session} dei={selectedItem} setStatusUpdated={setStatusUpdated} />
             </div></>}
           </div>
           <Calendar/>
