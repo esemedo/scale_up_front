@@ -8,11 +8,13 @@ const HistoriqueBesoins: React.FC = () => {
   const [selectedYear, setSelectedYear] = useState<string | null>(null);
   const [needs, setNeeds] = useState<any[]>([]);
   const api = process.env.NEXT_PUBLIC_API_URL;
+  const startYear = 2015;
+  const futureYears = 5;
 
   const fetchYears =  () => {
     const schoolYears = [];
     const currentYear = new Date().getFullYear();
-    for (let i = 2015; i <= currentYear + 5; i++) {
+    for (let i = startYear; i <= currentYear + futureYears; i++) {
       schoolYears.push(`${i}-${i + 1}`);
     }
     setYears(schoolYears);
@@ -57,7 +59,7 @@ const HistoriqueBesoins: React.FC = () => {
           <ul>
             {needs.map((need, index) => (
               <li key={index} className='mb-2'>
-                <span className='font-semibold'>{need.description}</span> - <span>{need.status}</span>
+                <span className='font-semibold'>Besoin n°{need.id}</span> - <span>Status : {need.status}</span>
               </li>
             ))}
           </ul>
