@@ -29,7 +29,7 @@ function FormCreateCategory({ className }: React.ComponentProps<"form">) {
 
     return (
         <div className="flex flex-row">
-            <form className={cn("flex grid items-start gap-4 mr-20", className) }>
+            <form className={cn("grid items-start gap-4 mr-20", className) }>
                 <div className="grid gap-2">
                     <Label htmlFor="name">Nom de la catégorie</Label>
                     <Input type="name" id="name" value={categoryName} onChange={handleNameChange} placeholder="Ecrivez ici"/>

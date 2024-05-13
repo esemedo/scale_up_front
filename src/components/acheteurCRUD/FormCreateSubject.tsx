@@ -79,7 +79,7 @@ function FormCreateSubject({ className }: React.ComponentProps<"form">) {
 
     return (
         <div className="flex flex-row">
-            <form className={cn("flex grid items-start gap-4 mr-20", className) }>
+            <form className={cn("grid items-start gap-4 mr-20", className) }>
                 <div className="grid gap-2">
                     <Label>Name:</Label>
                     <Input type="text" name="name" value={subjectName} onChange={handleNameChange} placeholder="write name of category here..." required/>

@@ -33,7 +33,7 @@ export default function FormUpdateCategory(props:Category) {
   return(
     <>
       <div className="flex flex-row">
-            <form className={cn("flex grid items-start gap-4 mr-20") }>
+            <form className={cn("grid items-start gap-4 mr-20") }>
                 <div className="grid gap-2">
                     <Label>Name:</Label>
                     <Input type="text" name="name" value={categoryName} onChange={handleNameChange} placeholder="Écrivez ici..."/>
