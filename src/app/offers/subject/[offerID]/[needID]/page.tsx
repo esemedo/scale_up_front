@@ -1,4 +1,4 @@
-import SubjectListComponent from "@/components/SubjectListComponent";
+import SubjectListComponent from "@/components/uploadForms/SubjectListComponent";
 
 export default function SubjectList() {
   return (

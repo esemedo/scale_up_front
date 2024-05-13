@@ -1,4 +1,4 @@
-import OfferListComponent from "@/components/OfferListComponent";
+import OfferListComponent from "@/components/uploadForms/OfferListComponent";
 
 export default function OfferList() {
   return (

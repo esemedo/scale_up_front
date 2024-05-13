@@ -102,6 +102,7 @@ export default function SubjectList() {
                                     <button type="submit" className="bg-slate-400 hover:bg-slate-500 m-2 active:bg-slate-600 w-1/4 rounded-md">Upload</button>
                                 </form> 
                                 {feedback == "" ? <></> : <p className="bg-slate-200 p-2 rounded-md">{feedback}</p>}
+                                <a href={`http://localhost:3000/api/getSyllabus?subjectID=${subject.id}`} className="my-2">Download Syllabus</a>
                             </>
                         )
                     })}
