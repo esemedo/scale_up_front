@@ -7,6 +7,14 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { CheckCircleIcon,Download } from "lucide-react";
 import { Button } from "../ui/button";
+import { z } from 'zod';
+
+const subjectSchema = z.object({
+  name: z.string().min(1),
+  level: z.string().min(1),
+  categoryId: z.number().int()
+});
+
 
 interface Subject {
     name: string;
@@ -40,23 +48,31 @@ function FormCreateSubject({ className }: React.ComponentProps<"form">) {
     };
 
     const addSubject = async () => {
-        if(subjectName!==""){
-            if(subjectLevel!==""){
-                if(subjectCategoryId!==undefined){
-                    const newSubject: Subject = { name: subjectName, level: subjectLevel, categoryId:subjectCategoryId};
-                    await axios.post(`${process.env.API_URL}/subject`, newSubject);
-                    setSubjects([...subjects, newSubject]);
-                    setSubjectName("");
-                    setSubjectLevel("");
-                    setsubjectCategoryId(undefined);
-                }else{
-                    alert(`vous semblez avoir oublié de remplir le champ d'association de category. Veuillez le séléctionner pour valider.`)
-                }
-            }else{
-                alert(`vous semblez avoir oublié de remplir le champ level. Veuillez le remplir pour valider.`)
+        try {
+            const validatedData = subjectSchema.parse({
+                name: subjectName,
+                level: subjectLevel,
+                categoryId: subjectCategoryId
+            });
+            
+            const newSubject = {
+                name: validatedData.name,
+                level: validatedData.level,
+                categoryId: validatedData.categoryId
+            };
+    
+            await axios.post(`${process.env.API_URL}/subject`, newSubject);
+            setSubjects([...subjects, newSubject]);
+            setSubjectName("");
+            setSubjectLevel("");
+            setsubjectCategoryId(undefined);
+        } catch (error) {
+            if (error instanceof Error) {
+                console.error(error.message);
+            } else {
+                console.error(error);
             }
-        }else{
-            alert(`vous semblez avoir oublié de remplir le champ name. Veuillez le remplir pour valider.`)
+            alert("Veuillez remplir tous les champs.");
         }
        
     };
