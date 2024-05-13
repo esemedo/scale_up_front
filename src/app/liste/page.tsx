@@ -2,11 +2,8 @@
 import { useSession, signIn, signOut } from "next-auth/react";
 import { useEffect } from "react";
 import { LoadingSpinner } from "@/components/LoadingSpinner/LoadingSpinner";
-import { User } from "lucide-react";
 
-
-
-function Home() {
+function listeIntervenant() {
   const { data: session, status } = useSession();
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -16,19 +13,18 @@ function Home() {
       //!!! ROLES ARE IN session.user.roles when authenticated !!!
     }
   }, [session]);
+  if (status === "loading" || status === "unauthenticated")
+    return (
+      <div>
+        <LoadingSpinner />
+      </div>
+    );
   return (
     <div className={"flex flex-col"}>
-      {/* {session?.user.roles.includes("speaker-company") && User.
-        <>
-
-        </>
-      } */}
-        <>
       <button onClick={() => signOut()}>Sign out</button>
-          welcome to home{" "}
-        </>
+      liste intervenant{" "}
     </div>
   );
 }
 
-export default Home;
+export default listeIntervenant;
