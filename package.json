@@ -10,6 +10,9 @@
     "lint-fix": "next lint --fix"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@mui/material": "^5.15.17",
     "axios": "^1.6.7",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
@@ -17,6 +20,7 @@
     "next": "14.0.3",
     "react": "^18",
     "react-dom": "^18",
+    "react-multi-select-component": "^4.3.4",
     "swr": "^2.2.4",
     "tailwind-merge": "^2.0.0",
     "tailwindcss-animate": "^1.0.7"
