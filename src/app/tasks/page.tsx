@@ -7,6 +7,7 @@ import SelectComponentLabel from "@/components/Assistant/SelectComponentLabel";
 import Calendar from "@/components/Assistant/Calendar";
 import ListTasks from "@/components/Assistant/ListTasks";
 import { PRIORITY, SACHA_STATUS } from "@/components/Assistant/constants";
+import { useSession } from "next-auth/react";
 
 
 
@@ -15,21 +16,25 @@ const Page = () => {
   const [selectedItem, setItemSelected] = useState<Dei | null>(null); 
   const [statusUpdated, setStatusUpdated] = useState<boolean>(false); 
   const [priority, setPriority] = useState<number|string>(''); 
+  const { data: session, status  } = useSession();
 
   useEffect(() => {
+    if(session){
+
     let url = "http://localhost:3000/api/dei"
     if(priority !== ""){
         url += `?priority=${priority}`
     }
     axios
-      .get<Dei[]>(url) 
+      .get<Dei[]>(url, {headers:{Authorization: `Bearer ${session?.accessToken}`}}) 
       .then((result) => {
         setData(result.data);
       })
       .catch((error) => {
         console.error("Error:", error);
       });
-  }, [statusUpdated, priority]);
+    }
+  }, [session,statusUpdated, priority]);
 
   const handleItemClick = (itemId: number) => {
     const selectedItem = data.find((item) => item.id === itemId);
