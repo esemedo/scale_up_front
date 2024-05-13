@@ -4,10 +4,10 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const contractFormSchema = z.object({
-  hourlyPrice: z.number().positive(),
-  hoursVolume: z.number().positive(),
-  startDate: z.date(),
-  endDate: z.date(),
+  hourlyPrice: z.string(),
+  hoursVolume: z.string(),
+  startDate: z.string(),
+  endDate: z.string(),
 });
 
 type contractFormField = z.infer<typeof contractFormSchema>;
