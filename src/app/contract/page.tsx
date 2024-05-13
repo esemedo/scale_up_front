@@ -22,11 +22,31 @@ export default function Page() {
 
   const onSubmit = async (data: contractFormField) => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      console.log(data);
+      const response = await fetch("/localhost", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          "une erreur est survenue lors de la génération du contrat",
+        );
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const lien = document.createElement("a");
+      lien.href = url;
+      lien.setAttribute("download", "contrat.pdf");
+      document.body.appendChild(lien);
+      lien.click();
+      lien.remove();
     } catch (error) {
       setError("root", {
-        message: "Une erreur est survenue lors de la génération du contrat",
+        message: "une erreur est survenue lors de la génération du contrat",
       });
     }
   };
