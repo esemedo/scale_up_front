@@ -26,14 +26,15 @@ export const ListingSubject = ({ onSubjectSelect }: ListingSubjectProps) => {
 
   const [subjects, setSubjects] = useState<Subjects[]>([]);
 
+  const apiEndPoint = `${process.env.API_URL}/subject`;
   useEffect(() => {
     const getSubjects = async () => {
-      const { data } = await axios.get('http://localhost:3000/api/subject');
+      const { data } = await axios.get(`${process.env.API_URL}/subject`);
       setSubjects(data);
     };
 
     getSubjects();
-  }, []);
+  }, [apiEndPoint]);
 
   
   const handleSelectedCard = (subjectId: number) => {

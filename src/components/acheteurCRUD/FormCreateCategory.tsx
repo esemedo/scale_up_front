@@ -22,7 +22,7 @@ function FormCreateCategory({ className }: React.ComponentProps<"form">) {
     const addCategory = async () => {
         if(categoryName!=null||categoryName!=""||categoryName!=undefined){
             const newCategory: Category = { name: categoryName };
-            await axios.post('http://localhost:3000/api/category', newCategory);
+            await axios.post(`${process.env.API_URL}/category`, newCategory);
             setCategorys([...categorys, newCategory]);
             setCategoryName("");
         }};

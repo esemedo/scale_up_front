@@ -23,14 +23,14 @@ const ListingCategory = ({ onCategorySelect }: ListingCategoryProps)  => {
 
   const [categorys, setCategorys] = useState<Category[]>([]);
 
-  const apiEndPoint = "http://localhost:3000/api/category";
+  const apiEndPoint = `${process.env.API_URL}/category`;
   useEffect(() => {
     const getCategorys = async () => {
       const { data: res } = await axios.get(apiEndPoint);
       setCategorys(res);
     };
     getCategorys();
-  }, []);
+  }, [apiEndPoint]);
 
 
   const handleCategoryCard = (categoryId?: number) => {
@@ -41,7 +41,7 @@ const ListingCategory = ({ onCategorySelect }: ListingCategoryProps)  => {
     <ScrollArea className="rounded-md border bg-white	h-[600px] max-h-full pt-1">
       {categorys.length===0 ?
         <div className="overflow-auto">
-          <h2>Il n'y a aucune catégorie dans la base de données.</h2>
+          <h2>Aucune catégorie dans la base de données trouvée.</h2>
           <ButtonAddCategory/>
         </div>
         :
