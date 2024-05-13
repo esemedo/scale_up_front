@@ -42,9 +42,9 @@ export default function OfferListComponent() {
                 body: new FormData(document.querySelector('form')!),
                 }).then(response => response.ok ? setFeedback('Upload successful') : setFeedback('Error occurred'))
             }
-          } catch (error) {
-            console.error('Error:', error);
-          }
+        } catch (error) {
+        console.error('Error:', error);
+        }
     }
 
     useEffect(() => {
@@ -80,6 +80,7 @@ export default function OfferListComponent() {
                                     <button type="submit" className="bg-slate-400 hover:bg-slate-500 m-2 active:bg-slate-600 w-1/4 rounded-md">Upload</button>
                                 </form> 
                                 {feedback == "" ? <></> : <p className="bg-slate-200 p-2 rounded-md">{feedback}</p>}
+                                <a href={`http://localhost:3000/api/getPTF?offerID=${offer.id}`} className="my-2">Download PTF</a>
                             </>
                         )
                     })}
