@@ -25,11 +25,7 @@ function FormCreateCategory({ className }: React.ComponentProps<"form">) {
             await axios.post('http://localhost:3000/api/category', newCategory);
             setCategorys([...categorys, newCategory]);
             setCategoryName("");
-        }else{
-            
-        }
-       
-    };
+        }};
 
     return (
         <div className="flex flex-row">
