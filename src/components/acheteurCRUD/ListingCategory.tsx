@@ -41,7 +41,7 @@ const ListingCategory = ({ onCategorySelect }: ListingCategoryProps)  => {
     <ScrollArea className="rounded-md border bg-white	h-[600px] max-h-full pt-1">
       {categorys.length===0 ?
         <div className="overflow-auto">
-          <h2> there are no category in the Database </h2>
+          <h2>Il n'y a aucune catégorie dans la base de données.</h2>
           <ButtonAddCategory/>
         </div>
         :

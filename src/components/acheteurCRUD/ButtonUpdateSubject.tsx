@@ -35,7 +35,7 @@ export function ButtonUpdateSubject(props:Subjects) {
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Modifié la matière {props.name}</DialogTitle>
+            <DialogTitle>Modifier la matière {props.name}</DialogTitle>
           </DialogHeader>
           <FormUpdateSubject id={props.id} level={props.level} name={props.name} categoryId={props.categoryId}/>
         </DialogContent>
@@ -50,7 +50,7 @@ export function ButtonUpdateSubject(props:Subjects) {
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader className="text-left">
-          <DrawerTitle>Modifié la matière {props.name}</DrawerTitle>
+          <DrawerTitle>Modifier la matière {props.name}</DrawerTitle>
         </DrawerHeader>
         <FormUpdateSubject id={props.id} level={props.level} name={props.name} categoryId={props.categoryId}/>
         <DrawerFooter className="pt-2">
