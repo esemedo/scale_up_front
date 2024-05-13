@@ -6,8 +6,8 @@ import { z } from "zod";
 const contractFormSchema = z.object({
   hourlyPrice: z.string(),
   hoursVolume: z.string(),
-  startDate: z.string(),
-  endDate: z.string(),
+  startDate: z.string().date(),
+  endDate: z.string().date(),
 });
 
 type contractFormField = z.infer<typeof contractFormSchema>;
