@@ -3,7 +3,6 @@ import axios from 'axios';
 import { FaLightbulb } from 'react-icons/fa';
 import Modal from "react-modal";
 import Papa from "papaparse";
-import * as XLSX from 'xlsx';
 
 interface Subject {
     id: number;
@@ -122,65 +121,45 @@ const SubjectsTab: React.FC = () => {
     };
   
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
-        if (file) {
-            const fileExtension = file.name.split('.').pop()?.toLowerCase();
-            if (fileExtension === 'csv') {
-                Papa.parse(file, {
-                    complete: function (results: Papa.ParseResult<string[][]>) {
-                        const data = results.data
-                            .filter((row) => row.length >= 2)
-                            .map((row) => ({
-                                name: row[0].toString(),
-                                level: row[1].toString(),
-                            }));
-                        setCsvData(data);
-                    },
-                });
-            } else if (fileExtension === 'xls' || fileExtension === 'xlsx') {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    const data = new Uint8Array(e.target?.result as ArrayBuffer);
-                    const workbook = XLSX.read(data, { type: 'array' });
-                    const sheetName = workbook.SheetNames[0];
-                    const worksheet = workbook.Sheets[sheetName];
-                    const jsonData: CsvRow[] = XLSX.utils.sheet_to_json(worksheet, { header: 1 })
-                        .filter((row: any) => row.length >= 2)
-                        .map((row: any) => ({
-                            name: row[0].toString(),
-                            level: row[1].toString(),
-                        }));
-                    setCsvData(jsonData);
-                };
-                reader.readAsArrayBuffer(file);
-            }
-        }
+      const file = event.target.files?.[0];
+      if (file) {
+        Papa.parse(file, {
+          complete: function (results: Papa.ParseResult<string[][]>) {
+            const data = results.data
+              .filter((row) => row.length >= 2)
+              .map((row) => ({
+                name: row[0].toString(),
+                level: row[1].toString(),
+              }));
+            setCsvData(data);
+          },
+        });
+      }
     };
-
+  
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-
-        if (csvData.length === 0) {
-            console.error("No data parsed from file");
-            return;
-        }
-
-        const requestData = {
-            data: JSON.stringify(csvData),
-            categoryId: selectedCategory
-        };
-
-        axios
-            .post("http://localhost:3000/api/upload/subjects", requestData)
-            .then((response) => {
-                console.log(response.data);
-                setMessage(response.data.message);
-                closeModal();
-                getSubjects();
-            })
-            .catch((error) => {
-                console.error(error);
-            });
+      event.preventDefault();
+  
+      if (csvData.length === 0) {
+        console.error("No data parsed from file");
+        return;
+      }
+  
+      const requestData = {
+        data: JSON.stringify(csvData),
+        categoryId: selectedCategory
+      };
+  
+      axios
+        .post("http://localhost:3000/api/upload/subjects", requestData)
+        .then((response) => {
+          console.log(response.data);
+          setMessage(response.data.message);
+          closeModal();
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     };
   
     const openModal = () => {
@@ -258,11 +237,9 @@ const SubjectsTab: React.FC = () => {
                     <option value="need">Besoin</option>
                     <option value="category">Catégorie</option>
                 </select>
-                <div>
                 <button onClick={openModal} className="mt-4 rounded bg-blue-500 p-2 text-white">
             Importer les matières
                 </button>
-                </div>
             </div>
             <div className="w-1/3 p-4 border-r rounded-lg overflow-auto max-h-[500px]">
                 {filteredSubjects.map((subject) => {
