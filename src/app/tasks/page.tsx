@@ -19,6 +19,7 @@ const Page = () => {
   const { data: session  } = useSession();
     
   React.useEffect(() => {
+    
     if(session){
       let url = "http://localhost:3000/api/dei"
       if(priority !== ""){
