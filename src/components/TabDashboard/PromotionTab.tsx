@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Modal from 'react-modal';
 import Papa from 'papaparse';
+import * as XLSX from 'xlsx';
 import { FaLightbulb } from 'react-icons/fa';
 
 interface Promotion {
@@ -45,6 +46,7 @@ const PromotionTab = () => {
     const [csvData, setCsvData] = useState<PromotionCsvRow[]>([]);
     const [selectedManager, setSelectedManager] = useState<string>('');
     const [message, setMessage] = useState<string | null>(null);
+    const api = process.env.NEXT_PUBLIC_API_URL;
 
     useEffect(() => {
         getAllPromo();
@@ -54,7 +56,7 @@ const PromotionTab = () => {
 
     const getAllPromo = async () => {
         try {
-            const response = await axios.get<Promotion[]>('http://localhost:3000/api/promotion');
+            const response = await axios.get<Promotion[]>(`${api}/api/promotions`);
             setPromotions(response.data);
         } catch (error) {
             console.error(error);
@@ -63,7 +65,7 @@ const PromotionTab = () => {
 
     const getNeeds = async () => {
         try {
-            const response = await axios.get<Need[]>('http://localhost:3000/api/needs/');
+            const response = await axios.get<Need[]>(`${api}/api/needs/`);
             setNeeds(response.data);
         } catch (error) {
             console.error(error);
@@ -72,7 +74,7 @@ const PromotionTab = () => {
 
     const getUsers = async () => {
         try {
-            const response = await axios.get<User[]>('http://localhost:3000/api/users');
+            const response = await axios.get<User[]>(`${api}/api/users`);
             setUsers(response.data);
         } catch (error) {
             console.error(error);
@@ -82,17 +84,36 @@ const PromotionTab = () => {
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (file) {
-            Papa.parse(file, {
-                complete: function (results: Papa.ParseResult<string[][]>) {
-                    const data = results.data
-                        .filter((row) => row.length >= 2)
-                        .map((row) => ({
+            const fileExtension = file.name.split('.').pop()?.toLowerCase();
+            if (fileExtension === 'csv') {
+                Papa.parse(file, {
+                    complete: function (results: Papa.ParseResult<string[][]>) {
+                        const data = results.data
+                            .filter((row) => row.length >= 2)
+                            .map((row) => ({
+                                startSchoolYear: row[0].toString(),
+                                endSchoolYear: row[1].toString(),
+                            }));
+                        setCsvData(data);
+                    },
+                });
+            } else if (fileExtension === 'xls' || fileExtension === 'xlsx') {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const data = new Uint8Array(e.target?.result as ArrayBuffer);
+                    const workbook = XLSX.read(data, { type: 'array' });
+                    const sheetName = workbook.SheetNames[0];
+                    const worksheet = workbook.Sheets[sheetName];
+                    const jsonData: PromotionCsvRow[] = XLSX.utils.sheet_to_json(worksheet, { header: 1 })
+                        .filter((row: any) => row.length >= 2)
+                        .map((row: any) => ({
                             startSchoolYear: row[0].toString(),
                             endSchoolYear: row[1].toString(),
                         }));
-                    setCsvData(data);
-                },
-            });
+                    setCsvData(jsonData);
+                };
+                reader.readAsArrayBuffer(file);
+            }
         }
     };
 
@@ -110,7 +131,7 @@ const PromotionTab = () => {
         };
 
         axios
-            .post("http://localhost:3000/api/upload/promotions", requestData)
+            .post(`${api}/api/promotions/upload`, requestData)
             .then((response) => {
                 console.log(response.data);
                 setMessage(response.data.message);
@@ -231,7 +252,7 @@ const PromotionTab = () => {
                     <input
                         type="file"
                         name="file"
-                        accept=".csv,.xls"
+                        accept=".csv,.xls,.xlsx"
                         className="border-gray-300 p-2"
                         onChange={handleFileChange}
                     />
