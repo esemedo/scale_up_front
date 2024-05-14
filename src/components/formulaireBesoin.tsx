@@ -55,7 +55,8 @@ const FormulaireBesoin: React.FC = () => {
         const contributor = form['contributor'].value;
         const startSchoolYear = form['startSchoolYear'].value;
         const endSchoolYear = form['endSchoolYear'].value;
-        const hoursVolume = form['hoursVolume'].value;
+        const hours = selectedSubjects.map((subject) => parseInt(form['hoursVolume_' + subject.label].value));
+        const totalHours = hours.reduce((total, current) => total + current, 0);
 
         axios.post(`${api}/api/needs`, {
             "promotion": { "connect": { "id": parseInt(promotion) } },
@@ -64,7 +65,7 @@ const FormulaireBesoin: React.FC = () => {
             "startSchoolYear": parseInt(startSchoolYear),
             "endSchoolYear": parseInt(endSchoolYear),
             "subject": { "connect": subjects.map((subject) => ({ "id": parseInt(subject) })) },
-            "hoursVolume": parseInt(hoursVolume)
+            "hoursVolume": totalHours
         }).then((response) => {
             console.log('Need created:', response.data);
             if (response.status === 201) {
@@ -124,10 +125,12 @@ const FormulaireBesoin: React.FC = () => {
                     <input type='number' id='endSchoolYear' className='border rounded-md px-2 py-1 w-full' required />
                 </div>
 
-                <div>
-                    <label htmlFor='hoursVolume' className='mr-2'>Volume horaire :</label>
-                    <input type='number' id='hoursVolume' className='border rounded-md px-2 py-1 w-full' required />
-                </div>
+                {selectedSubjects ? selectedSubjects.map((subject) => (
+                    <div key={subject.value}>
+                        <label htmlFor={"hoursVolume_" + subject.label} className='mr-2'>Volume horaire pour la matière {subject.label} :</label>
+                        <input type='number' id={"hoursVolume_" + subject.label} className='border rounded-md px-2 py-1 w-full' required />
+                    </div>
+                )) : null}
 
                 <button type='submit' className='bg-blue-500 text-white px-4 py-2 rounded-md button'>Créer le besoin</button>
             </form>
