@@ -3,6 +3,7 @@ import axios from 'axios';
 import { FaLightbulb } from 'react-icons/fa';
 import Modal from "react-modal";
 import Papa from "papaparse";
+import XLSX from "xlsx";
 
 interface Subject {
     id: number;
@@ -61,7 +62,7 @@ const SubjectsTab: React.FC = () => {
 
     const getSubjects = async () => {
         try {
-            const response = await axios.get<Subject[]>('http://localhost:3000/api/subject/');
+            const response = await axios.get<Subject[]>('http://localhost:3000/api/subjects/');
             setSubjects(response.data);
         } catch (error) {
             console.error(error);
@@ -123,44 +124,64 @@ const SubjectsTab: React.FC = () => {
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       const file = event.target.files?.[0];
       if (file) {
-        Papa.parse(file, {
-          complete: function (results: Papa.ParseResult<string[][]>) {
-            const data = results.data
-              .filter((row) => row.length >= 2)
-              .map((row) => ({
-                name: row[0].toString(),
-                level: row[1].toString(),
-              }));
-            setCsvData(data);
-          },
-        });
+          const fileExtension = file.name.split('.').pop()?.toLowerCase();
+          if (fileExtension === 'csv') {
+              Papa.parse(file, {
+                  complete: function (results: Papa.ParseResult<string[][]>) {
+                      const data = results.data
+                          .filter((row) => row.length >= 2)
+                          .map((row) => ({
+                              name: row[0].toString(),
+                              level: row[1].toString(),
+                          }));
+                      setCsvData(data);
+                  },
+              });
+          } else if (fileExtension === 'xls' || fileExtension === 'xlsx') {
+              const reader = new FileReader();
+              reader.onload = (e) => {
+                  const data = new Uint8Array(e.target?.result as ArrayBuffer);
+                  const workbook = XLSX.read(data, { type: 'array' });
+                  const sheetName = workbook.SheetNames[0];
+                  const worksheet = workbook.Sheets[sheetName];
+                  const jsonData: CsvRow[] = XLSX.utils.sheet_to_json(worksheet, { header: 1 })
+                      .filter((row: any) => row.length >= 2)
+                      .map((row: any) => ({
+                          name: row[0].toString(),
+                          level: row[1].toString(),
+                      }));
+                  setCsvData(jsonData);
+              };
+              reader.readAsArrayBuffer(file);
+          }
       }
-    };
-  
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
-  
+
       if (csvData.length === 0) {
-        console.error("No data parsed from file");
-        return;
+          console.error("No data parsed from file");
+          return;
       }
-  
+
       const requestData = {
-        data: JSON.stringify(csvData),
-        categoryId: selectedCategory
+          data: JSON.stringify(csvData),
+          categoryId: selectedCategory
       };
-  
+
       axios
-        .post("http://localhost:3000/api/upload/subjects", requestData)
-        .then((response) => {
-          console.log(response.data);
-          setMessage(response.data.message);
-          closeModal();
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    };
+          .post("http://localhost:3000/api/subjects/upload", requestData)
+          .then((response) => {
+              console.log(response.data);
+              setMessage(response.data.message);
+              closeModal();
+              getSubjects();
+          })
+          .catch((error) => {
+              console.error(error);
+          });
+  };
   
     const openModal = () => {
       setModalIsOpen(true);
