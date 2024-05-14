@@ -54,6 +54,7 @@ const SubjectsTab: React.FC = () => {
     const [sortNeed, setSortNeed] = useState(false);
     const [sortCategory, setSortCategory] = useState(false);
     const [message, setMessage] = useState<string | null>(null);
+    const api = process.env.NEXT_PUBLIC_API_URL;
     
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [categories, setCategories] = useState<Category[]>([]);
@@ -62,7 +63,7 @@ const SubjectsTab: React.FC = () => {
 
     const getSubjects = async () => {
         try {
-            const response = await axios.get<Subject[]>('http://localhost:3000/api/subjects/');
+            const response = await axios.get<Subject[]>(`${api}/api/subjects/`);
             setSubjects(response.data);
         } catch (error) {
             console.error(error);
@@ -71,7 +72,7 @@ const SubjectsTab: React.FC = () => {
 
     const getNeeds = async () => {
         try {
-            const response = await axios.get<Need[]>('http://localhost:3000/api/needs/');
+            const response = await axios.get<Need[]>(`${api}/api/needs/`);
             setNeeds(response.data);
         } catch (error) {
             console.error(error);
@@ -80,7 +81,7 @@ const SubjectsTab: React.FC = () => {
 
     const getPromotions = async () => {
         try {
-            const response = await axios.get<Promotion[]>('http://localhost:3000/api/promotion/');
+            const response = await axios.get<Promotion[]>(`${api}/api/promotion/`);
             setPromotions(response.data);
         } catch (error) {
             console.error(error);
@@ -90,14 +91,14 @@ const SubjectsTab: React.FC = () => {
     const addSubjectToPromotion = async () => {
         if (selectedSubject && selectedPromotion) {
             try {
-                await axios.post('http://localhost:3000/api/subject/addSubjectToPromotion', {
+                await axios.post(`${api}/api/subject/addSubjectToPromotion`, {
                     subjectId: selectedSubject.id,
                     promotionId: selectedPromotion.id
                 });
                 setMessage('Sujet ajouté avec succès à la promotion.');
                 const need = needs.find(need => need.idSubject === selectedSubject.id);
                 if (need) {
-                    await axios.delete(`http://localhost:3000/api/needs/${need.id}`);
+                    await axios.delete(`${api}/api/needs/${need.id}`);
                 }
                 getNeeds();
                 getSubjects();
@@ -114,7 +115,7 @@ const SubjectsTab: React.FC = () => {
   
     const getCategories = async () => {
       try {
-        const response = await axios.get<Category[]>("http://localhost:3000/api/categories");
+        const response = await axios.get<Category[]>(`${api}/api/categories`);
         setCategories(response.data);
       } catch (error) {
         console.error(error);
@@ -171,7 +172,7 @@ const SubjectsTab: React.FC = () => {
       };
 
       axios
-          .post("http://localhost:3000/api/subjects/upload", requestData)
+          .post("${api}/api/subjects/upload", requestData)
           .then((response) => {
               console.log(response.data);
               setMessage(response.data.message);

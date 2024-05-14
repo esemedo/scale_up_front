@@ -46,6 +46,7 @@ const PromotionTab = () => {
     const [csvData, setCsvData] = useState<PromotionCsvRow[]>([]);
     const [selectedManager, setSelectedManager] = useState<string>('');
     const [message, setMessage] = useState<string | null>(null);
+    const api = process.env.NEXT_PUBLIC_API_URL;
 
     useEffect(() => {
         getAllPromo();
@@ -55,7 +56,7 @@ const PromotionTab = () => {
 
     const getAllPromo = async () => {
         try {
-            const response = await axios.get<Promotion[]>('http://localhost:3000/api/promotion');
+            const response = await axios.get<Promotion[]>(`${api}/api/promotions`);
             setPromotions(response.data);
         } catch (error) {
             console.error(error);
@@ -64,7 +65,7 @@ const PromotionTab = () => {
 
     const getNeeds = async () => {
         try {
-            const response = await axios.get<Need[]>('http://localhost:3000/api/needs/');
+            const response = await axios.get<Need[]>(`${api}/api/needs/`);
             setNeeds(response.data);
         } catch (error) {
             console.error(error);
@@ -73,7 +74,7 @@ const PromotionTab = () => {
 
     const getUsers = async () => {
         try {
-            const response = await axios.get<User[]>('http://localhost:3000/api/users');
+            const response = await axios.get<User[]>(`${api}/api/users`);
             setUsers(response.data);
         } catch (error) {
             console.error(error);
@@ -130,7 +131,7 @@ const PromotionTab = () => {
         };
 
         axios
-            .post("http://localhost:3000/api/promotions/upload", requestData)
+            .post(`${api}/api/promotions/upload`, requestData)
             .then((response) => {
                 console.log(response.data);
                 setMessage(response.data.message);
