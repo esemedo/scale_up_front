@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import SubjectsTab from '../components/TabDashboard/SubjectTab';
 import PromotionTab from '../components/TabDashboard/PromotionTab';
+import NeedsTab from '@/components/TabDashboard/NeedsTab';
 
 interface Need {
     id: number;
@@ -44,11 +45,7 @@ const Dashboard = () => {
                 </div>
                 {activeTab === 'promotions' && <PromotionTab />}
                 {activeTab === 'subjects' && <SubjectsTab />}
-                {activeTab === 'needs' && needs.map((need) => (
-                    <div key={need.id}>
-                        <p>{need.idSubject} - {need.idPromotion}</p>
-                    </div>
-                ))}
+                {activeTab === 'needs' &&  <NeedsTab />}
             </div>
         </div>
     );
