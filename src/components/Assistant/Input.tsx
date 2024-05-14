@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, EventHandler } from 'react'
+import React, { ChangeEventHandler } from 'react'
 type InputComponent = {
     label : string,
     value:string |number, 
