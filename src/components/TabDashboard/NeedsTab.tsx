@@ -8,11 +8,17 @@ interface Category {
   name: string;
 }
 
+interface CsvRow {
+  name: string;
+  level: string;
+}
+
 const NeedsTab = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
   const [message, setMessage] = useState<string | null>(null);
-  const [csvData, setCsvData] = useState<any[]>([]);
+  const [csvData, setCsvData] = useState<CsvRow[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
 
   useEffect(() => {
     getCategories();
@@ -20,11 +26,8 @@ const NeedsTab = () => {
 
   const getCategories = async () => {
     try {
-      const response = await axios.get<Category[]>(
-        "http://localhost:3000/api/categories",
-      );
+      const response = await axios.get<Category[]>("http://localhost:3000/api/categories");
       setCategories(response.data);
-      //console.log(response.data);
     } catch (error) {
       console.error(error);
     }
@@ -38,8 +41,8 @@ const NeedsTab = () => {
           const data = results.data
             .filter((row) => row.length >= 2)
             .map((row) => ({
-              name: row[0],
-              level: row[1],
+              name: row[0].toString(),
+              level: row[1].toString(),
             }));
           setCsvData(data);
         },
@@ -49,27 +52,19 @@ const NeedsTab = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-  
+
     if (csvData.length === 0) {
       console.error("No data parsed from file");
       return;
     }
-  
-    // Récupérer l'ID de la catégorie sélectionnée
-    const categoryId = event.currentTarget.categoryId.value;
-  
-    // Créer un objet FormData
-    const formData = new FormData();
-    formData.append("data", JSON.stringify(csvData));
-    formData.append("categoryId", categoryId);
-  
-    // Afficher les données envoyées
-    for (let pair of formData.entries()) {
-        console.log(pair[0]+ ', ' + pair[1]); 
-    }
-  
+
+    const requestData = {
+      data: JSON.stringify(csvData),
+      categoryId: selectedCategory
+    };
+
     axios
-      .post("http://localhost:3000/api/upload/subjects", formData)
+      .post("http://localhost:3000/api/upload/subjects", requestData)
       .then((response) => {
         console.log(response.data);
         setMessage(response.data.message);
@@ -86,6 +81,9 @@ const NeedsTab = () => {
 
   const closeModal = () => {
     setModalIsOpen(false);
+    setMessage(null);
+    setCsvData([]);
+    setSelectedCategory("");
   };
 
   return (
@@ -137,7 +135,14 @@ const NeedsTab = () => {
             className="border-gray-300 p-2"
             onChange={handleFileChange}
           />
-          <select name="categoryId">
+          <select
+            name="categoryId"
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+          >
+            <option value="" disabled>
+              Sélectionner une catégorie
+            </option>
             {categories.map((category) => (
               <option key={category.id} value={category.id}>
                 {category.name}
@@ -157,16 +162,33 @@ const NeedsTab = () => {
         >
           Fermer
         </button>
-        {csvData.map((row, rowIndex) => (
-          <table key={rowIndex}>
-            <tbody>
+        <div className="mt-4">
+          <h3 className="text-lg font-bold">Aperçu des données</h3>
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead>
               <tr>
-                <td>{row.name}</td> {/* Nom */}
-                <td>{row.level}</td> {/* Level */}
+                <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Nom
+                </th>
+                <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Niveau
+                </th>
               </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {csvData.map((row, rowIndex) => (
+                <tr key={rowIndex}>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    {row.name}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    {row.level}
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
-        ))}
+        </div>
       </Modal>
     </div>
   );
