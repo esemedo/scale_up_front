@@ -2,8 +2,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ListAbsence from "@/components/Absence/ListAbsence";
-import { DateRange } from "react-day-picker";
-import { addDays } from "date-fns";
 import CalendarAbsence from "@/components/Absence/CalendarAbsence";
 
 const Page = () => {
@@ -11,7 +9,7 @@ const Page = () => {
   const [selectedItem, setItemSelected] = useState<Absence | null>(null); 
 
   useEffect(() => {
-    let url = "http://localhost:3000/api/absence"
+    const url = "http://localhost:3000/api/absence"
     axios
       .get<Absence[]>(url) 
       .then((result) => {
