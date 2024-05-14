@@ -11,6 +11,13 @@ const HistoriqueBesoins: React.FC = () => {
   const startYear = 2015;
   const futureYears = 5;
 
+  const statusCode = {
+    0: 'Refusée',
+    1: 'En attente',
+    2: 'Traitée',
+    3: 'Validée'
+  }
+
   const fetchYears =  () => {
     const schoolYears = [];
     const currentYear = new Date().getFullYear();
@@ -59,7 +66,7 @@ const HistoriqueBesoins: React.FC = () => {
           <ul>
             {needs.map((need, index) => (
               <li key={index} className='mb-2'>
-                <span className='font-semibold'>Besoin n°{need.id}</span> - <span>Status : {need.status}</span>
+                <span className='font-semibold'>Déclaration de besoin n°{need.id}</span> - <span>Statut : {statusCode[need.status]}</span>
               </li>
             ))}
           </ul>
