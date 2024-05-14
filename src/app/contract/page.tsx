@@ -22,7 +22,7 @@ export default function Page() {
 
   const onSubmit = async (data: contractFormField) => {
     try {
-      const response = await fetch("/localhost", {
+      const response = await fetch("http://localhost:3000/api/pdf", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
