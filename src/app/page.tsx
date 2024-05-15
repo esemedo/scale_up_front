@@ -1,11 +1,17 @@
+// Home.tsx
+
+import React from 'react';
+import SearchForm from '../components/seachFrom';
 import HistoriqueBesoins from '../components/historiqueDesBesoins';
 import FormulaireBesoin from '@/components/formulaireBesoin';
 
-export default function Home() {
+const Home: React.FC = () => {
   return (
     <div>
       <FormulaireBesoin />
-
+      <SearchForm />
     </div>
   );
-}
+};
+
+export default Home;
