@@ -3,6 +3,7 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import { useEffect } from "react";
 import { LoadingSpinner } from "@/components/LoadingSpinner/LoadingSpinner";
 import Dashboard from './dashboard';
+import RegroupPromotions from "@/components/RegroupementPromotions";
 import HistoriqueBesoins from '../components/historiqueDesBesoins';
 import FormulaireBesoin from '@/components/formulaireBesoin';
 
@@ -26,7 +27,7 @@ function Home() {
     <div className={"flex flex-col"}>
       <button onClick={() => signOut()}>Sign out</button>
       {/* welcome to home{" "} */}
-      <Dashboard />
+      <RegroupPromotions />
     </div>
   );
 }
