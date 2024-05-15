@@ -1,0 +1,4 @@
+.fancy-input-label:has(+ input[type="text"]:focus),
+.fancy-input-label:has(+ input[type="text"]:not(:placeholder-shown)) {
+  @apply -translate-x-1 -translate-y-5 scale-[.9] transform bg-white px-1 text-gray-300;
+}
