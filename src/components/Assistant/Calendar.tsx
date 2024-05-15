@@ -36,7 +36,6 @@ function Calendar() {
   };
 
   const getDeisForDate = (date: number) => {
-    // Filter DEIs for the given date
     return deis.filter(dei => new Date(dei.dueDate).getDate() === date);
   };
 
