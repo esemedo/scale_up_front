@@ -1,6 +1,4 @@
-// SearchForm.tsx
-
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { TextField, Button, Select, MenuItem, FormControl, InputLabel, FormHelperText } from '@mui/material';
 import { MultiSelect } from 'react-multi-select-component';
@@ -12,12 +10,7 @@ const SearchForm: React.FC = () => {
   const [selectedSubjects, setSelectedSubjects] = useState<any[]>([]);
   const api = process.env.NEXT_PUBLIC_API_URL;
 
-  useEffect(() => {
-    fetchPromotions();
-    fetchContributors();
-    fetchSubjects();
-  }, []);
-
+  // Fonction pour récupérer les promotions
   const fetchPromotions = async () => {
     try {
       const response = await axios.get<any[]>(`${api}/api/promotions`);
@@ -27,6 +20,7 @@ const SearchForm: React.FC = () => {
     }
   };
 
+  // Fonction pour récupérer les contributeurs
   const fetchContributors = async () => {
     try {
       const response = await axios.get<any[]>(`${api}/api/contributors`);
@@ -36,6 +30,7 @@ const SearchForm: React.FC = () => {
     }
   };
 
+  // Fonction pour récupérer les matières
   const fetchSubjects = async () => {
     try {
       const response = await axios.get<any[]>(`${api}/api/subjects`);
@@ -44,6 +39,13 @@ const SearchForm: React.FC = () => {
       console.error('Error fetching subjects:', error);
     }
   };
+
+  // Appeler les fonctions pour récupérer les données
+  (async () => {
+    await fetchPromotions();
+    await fetchContributors();
+    await fetchSubjects();
+  })();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

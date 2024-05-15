@@ -3,7 +3,11 @@ import SearchForm from '../components/SearchForm';
 import HistoriqueBesoins from '../components/historiqueDesBesoins';
 import FormulaireBesoin from '@/components/formulaireBesoin';
 
-const Home: React.FC = () => {
+interface HomeProps extends React.FC {
+  useClient: boolean;
+}
+
+const Home: HomeProps = () => {
   useEffect(() => {
   }, []);
 
@@ -14,5 +18,7 @@ const Home: React.FC = () => {
     </div>
   );
 };
+
+Home.useClient = true;
 
 export default Home;
