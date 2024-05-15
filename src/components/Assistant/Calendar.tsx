@@ -2,13 +2,12 @@ import React, { useState, useEffect } from "react";
 import axios from 'axios';
 
 function Calendar() {
-  const [currentWeek, setCurrentWeek] = useState(0); // State for current week offset
-  const [deis, setDeis] = useState([]); // State for DEIs
+  const [currentWeek, setCurrentWeek] = useState(0);
+  const [deis, setDeis] = useState([]);
 
   const url = "http://localhost:3000/api/dei"
 
   useEffect(() => {
-    // Fetch DEIs when component mounts
     axios.get(url)
       .then(response => {
         setDeis(response.data);
@@ -23,7 +22,7 @@ function Calendar() {
 
   const getDateForOffset = (offset: number) => {
     const newDate = new Date(today);
-    newDate.setDate(today.getDate() + (offset - 1) + currentWeek * 7); // Adjust offset for current week
+    newDate.setDate(today.getDate() + (offset - 1) + currentWeek * 7);
     return newDate.getDate();
   };
 
@@ -64,7 +63,7 @@ function Calendar() {
               </div>
               <div className="day-content h-28">
                 {deisForDate.map(dei => (
-                  <div key={dei.id}>{dei.name}</div>
+                  <div key={dei.id}>{dei.title}</div>
                 ))}
               </div>
             </li>
