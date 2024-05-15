@@ -23,14 +23,15 @@ const ListingCategory = ({ onCategorySelect }: ListingCategoryProps)  => {
 
   const [categorys, setCategorys] = useState<Category[]>([]);
 
-  const apiEndPoint = `${process.env.API_URL}/category`;
+  const apiEndPoint = 'localhost:3000/api/category/';
+  console.log(apiEndPoint);
   useEffect(() => {
     const getCategorys = async () => {
       const { data: res } = await axios.get(apiEndPoint);
       setCategorys(res);
     };
     getCategorys();
-  }, [apiEndPoint]);
+  }, []);
 
 
   const handleCategoryCard = (categoryId?: number) => {

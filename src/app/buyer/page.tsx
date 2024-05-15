@@ -1,4 +1,4 @@
-"use strict";
+"use client";
 
 import React, { useState } from "react";
 import { TypeList } from "@/components/acheteurCRUD/TypeList";
