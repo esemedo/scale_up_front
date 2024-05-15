@@ -2,6 +2,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { API_URL } from "../../../utils/url";
 
 const contractFormSchema = z.object({
   hourlyPrice: z.string(),
@@ -11,6 +12,22 @@ const contractFormSchema = z.object({
 });
 
 type contractFormField = z.infer<typeof contractFormSchema>;
+
+const generateContract = async (data: contractFormField) => {
+  const response = await fetch(API_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    throw new Error("one error occured during the contract generation");
+  }
+
+  return response.blob();
+};
 
 export default function Page() {
   const {
@@ -22,21 +39,7 @@ export default function Page() {
 
   const onSubmit = async (data: contractFormField) => {
     try {
-      const response = await fetch("http://localhost:3000/api/pdf", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (!response.ok) {
-        throw new Error(
-          "une erreur est survenue lors de la génération du contrat",
-        );
-      }
-
-      const blob = await response.blob();
+      const blob = await generateContract(data);
       const url = window.URL.createObjectURL(blob);
       const lien = document.createElement("a");
       lien.href = url;
@@ -46,7 +49,7 @@ export default function Page() {
       lien.remove();
     } catch (error) {
       setError("root", {
-        message: "une erreur est survenue lors de la génération du contrat",
+        message: "one error occured during the contract generation",
       });
     }
   };
@@ -108,8 +111,8 @@ export default function Page() {
 
         <button disabled={isSubmitting} type="submit">
           {isSubmitting
-            ? "Contrat en cours de génération"
-            : "Générer le contat"}
+            ? "contrat en cours de génération"
+            : "générer le contat"}
         </button>
 
         {errors.root && (
