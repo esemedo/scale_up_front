@@ -60,6 +60,7 @@ const SearchForm: React.FC = () => {
           label="Promotion"
           required
           className="w-full"
+          style={{ backgroundColor: 'white' }}
         >
           {promotions.map((promotion) => (
             <MenuItem key={promotion.id} value={promotion.id}>
@@ -75,6 +76,7 @@ const SearchForm: React.FC = () => {
         value={selectedSubjects}
         onChange={setSelectedSubjects}
         labelledBy="Sélectionnez les matières"
+        overrideStrings={{ selectSomeItems: 'Sélectionnez les matières' }}
       />
 
       <FormControl>
@@ -85,6 +87,7 @@ const SearchForm: React.FC = () => {
           label="Intervenant"
           required
           className="w-full"
+          style={{ backgroundColor: 'white' }}
         >
           {contributors.map((contributor) => (
             <MenuItem key={contributor.id} value={contributor.id}>
