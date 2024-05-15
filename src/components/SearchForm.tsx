@@ -47,7 +47,6 @@ const SearchForm: React.FC = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // Ajouter la logique pour envoyer les données au serveur pour la recherche
   };
 
   return (
