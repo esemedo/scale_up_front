@@ -9,7 +9,7 @@ interface CardData {
 
 const CardsGrey: React.FC<CardData> = ({ name, rate, status }) => {
   return (
-    <div className="bg-white mb-4 shadow rounded-lg overflow-hidden">
+    <div className="bg-white mb-4 shadow rounded-lg">
       <div className="p-4 border-b">
         <h5 className="text-lg font-semibold">Demandeur : {name}</h5>
         <p className="text-sm text-gray-600">Taux horaire souhaité : {rate}</p>
@@ -29,25 +29,29 @@ const CardsGrey: React.FC<CardData> = ({ name, rate, status }) => {
 };
 
 const Dashboard: React.FC = () => {
-  const [cardsData, setCardsData] = useState<CardData[]>([]);
+  // const [cardsData, setCardsData] = useState<CardData[]>([]);
+  const [cardsData, setCardsData] = useState<CardData[]>([
+    { id: 1, name: 'François CORNET', rate: '50€/h', status: 'En attente' },
+    { id: 2, name: 'Robin PENEA', rate: '70€/h', status: 'Approuvé' },
+    { id: 3, name: 'lloana', rate: '65€/h', status: 'Rejeté' },
+  ])
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await fetch('https://3000');
+  //       const data: CardData[] = await response.json();
+  //       setCardsData(data);
+  //     } catch (error) {
+  //       console.error('erreur :', error);
+  //     }
+  //   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('https://3000');
-        const data: CardData[] = await response.json();
-        setCardsData(data);
-      } catch (error) {
-        console.error('erreur :', error);
-      }
-    };
-
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-6">
-      <h1 className="text-xl font-semibold mb-6">Les dérogations récentes en cours</h1>
+    <div className=" max-w-7xl w-full mx-auto px-4 py-6 overflow-visible">
+      <h1 className="text-xl font-semibold whitespace-nowrap">Les dérogations récentes en cours</h1>
       {cardsData.map(cardsGrey => (
         <CardsGrey key={cardsGrey.id} name={cardsGrey.name} rate={cardsGrey.rate} status={cardsGrey.status} />
       ))}
