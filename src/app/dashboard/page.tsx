@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import CardsGrey from "@/components/CardsGrey/CardsUser"
-
+import TaskCard from "@/components/TaskCard/TaskCard"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import {
     Select,
@@ -39,22 +39,24 @@ export default function dashboard() {
                 <Card className="w-1/2 bg-white shadow-md rounded-lg overflow-hidden">
                     <CardHeader>
                     </CardHeader>
-                    <CardContent className="p-4">
-                    
-                        <Select>
-                            <SelectTrigger className="w-full">
-                                <SelectValue placeholder="Choisir une option" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="light">Priorité</SelectItem>
-                                <SelectItem value="dark">Date</SelectItem>
-                                <SelectItem value="system">System</SelectItem>
+                    <CardContent className="p-4 flex items-center">
+                    <div className="flex-1 mr-4">
+            <Select>
+                    <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Choisir une option" />
+                </SelectTrigger>
+                <SelectContent>
+                    <SelectItem value="light">Priorité</SelectItem>
+                    <SelectItem value="dark">Date</SelectItem>
+                    <SelectItem value="system">System</SelectItem>
                             </SelectContent>
-                        
                         </Select>
-                        <Checkbox/>
-                    </CardContent>
+                     </div>
+                          <Checkbox/>
+               </CardContent>
                     <CardFooter className="p-2">
+                    <TaskCard/>
+
                     </CardFooter>
                 </Card>
                         
