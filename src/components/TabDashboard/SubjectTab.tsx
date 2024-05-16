@@ -342,7 +342,7 @@ const SubjectsTab: React.FC = () => {
           <input
             type="file"
             name="file"
-            accept=".csv,.xls"
+            accept=".csv,.xls,.xlsx"
             className="border-gray-300 p-2"
             onChange={handleFileChange}
           />
