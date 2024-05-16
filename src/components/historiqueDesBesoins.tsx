@@ -11,11 +11,12 @@ const HistoriqueBesoins: React.FC = () => {
   const startYear = 2015;
   const futureYears = 5;
 
-  const statusCode = {
+  const statusCode: { [key: number]: string } = {
     0: 'Refusée',
     1: 'En attente',
     2: 'Traitée',
-    3: 'Validée'
+    3: 'Validée',
+    4: 'Brouillon',
   }
 
   const fetchYears =  () => {

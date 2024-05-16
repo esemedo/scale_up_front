@@ -24,15 +24,22 @@ interface Status {
   color: string;
 }
 
-interface Statuses {
-  [index: number]: Status;
-}
-
-const STATUS: Statuses = {
-  0: { name: "DRAFT", color: "bg-blue-500" },
-  1: { name: "PUBLISHED", color: "bg-green-500" },
-  2: { name: "CANCELLED", color: "bg-red-500" },
+const statusCode: { [key: number]: string } = {
+  0: 'Refusée',
+  1: 'En attente',
+  2: 'Traitée',
+  3: 'Validée',
+  4: 'Brouillon',
 };
+
+const statusColors: { [key: number]: string } = {
+  0: 'bg-red-500',    
+  1: 'bg-yellow-500',  
+  2: 'bg-green-500',  
+  3: 'bg-green-500',    
+  4: 'bg-blue-500', 
+};
+
 const NeedsTab = () => {
   const [message, setMessage] = useState("");
   const [needs, setNeeds] = useState<Need[]>([]);
@@ -161,11 +168,9 @@ const NeedsTab = () => {
             >
               <h2 className="font-bold">{`Need ID: ${need.id}`}</h2>
               <span
-                className={`inline-block rounded-full px-3 py-1 text-sm font-semibold text-white ${
-                  STATUS[need.status].color
-                }`}
+                className={`inline-block rounded-full px-3 py-1 text-sm font-semibold text-white ${statusColors[need.status]}`}
               >
-                {STATUS[need.status].name}
+                {statusCode[need.status]}
               </span>
             </div>
           </div>
