@@ -44,6 +44,7 @@ const NeedsTab = () => {
   const [message, setMessage] = useState("");
   const [needs, setNeeds] = useState<Need[]>([]);
   const [needsUpdated, setNeedsUpdated] = useState(false);
+  const api = process.env.NEXT_PUBLIC_API_URL;
 
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredSubjects, setFilteredSubjects] = useState([]);
@@ -80,7 +81,7 @@ const NeedsTab = () => {
   const handlePublish = async (id: string) => {
     try {
       const response = await axios.put<ResponseData>(
-        `http://localhost:3000/api/needs/${id}/publish`,
+        `${api}/api/needs/${id}/publish`,
       );
       if (response.data && response.data.message) {
         setMessage(response.data.message);
@@ -100,7 +101,7 @@ const NeedsTab = () => {
   const handleUpdate = async (id: string) => {
     try {
       const response = await axios.put<ResponseData>(
-        `http://localhost:3000/api/needs/${id}/draft`,
+        `${api}/api/needs/${id}/draft`,
       );
       if (response.data && response.data.message) {
         setMessage(response.data.message);
@@ -120,7 +121,7 @@ const NeedsTab = () => {
   const handleCancel = async (id: string) => {
     try {
       const response = await axios.put<ResponseData>(
-        `http://localhost:3000/api/needs/${id}/cancel`,
+        `${api}/api/needs/${id}/cancel`,
       );
       if (response.data && response.data.message) {
         setMessage(response.data.message);
