@@ -2,7 +2,7 @@
 import { useSession, signIn, signOut } from "next-auth/react";
 import { useEffect } from "react";
 import { LoadingSpinner } from "@/components/LoadingSpinner/LoadingSpinner";
-import { User } from "lucide-react";
+import Link from "next/link";
 
 
 
@@ -16,17 +16,14 @@ function Home() {
       //!!! ROLES ARE IN session.user.roles when authenticated !!!
     }
   }, [session]);
+  
   return (
     <div className={"flex flex-col"}>
-      {/* {session?.user.roles.includes("speaker-company") && User.
-        <>
-
-        </>
-      } */}
         <>
       <button onClick={() => signOut()}>Sign out</button>
-          welcome to home{" "}
+          welcome to home{session?.user?.name}
         </>
+      <Link href="/company">company</Link>
     </div>
   );
 }
