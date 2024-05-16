@@ -14,8 +14,6 @@ const contractFormSchema = z.object({
 type contractFormField = z.infer<typeof contractFormSchema>;
 
 const generateContract = async (data: contractFormField) => {
-  console.log("data sent to the server: ", data);
-
   const response = await fetch(API_URL, {
     method: "POST",
     headers: {
@@ -23,8 +21,6 @@ const generateContract = async (data: contractFormField) => {
     },
     body: JSON.stringify(data),
   });
-
-  console.log("server response: ", response);
 
   if (!response.ok) {
     throw new Error("one error occured during the contract generation");
@@ -57,7 +53,6 @@ export default function Page() {
       lien.click();
       lien.remove();
     } catch (error) {
-      console.error("error: ", error);
       setError("root", {
         message: "one error occured during the contract generation",
       });
@@ -121,7 +116,7 @@ export default function Page() {
 
         <button disabled={isSubmitting} type="submit">
           {isSubmitting
-            ? "contrat en cours de génération"
+            ? "contrat en cours de génération..."
             : "générer le contat"}
         </button>
 
