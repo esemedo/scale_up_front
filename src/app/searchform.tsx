@@ -4,7 +4,7 @@ import axios from 'axios';
 import { TextField, Button, Select, MenuItem, FormControl, InputLabel, FormHelperText } from '@mui/material';
 import { MultiSelect } from 'react-multi-select-component';
 
-const SearchForm: React.FC = () => {
+const searchform: React.FC = () => {
   const [promotions, setPromotions] = useState<any[]>([]);
   const [contributors, setContributors] = useState<any[]>([]);
   const [subjects, setSubjects] = useState<any[]>([]);
@@ -107,4 +107,4 @@ const SearchForm: React.FC = () => {
   );
 };
 
-export default SearchForm;
+export default searchform;

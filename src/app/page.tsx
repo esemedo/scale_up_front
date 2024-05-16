@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
-import SearchForm from "../components/SearchForm";
+import SearchForm from "./searchform";
 import { LoadingSpinner } from "@/components/LoadingSpinner/LoadingSpinner";
 import Dashboard from "./dashboard";
 
