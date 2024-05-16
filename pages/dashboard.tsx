@@ -115,7 +115,6 @@ const handleDrop = (event: React.DragEvent<HTMLDivElement>, setCol: Function, co
 
   return (
     <div className="w-full h-screen bg-gray-800 text-white p-8">
-    <h1 className="text-4xl mb-8">Dashboard</h1>
     <div className="flex justify-between mb-8">
       <Link href="/">
         <div className="bg-blue-500 text-white px-4 py-2 rounded mr-4">
