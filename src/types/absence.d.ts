@@ -1,21 +1,20 @@
+import { UseFormProps, UseFormReturn } from "react-hook-form";
+
 interface Absence {
     id?: number;
     startDate : string;
     endDate : string;
     reason: string;
+    substituteUserId:number|null;
+
 }
 type CalendarAbsenceProps = {
     update: Function;
-    isCreate: boolean;
-    absence: {
-        id?:number;
-        startDate : string,
-        endDate : string,
-        reason: string
-        }
+    absence: Absence 
+    assistants:Array<{id: number, name: string}>
 }
 type ListAbsenceParams = {
-    data : Array<{ id?: number; startDate: string , endDate : string,reason: string}>;
+    data : Array<{ id?: number; startDate: string , endDate : string,reason: string, substituteUserId:number|null} >;
     handleMode: Function;
     handleItemClick: Function;
     selectedItem: Absence | null;
@@ -28,6 +27,5 @@ type DatePickerWithRangeProps = {
 }
 type TimePickerWithRangeProps = {
     disabled: boolean,
-    time: {from: string, to: string} |undefined, 
-    setTime: Function
+    form: UseFormReturn<{ substitute: string; reason: string; startTime: string; endTime: string; }, any, undefined>
 }

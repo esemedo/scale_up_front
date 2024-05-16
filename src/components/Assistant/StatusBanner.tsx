@@ -16,8 +16,8 @@ const  StatusBanner : FC<Dei> = ({dei, setStatusUpdated, session}) => {
     try {
        await axios.patch(`http://localhost:3000/api/dei/${dei.id}/status`, {status: newStatus}, {headers:{Authorization: `Bearer ${session?.accessToken}`}})
         setStatusUpdated((prev: any) => !prev)
-    } catch (error) {
-        console.log(error);
+    } catch (error: any) {
+      console.error('Erreur lors de la soumission du status:', error.message);
     }}
   }
   

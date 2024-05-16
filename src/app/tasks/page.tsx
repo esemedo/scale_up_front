@@ -29,6 +29,8 @@ const Page = () => {
         .get<Dei[]>(url, {headers:{Authorization: `Bearer ${session?.accessToken}`}}) 
         .then((result) => {
           setData(result.data);
+          console.log(result.data);
+          
           if(selectedItem)
             setItemSelected(result.data.find(item => item.id === selectedItem.id)?? null)
 
