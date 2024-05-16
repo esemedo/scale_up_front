@@ -1,0 +1,4 @@
+interface Bill {
+  id: number;
+  
+}

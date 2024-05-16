@@ -16,7 +16,7 @@ const Page = () => {
   useEffect(() => {
     if(session){
 
-    let url = "http://localhost:3000/api/absence"
+    const url = "http://localhost:3000/api/absence"
     axios
       .get<Absence[]>(url, {headers:{Authorization: `Bearer ${session?.accessToken}`}}) 
       .then((result) => {
