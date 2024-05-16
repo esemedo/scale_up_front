@@ -1,6 +1,6 @@
 "use client";
 
-import { HandCoins, Hotel, UsersRound } from "lucide-react";
+import { Hotel, UsersRound } from "lucide-react";
 import Link from "next/link";
 
 export default function Nav() {
@@ -13,7 +13,6 @@ export default function Nav() {
         <UsersRound />
       </Link>
       <Link href="/">
-        <HandCoins />
       </Link>
     </div>
   );
