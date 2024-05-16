@@ -6,7 +6,7 @@ import Dashboard from "./dashboard";
 import HistoriqueBesoins from "../components/historiqueDesBesoins";
 import FormulaireBesoin from "../components/formulaireBesoin";
 import ValidationFactures from "../components/ValidationFactures";
-import RechercheContrats from "../components/rechercheContractBill";
+// import RechercheContrats from "../components/rechercheContractBill";
 
 import { AiFillHome, AiOutlineForm, AiOutlineHistory } from "react-icons/ai";
 import { RiBillLine } from "react-icons/ri";
@@ -65,13 +65,13 @@ function Home() {
         >
           <RiBillLine className="h-7 w-7 hover:text-blue-500" />
         </button>
-        <button
+        {/* <button
           onClick={() => setCurrentComponent("rechercheContrats")}
           className={`${currentComponent === "rechercheContrats" ? "text-blue-500" : "text-gray-500"}`}
           title="Recherche contrats"
         >
           <FaFileContract className="h-7 w-7 hover:text-blue-500" />
-        </button>
+        </button> */}
       </div>
       <div className="flex min-h-screen w-full flex-grow flex-col">
         <button onClick={() => signOut()}>Sign out</button>
@@ -79,7 +79,7 @@ function Home() {
         {currentComponent === "historiqueDesBesoins" && <HistoriqueBesoins />}
         {currentComponent === "formulaireBesoin" && <FormulaireBesoin />}
         {currentComponent === "validationFactures" && <ValidationFactures />}
-        {currentComponent === "rechercheContrats" && <RechercheContrats />}
+        {/* {currentComponent === "rechercheContrats" && <RechercheContrats />} */}
       </div>
     </div>
   );

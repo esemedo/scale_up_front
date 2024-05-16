@@ -3,7 +3,7 @@ import axios from 'axios';
 import { FaLightbulb } from 'react-icons/fa';
 import Modal from "react-modal";
 import Papa from "papaparse";
-import XLSX from "xlsx";
+import * as XLSX from 'xlsx';
 
 interface Subject {
     id: number;
@@ -172,7 +172,7 @@ const SubjectsTab: React.FC = () => {
       };
 
       axios
-          .post("${api}/api/subjects/upload", requestData)
+      axios.post(`${api}/api/subjects/upload`, requestData)
           .then((response) => {
               console.log(response.data);
               setMessage(response.data.message);
