@@ -12,7 +12,7 @@ const ReturnCategory = ({ categoryId }: Category) => {
 
   useEffect(() => {
     const fetchCategory = async () => {
-      const { data } = await axios.get(`http://localhost:3000/api/category/${categoryId}`);
+      const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/categories/${categoryId}`);
       setCategory(data);
     };
 

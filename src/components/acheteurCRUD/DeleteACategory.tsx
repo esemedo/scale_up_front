@@ -15,7 +15,7 @@ interface Subject {
 export default function DeleteACategory(props: Category) {
   const [subjectUsCategory, setSubjectUsCategory] = useState<Subject[]>([]);
 
-  const apiEndPoint = `http://localhost:3000/api/subject/category/${props.categoryId}`;
+  const apiEndPoint = `${process.env.NEXT_PUBLIC_API_URL}/subjects/category/${props.categoryId}`;
   useEffect(() => {
     const getCategorys = async () => {
       const { data: res } = await axios.get(apiEndPoint);
@@ -25,7 +25,7 @@ export default function DeleteACategory(props: Category) {
   }, [apiEndPoint]);
   const handleDelete = async () => {
     if(subjectUsCategory.length === 0){
-      await axios.delete(`http://localhost:3000/api/category/${props.categoryId}`);
+      await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/categories/${props.categoryId}`);
     }else{
       alert('vous ne pouvez pas supprimer une categorie utilisé dans une matière existante')
     }

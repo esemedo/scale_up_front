@@ -23,7 +23,7 @@ export default function FormUpdateSubject(props:Subject) {
 
     useEffect(() => {
         const fetchData = async () => {
-          const response = await axios.get('http://localhost:3000/api/category');
+          const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/categories`);
           setCategoryTable(response.data);
         };
         fetchData();
@@ -44,7 +44,7 @@ export default function FormUpdateSubject(props:Subject) {
             if(subjectLevel!==""){
                 if(subjectCategoryId!==undefined){
                     const updateSubject: Subject = { name: subjectName, level: subjectLevel, categoryId:subjectCategoryId};
-                    await axios.put('http://localhost:3000/api/subject/'+props.id, updateSubject);
+                    await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/subjects/`+props.id, updateSubject);
                     setSubjects([...subjects, updateSubject]);
                     setSubjectName("");
                     setSubjectLevel("");

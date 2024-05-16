@@ -26,10 +26,11 @@ export const ListingSubject = ({ onSubjectSelect }: ListingSubjectProps) => {
 
   const [subjects, setSubjects] = useState<Subjects[]>([]);
 
-  const apiEndPoint = `localhost:3000/api/subject`;
+  const apiEndPoint = `${process.env.NEXT_PUBLIC_API_URL}/subjects`;
+  console.log(apiEndPoint)
   useEffect(() => {
     const getSubjects = async () => {
-      const { data } = await axios.get(`${process.env.API_URL}/subject`);
+      const { data } = await axios.get(`${apiEndPoint}`);
       setSubjects(data);
     };
 

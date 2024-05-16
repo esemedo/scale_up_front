@@ -10,7 +10,7 @@ interface DeleteASubjectProps {
   }
 export default function DeleteASubject({subjectId}: DeleteASubjectProps) {
   const handleDelete = async () => {
-      await axios.delete(`http://localhost:3000/api/subject/${subjectId}`);
+      await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/subjects/${subjectId}`);
   
   };
   return(

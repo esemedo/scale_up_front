@@ -26,7 +26,7 @@ export function ElementFormSelect({TypeCard="category", IdCard}:TypeCardInterfac
       
         if (TypeCard === "subject") {
             if(IdCard!==null&&IdCard!==cardSubject?.id){
-                const apiEndPoint = `http://localhost:3000/api/subject/${IdCard}`;
+                const apiEndPoint = `${process.env.NEXT_PUBLIC_API_URL}/subjects/${IdCard}`;
                 const getCard = async () => {
                     const { data: res } = await axios.get(apiEndPoint);
                     setCardSubject(res);
@@ -36,7 +36,7 @@ export function ElementFormSelect({TypeCard="category", IdCard}:TypeCardInterfac
             }
         } else if (TypeCard === "category") {
             if(IdCard!==null&&IdCard!==cardCategory?.id){
-                const apiEndPointCardCategory = `http://localhost:3000/api/category/${IdCard}`;
+                const apiEndPointCardCategory = `${process.env.NEXT_PUBLIC_API_URL}/categories/${IdCard}`;
                 const getCard = async () => {
                     const { data: res } = await axios.get(apiEndPointCardCategory);
                     setCardCategory(res);

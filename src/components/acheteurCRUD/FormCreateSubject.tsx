@@ -31,10 +31,9 @@ function FormCreateSubject({ className }: React.ComponentProps<"form">) {
     const [CategoryTable, setCategoryTable] = useState<{ id: number, name: string }[]>([]);
     useEffect(() => {
         const fetchData = async () => {
-          const response = await axios.get(`${process.env.API_URL}/category`);
+          const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/categories`);
           setCategoryTable(response.data);
         };
-    
         fetchData();
       }, []);
     const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -60,8 +59,8 @@ function FormCreateSubject({ className }: React.ComponentProps<"form">) {
                 level: validatedData.level,
                 categoryId: validatedData.categoryId
             };
-    
-            await axios.post(`${process.env.API_URL}/subject`, newSubject);
+            console.log(newSubject)
+            await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/subjects`, newSubject);
             setSubjects([...subjects, newSubject]);
             setSubjectName("");
             setSubjectLevel("");
