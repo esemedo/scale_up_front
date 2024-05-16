@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
-import SearchForm from "./searchform";
+import Searchform from "./searchform";
 import { LoadingSpinner } from "@/components/LoadingSpinner/LoadingSpinner";
 import Dashboard from "./dashboard";
 
@@ -28,10 +28,8 @@ function Home() {
   return (
     <div className={"flex flex-col"}>
       <button onClick={() => signOut()}>Sign out</button>
-      {/* welcome to home{" "} */}
       <Dashboard />
-      {/* Composant SearchForm */}
-      <SearchForm />
+      <Searchform />
     </div>
   );
 }
