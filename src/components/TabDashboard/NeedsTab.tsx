@@ -188,19 +188,19 @@ const NeedsTab = () => {
                 onClick={() => updateNeedStatus(selectedNeed.id, "PUBLISHED")}
                 className="rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-green-700"
               >
-                Publish
+                Validée
               </button>
               <button
                 onClick={() => updateNeedStatus(selectedNeed.id, "DRAFT")}
                 className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
               >
-                DRAFT
+                Brouillon
               </button>
               <button
                 onClick={() => updateNeedStatus(selectedNeed.id, "CANCELLED")}
                 className="rounded bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-700"
               >
-                Annuler
+                Refusée
               </button>
             </div>
           </div>
