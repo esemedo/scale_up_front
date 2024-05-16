@@ -25,17 +25,16 @@ export default function Factures() {
     async function handleSubmit() {
         try{
         if(billFile != null) {
-            await fetch('http://localhost:3000/api/uploadBillFile', {
+            const formData = new FormData();
+            const fileInput = document.querySelector('input[name="bill"]') as HTMLInputElement;
+            if (fileInput.files && fileInput.files.length > 0) {
+                // Ajoutez le fichier sous le champ 'file' pour le serveur
+                formData.append('file', fileInput.files[0]);
+            } 
+            await fetch('http://localhost:3000/api/bills', {
                 method: 'POST',
-                body: new FormData(document.querySelector('form')!),
-            }).then(async () => {
-                const response = await fetch('http://localhost:3000/api/uploadBill', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(billFile)
-                });
-                return response.ok ? setFeedback('Upload successful') : setFeedback('Error occurred');
-            })
+                body: formData,
+            }).catch((e)=>console.log(e))
         }
       } catch (error) {
         console.error('Error:', error);
