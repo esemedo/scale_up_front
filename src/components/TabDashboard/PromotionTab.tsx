@@ -4,6 +4,7 @@ import Modal from 'react-modal';
 import Papa from 'papaparse';
 import * as XLSX from 'xlsx';
 import { FaLightbulb } from 'react-icons/fa';
+import { useSession } from 'next-auth/react';
 
 interface Promotion {
     id: number;
@@ -47,6 +48,9 @@ const PromotionTab = () => {
     const [selectedManager, setSelectedManager] = useState<string>('');
     const [message, setMessage] = useState<string | null>(null);
     const api = process.env.NEXT_PUBLIC_API_URL;
+    const { data: session  } = useSession();
+
+    
 
     useEffect(() => {
         getAllPromo();
@@ -65,7 +69,9 @@ const PromotionTab = () => {
 
     const getNeeds = async () => {
         try {
-            const response = await axios.get<Need[]>(`${api}/api/needs/`);
+
+            const response = await axios.get<Need[]>(`${api}/api/needs/`,{headers:{Authorization: `Bearer ${session?.accessToken}`}}
+        );
             setNeeds(response.data);
         } catch (error) {
             console.error(error);
