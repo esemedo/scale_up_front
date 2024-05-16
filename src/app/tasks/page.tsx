@@ -29,8 +29,6 @@ const Page = () => {
         .get<Dei[]>(url, {headers:{Authorization: `Bearer ${session?.accessToken}`}}) 
         .then((result) => {
           setData(result.data);
-          console.log(result.data);
-          
           if(selectedItem)
             setItemSelected(result.data.find(item => item.id === selectedItem.id)?? null)
 
@@ -51,7 +49,7 @@ const Page = () => {
 
   return (
       <div className="group-componen mx-36 mt-8 flex justify-center gap-3 rounded-lg p-8 pt-16 font-main">
-        <ListTasks data={data} selectedItem={selectedItem} handleItemClick={handleItemClick} handleChangePriority={handleChangePriority} priority={priority}/>
+        <ListTasks data={data} selectedItem={selectedItem} handleItemClick={handleItemClick} handleChangePrioritySelect={handleChangePriority} prioritySelect={priority}/>
         <div className="right-side mx-auto w-4/5">
         <div className="top mx-auto mt-2 flex flex-row gap-y-2 rounded-3xl bg-white shadow-lg h-96">
             {selectedItem !== null && selectedItem !== undefined && <><div className="top-left w-3/4 p-8 flex flex-col justify-around">
@@ -61,7 +59,7 @@ const Page = () => {
             <div className="flex justify-between gap-2">
 
               <InputInfoDei label="Titre" position="relative w-1/3" value={""} readOnly={true} type="text" />
-              <InputInfoDei label="Date d'échéance" position="relative w-1/3" value={""} readOnly={true} type="date" />
+              <InputInfoDei label="Date d'échéance" position="relative w-1/3" value={selectedItem.dueDate.split("T")[0]} readOnly={true} type="date" />
               <SelectComponentLabel label="Priorité" position="relative w-1/3" value={selectedItem?.priority !== undefined ? selectedItem.priority : 0} options={PRIORITY} onChange={(value: string) => {
                 axios.patch(`http://localhost:3000/api/dei/${selectedItem?.id}/priority`, { priority: parseInt(value) }, {headers:{Authorization: `Bearer ${session?.accessToken}`}}).then(result => {
                   setStatusUpdated(prev => !prev);

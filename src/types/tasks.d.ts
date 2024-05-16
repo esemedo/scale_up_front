@@ -3,8 +3,9 @@ interface Dei {
     sashaStatus: number;
     status: boolean;
     totalPrice: number;
+    dueDate: string;
     hourlyPrice: number;
-    priority: string;
+    priority: number;
   }
 
 
@@ -19,10 +20,10 @@ interface Dei {
 }
 
 type ListTasksParams = {
-    data : Array<{ id: number; status: boolean }>;
+    data : Array<{ id: number; status: boolean, priority :number }>;
     handleItemClick: Function;
     selectedItem: Dei | null;
-    handleChangePriority: Function;
-    priority: string |number
+    handleChangePrioritySelect: Function;
+    prioritySelect: string |number
    
 }
