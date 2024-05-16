@@ -30,7 +30,7 @@ function CalendarAbsence({update, absence, assistants }: CalendarAbsenceProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-        substitute: `${absence.substituteUserId?? ""}`,
+        substitute: `${absence.substituteUserId !== null? assistants.filter(assistant => assistant.id === absence.substituteUserId).length > 0?absence.substituteUserId: "": ""}`,
         reason: absence.reason,
         startTime: formatTime(new Date(absence.startDate)),
         endTime: formatTime(new Date(absence.endDate)),
