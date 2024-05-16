@@ -27,7 +27,6 @@ const PromotionWithAssistantComponent: React.FC<PromotionWithAssistantComponentP
   
   return (
     <div>
-      <h2>Liste des promotions avec assistants</h2>
       <ul>
         {promotionWithAssistant.map((item, index) => (
           <li key={index}> 

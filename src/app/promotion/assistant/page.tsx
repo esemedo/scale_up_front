@@ -69,30 +69,44 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="flex justify-center items-center h-screen">
-      <div className="p-8 bg-white rounded-lg shadow-md w-3/4">
-        <h1 className="text-2xl font-bold my-4">Dashboard</h1>
+      <div className="w-full max-w-xl p-8 bg-white rounded-lg shadow-md">
+        <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
+  
         {/* Ajouter un assistant à une promotion */}
-        <AddAssistantToPromotionComponent 
-          promotions={promotions} 
-          assistants={assistants} 
-          onAddAssistantToPromotion={handleAddAssistantToPromotion} 
-          selectedAssistantId={selectedAssistantId} 
-          selectedPromotionId={selectedPromotionId} 
-          setSelectedAssistantId={setSelectedAssistantId} 
-          setSelectedPromotionId={setSelectedPromotionId} 
-        />
-
+        <div className="mb-8">
+          <h2 className="text-xl font-semibold mb-2">Ajouter un assistant à une promotion</h2>
+          <AddAssistantToPromotionComponent 
+            promotions={promotions} 
+            assistants={assistants} 
+            onAddAssistantToPromotion={handleAddAssistantToPromotion} 
+            selectedAssistantId={selectedAssistantId} 
+            selectedPromotionId={selectedPromotionId} 
+            setSelectedAssistantId={setSelectedAssistantId} 
+            setSelectedPromotionId={setSelectedPromotionId} 
+          />
+        </div>
+  
         {/* Liste des promotions */}
-        <PromotionComponent promotions={promotions} />
-
+        <div className="mb-8">
+          <h2 className="text-xl font-semibold mb-2">Liste des promotions</h2>
+          <PromotionComponent promotions={promotions} />
+        </div>
+  
         {/* Liste des assistants */}
-        <AssistantComponent assistants={assistants} />
-
+        <div className="mb-8">
+          <h2 className="text-xl font-semibold mb-2">Liste des assistants</h2>
+          <AssistantComponent assistants={assistants} />
+        </div>
+  
         {/* Liste des promotions avec assistant */}
-        <PromotionWithAssistantComponent promotionWithAssistant={promotionWithAssistant} promotions={promotions} assistants={assistants} />
+        <div>
+          <h2 className="text-xl font-semibold mb-2">Liste des promotions avec assistant</h2>
+          <PromotionWithAssistantComponent promotionWithAssistant={promotionWithAssistant} promotions={promotions} assistants={assistants} />
+        </div>
       </div>
     </div>
   );
+  
 };
 
 export default Dashboard;

@@ -14,7 +14,6 @@ interface AssistantComponentProps {
 const AssistantComponent: React.FC<AssistantComponentProps> = ({ assistants }) => {
   return (
     <div>
-      <h2>Liste des assistants</h2>
       <ul>
         {assistants.map(assistant => (
           <li key={assistant.id}>{assistant.name}</li>

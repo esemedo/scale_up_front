@@ -41,7 +41,6 @@ const AddAssistantToPromotionComponent: React.FC<AddAssistantProps> = ({ promoti
 
   return (
     <div>
-      <h2>Ajouter un assistant à une promotion</h2>
       <div>
         <label htmlFor="promotion">Sélectionner une promotion :</label>
         <select

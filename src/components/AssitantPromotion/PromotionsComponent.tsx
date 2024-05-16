@@ -14,7 +14,6 @@ interface PromotionComponentProps {
 const PromotionComponent: React.FC<PromotionComponentProps> = ({ promotions }) => {
   return (
     <div>
-      <h2>Liste des promotions</h2>
       <ul>
         {promotions.map(promotion => (
           <li key={promotion.id}>{promotion.name}</li>
