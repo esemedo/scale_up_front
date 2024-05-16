@@ -46,7 +46,7 @@ export const TypeList:React.FC<TypeListProps> = ({ SelectElement, TypeElement })
       <TabsList className="grid w-full grid-cols-3">
         <TabsTrigger value="subject"  onClick={() => handleTabsTriggerClick('subject')}>Matière/Module</TabsTrigger>
         <TabsTrigger value="category" onClick={() => handleTabsTriggerClick('category')}>Catégorie</TabsTrigger>
-        <TabsTrigger value="place" onClick={() => handleTabsTriggerClick('place')}>{`Lieu d'enseignement`}</TabsTrigger>
+        <TabsTrigger value="place" onClick={() => handleTabsTriggerClick('place')}>Lieu d'enseignement</TabsTrigger>
       </TabsList>
       <TabsContent value="subject">
         <Card>
@@ -60,7 +60,7 @@ export const TypeList:React.FC<TypeListProps> = ({ SelectElement, TypeElement })
       </TabsContent>
       <TabsContent value="place">
         <Card>
-        <Label>{`on doit attendre la story 2 du baklog 2 ou on fait l'ajout des lieux d'enseignements`}</Label>
+        <Label>on doit attendre la story 2 du baklog 2 ou on fait l'ajout des lieux d'enseignements</Label>
         </Card>
       </TabsContent>
     </Tabs>
