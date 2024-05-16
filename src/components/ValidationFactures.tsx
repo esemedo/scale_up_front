@@ -25,11 +25,12 @@ const ValidationFactures = () => {
   const [bills, setBills] = useState<Bill[]>([]);
   const [selectedBill, setSelectedBill] = useState<Bill | null>(null);
   const [message, setMessage] = useState('');
+  const api = process.env.NEXT_PUBLIC_API_URL;
 
   useEffect(() => {
     const fetchBills = async () => {
       try {
-        const response = await axios.get<Bill[]>('http://localhost:3000/api/bills');
+        const response = await axios.get<Bill[]>(`${api}/api/bills`);
         setBills(response.data);
       } catch (error) {
         console.error(error);
@@ -41,7 +42,7 @@ const ValidationFactures = () => {
 
   const validateBill = async (id: number) => {
     try {
-      await axios.put(`http://localhost:3000/api/bills/${id}/validate`);
+      await axios.put(`${api}/api/bills/${id}/validate`);
       setMessage('Facture validée avec succès');
       setBills(bills.map(bill => bill.id === id ? { ...bill, status: 1, validity: true } : bill));
       setSelectedBill(null);
@@ -54,7 +55,7 @@ const ValidationFactures = () => {
   
   const cancelBill = async (id: number) => {
     try {
-      await axios.put(`http://localhost:3000/api/bills/${id}/cancel`);
+      await axios.put(`${api}/api/bills/${id}/cancel`);
       setMessage('Facture annulée avec succès');
       setBills(bills.map(bill => bill.id === id ? { ...bill, status: 2, validity: false } : bill));
       setSelectedBill(null);
