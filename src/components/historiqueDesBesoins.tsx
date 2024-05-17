@@ -1,7 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import 'tailwindcss/tailwind.css';
 
 const HistoriqueBesoins: React.FC = () => {
   const [years, setYears] = useState<string[]>([]);
