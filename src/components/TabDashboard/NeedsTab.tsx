@@ -47,6 +47,7 @@ const NeedsTab = () => {
   const [message, setMessage] = useState("");
   const [needs, setNeeds] = useState<Need[]>([]);
   const [needsUpdated, setNeedsUpdated] = useState(false);
+  const [selectedStatus, setSelectedStatus] = useState("");
   const api = process.env.NEXT_PUBLIC_API_URL;
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -155,17 +156,19 @@ const NeedsTab = () => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <select
-          className="rounded border p-2"
-          onChange={(e) => setSortStatus(e.target.value)}
-        >
-          <option value="" disabled selected>
-            Trier par...
-          </option>
-          <option value="0">DRAFT</option>
-          <option value="1">PUBLISHED</option>
-          <option value="2">CANCELLED</option>
-        </select>
+<select 
+    value={selectedStatus}
+    className="rounded border p-2"
+    onChange={(e) => {
+        setSelectedStatus(e.target.value);
+        setSortStatus(e.target.value);
+    }}
+>
+    <option value="" disabled>Trier par...</option>
+    <option value="0">DRAFT</option>
+    <option value="1">PUBLISHED</option>
+    <option value="2">CANCELLED</option>
+</select>
       </div>
       <div className="max-h-[500px] w-1/3 overflow-auto rounded-lg border-r p-4">
         {needs.map((need) => (

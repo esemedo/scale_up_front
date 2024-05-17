@@ -82,7 +82,7 @@ const ValidationFactures = () => {
 
   const downloadBill = (id: number) => {
     const link = document.createElement("a");
-    link.href = `${api}/api/bills/${id}/download`; 
+    link.href = `${api}/api/bills/${id}/download`;
     link.setAttribute("download", `bill_${id}.pdf`);
     document.body.appendChild(link);
     link.click();
@@ -90,13 +90,15 @@ const ValidationFactures = () => {
   };
 
   const viewBill = (id: number) => {
-    const url = `${api}/api/bills/${id}/view`; 
+    const url = `${api}/api/bills/${id}/view`;
     window.open(url, "_blank");
   };
 
-
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center">
+    <div className="flex min-h-screen flex-col items-center justify-center ">
+      <div className="mb-5 rounded p-5 text-center text-3xl font-bold text-blue-500">
+        Validation des factures
+      </div>
       <div className="h-[700px] w-3/4 rounded-lg bg-white p-8 shadow-md">
         <div className="flex space-x-9 rounded-lg p-4">
           <div className="w-1/3 rounded-lg border-r p-4">
@@ -105,12 +107,6 @@ const ValidationFactures = () => {
               placeholder="Recherche..."
               className="mb-4 rounded border p-2"
             />
-            <button
-              className="mt-4 rounded bg-blue-500 p-2 text-white"
-              onClick={() => selectedBill && validateBill(selectedBill.id)}
-            >
-              Valider les factures
-            </button>
           </div>
           <div className="max-h-[500px] w-1/3 overflow-auto rounded-lg border-r p-4">
             {bills.map((bill) => (

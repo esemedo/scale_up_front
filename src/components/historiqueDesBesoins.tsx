@@ -56,8 +56,10 @@ const HistoriqueBesoins: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen ">
+                      <div className="rounded p-5 text-center text-4xl font-bold mb-5 text-blue-500">
+                      Historique des besoins par année
+        </div>
       <div className="p-8 bg-white rounded-lg shadow-md w-3/4 h-[700px]">
-        <h1 className='text-3xl font-bold mb-4'>Historique des besoins par année</h1>
         <div className='year-selector mb-4'>
           <label htmlFor="year" className='mr-2'>Sélectionnez une année :</label>
           <select id="year" value={selectedYear || ''} onChange={handleYearChange} className='border rounded-md px-2 py-1'>
