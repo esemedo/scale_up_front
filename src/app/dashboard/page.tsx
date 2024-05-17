@@ -55,7 +55,7 @@ export default function dashboard() {
                           <Checkbox/>
                </CardContent>
                     <CardFooter className="p-2">
-                    <TaskCard/>
+                                             <TaskCard/>
 
                     </CardFooter>
                 </Card>
