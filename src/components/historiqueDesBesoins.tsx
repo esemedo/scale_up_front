@@ -1,7 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import 'tailwindcss/tailwind.css';
 import { useSession } from 'next-auth/react';
 const api = process.env.NEXT_PUBLIC_API_URL;
 
