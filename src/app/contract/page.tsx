@@ -60,68 +60,123 @@ export default function Page() {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <label htmlFor="hourlyPrice"></label>
-        <input
-          {...register("hourlyPrice")}
-          type="number"
-          name="hourlyPrice"
-          id="hourlyPrice"
-          placeholder="prix horaire"
-        />
+    <div className="flex min-h-screen items-center justify-center bg-gray-100">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="w-full max-w-md rounded-lg bg-white p-8 shadow-lg"
+      >
+        <h2 className="mb-6 text-2xl font-bold text-gray-800">
+          Générer un contrat
+        </h2>
 
-        {errors.hourlyPrice && (
-          <div className="text-red-700">{errors.hourlyPrice.message}</div>
-        )}
+        <div className="mb-4">
+          <label
+            htmlFor="hourlyPrice"
+            className="mb-2 block font-semibold text-gray-700"
+          >
+            Prix horaire
+          </label>
+          <input
+            {...register("hourlyPrice")}
+            type="number"
+            name="hourlyPrice"
+            id="hourlyPrice"
+            placeholder="Prix horaire"
+            className={`form-input w-full rounded-lg border px-4 py-2 ${
+              errors.hourlyPrice ? "border-red-500" : "border-gray-300"
+            } focus:border-blue-500 focus:outline-none`}
+          />
+          {errors.hourlyPrice && (
+            <div className="mt-1 text-sm text-red-500">
+              {errors.hourlyPrice.message}
+            </div>
+          )}
+        </div>
 
-        <label htmlFor="hoursVolume"></label>
-        <input
-          {...register("hoursVolume")}
-          type="number"
-          name="hoursVolume"
-          id="hoursVolume"
-          placeholder="volume d'heure"
-        />
+        <div className="mb-4">
+          <label
+            htmlFor="hoursVolume"
+            className="mb-2 block font-semibold text-gray-700"
+          >
+            Volume heure
+          </label>
+          <input
+            {...register("hoursVolume")}
+            type="number"
+            name="hoursVolume"
+            id="hoursVolume"
+            placeholder="Volume d'heure"
+            className={`form-input w-full rounded-lg border px-4 py-2 ${
+              errors.hoursVolume ? "border-red-500" : "border-gray-300"
+            } focus:border-blue-500 focus:outline-none`}
+          />
+          {errors.hoursVolume && (
+            <div className="mt-1 text-sm text-red-500">
+              {errors.hoursVolume.message}
+            </div>
+          )}
+        </div>
 
-        {errors.hoursVolume && (
-          <div className="text-red-700">{errors.hoursVolume.message}</div>
-        )}
+        <div className="mb-4">
+          <label
+            htmlFor="startDate"
+            className="mb-2 block font-semibold text-gray-700"
+          >
+            Date de début
+          </label>
+          <input
+            {...register("startDate")}
+            type="date"
+            name="startDate"
+            id="startDate"
+            placeholder="Date de début"
+            className={`form-input w-full rounded-lg border px-4 py-2 ${
+              errors.startDate ? "border-red-500" : "border-gray-300"
+            } focus:border-blue-500 focus:outline-none`}
+          />
+          {errors.startDate && (
+            <div className="mt-1 text-sm text-red-500">
+              {errors.startDate.message}
+            </div>
+          )}
+        </div>
 
-        <label htmlFor="startDate"></label>
-        <input
-          {...register("startDate")}
-          type="date"
-          name="startDate"
-          id="startDate"
-          placeholder="startDate"
-        />
+        <div className="mb-4">
+          <label
+            htmlFor="endDate"
+            className="mb-2 block font-semibold text-gray-700"
+          >
+            Date de fin
+          </label>
+          <input
+            {...register("endDate")}
+            type="date"
+            name="endDate"
+            id="endDate"
+            placeholder="Date de fin"
+            className={`form-input w-full rounded-lg border px-4 py-2 ${
+              errors.endDate ? "border-red-500" : "border-gray-300"
+            } focus:border-blue-500 focus:outline-none`}
+          />
+          {errors.endDate && (
+            <div className="mt-1 text-sm text-red-500">
+              {errors.endDate.message}
+            </div>
+          )}
+        </div>
 
-        {errors.startDate && (
-          <div className="text-red-700">{errors.startDate.message}</div>
-        )}
-
-        <label htmlFor="endDate"></label>
-        <input
-          {...register("endDate")}
-          type="date"
-          name="endDate"
-          id="endDate"
-          placeholder="endDate"
-        />
-
-        {errors.endDate && (
-          <div className="text-red-700">{errors.endDate.message}</div>
-        )}
-
-        <button disabled={isSubmitting} type="submit">
+        <button
+          disabled={isSubmitting}
+          type="submit"
+          className="w-full rounded-lg bg-blue-500 py-2 text-white transition duration-200 hover:bg-blue-600 disabled:opacity-50"
+        >
           {isSubmitting
-            ? "contrat en cours de génération..."
-            : "générer le contat"}
+            ? "Contrat en cours de génération..."
+            : "Générer le contrat"}
         </button>
 
         {errors.root && (
-          <div className="text-red-700">{errors.root.message}</div>
+          <div className="mt-4 text-sm text-red-500">{errors.root.message}</div>
         )}
       </form>
     </div>
