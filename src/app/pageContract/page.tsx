@@ -4,6 +4,7 @@ import React from "react";
 function page() {
   return (
     <>
+      -{" "}
       <div className="min-h-screen bg-gray-100 py-8">
         <Head>
           <title>Contrat de Travail</title>
