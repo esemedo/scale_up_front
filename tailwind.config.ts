@@ -1,13 +1,23 @@
-/** @type {import('tailwindcss').Config} */
-module.exports = {
+import type { Config } from "tailwindcss";
+
+import defaultTheme from "tailwindcss/defaultTheme";
+
+const config = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
-	],
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
+  ],
+  prefix: "",
   theme: {
+    fontFamily: {
+      sans: [...defaultTheme.fontFamily.sans],
+      serif: [...defaultTheme.fontFamily.serif],
+      mono: [...defaultTheme.fontFamily.mono],
+      title: ["Krona One", ...defaultTheme.fontFamily.sans],
+    },
     container: {
       center: true,
       padding: "2rem",
@@ -15,13 +25,22 @@ module.exports = {
         "2xl": "1400px",
       },
     },
+
     extend: {
+      backgroundImage: {
+        "back-pattern": "url('/img/background.svg')",
+        "dark-gradient":
+          "radial-gradient(50% 50% at 50% 50%, #101E49 0%, #0E1625 100%);",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        "white-polar": "#F0F2FC",
+        "light-gray": "#DFE1EA",
+        "electric-blue": "#0047FF",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -58,19 +77,24 @@ module.exports = {
       },
       keyframes: {
         "accordion-down": {
-          from: { height: 0 },
+          from: { height: "0" },
           to: { height: "var(--radix-accordion-content-height)" },
         },
         "accordion-up": {
           from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: 0 },
+          to: { height: "0" },
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      spacing: {
+        "6.5": "1.625rem",
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],
-}
+} satisfies Config;
+
+export default config;
