@@ -1,15 +1,17 @@
 "use client";
 import { useEffect, useState } from "react";
+import { useSession } from 'next-auth/react';
 import { LoadingSpinner } from "@/components/LoadingSpinner/LoadingSpinner";
 
 function ListeIntervenant() {
   const [companies, setCompanies] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { data: session  } = useSession();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/company");
+        const response = await fetch("http://localhost:3000/api/company",{headers:{Authorization: `Bearer ${session?.accessToken}`}});
         if (!response.ok) {
           throw new Error("Failed to fetch data");
         }
@@ -21,9 +23,10 @@ function ListeIntervenant() {
         setLoading(false);
       }
     };
-
-    fetchData();
-  }, []);
+    if(session){
+      fetchData();
+    }
+  }, [session]);
 
   if (loading) {
     return <LoadingSpinner />;
@@ -35,7 +38,7 @@ function ListeIntervenant() {
         <div key={company.id}>
           <h1>{company.name}</h1>
           <p>{company.phone}</p>
-          <p>{company.email}</p>
+          <p>{company.mail}</p>
         </div>
       ))}
     </div>
