@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { MultiSelect } from "react-multi-select-component";
 import Alert from "@mui/material/Alert";
+import { useSession } from "next-auth/react";
 
 const FormulaireBesoin: React.FC = () => {
   const [promotions, setPromotions] = useState<any[]>([]);
@@ -11,10 +12,12 @@ const FormulaireBesoin: React.FC = () => {
   const [selectedSubjects, setSelectedSubjects] = useState<any[]>([]);
   const api = process.env.NEXT_PUBLIC_API_URL;
   const [alert, setAlert] = useState<JSX.Element | null>(null);
+  const { data: session  } = useSession();
+
 
   const fetchPromotions = async () => {
     try {
-      const response = await axios.get<any[]>(`${api}/api/promotions`);
+      const response = await axios.get<any[]>(`${api}/api/promotions`,{headers:{Authorization: `Bearer ${session?.accessToken}`}});
       setPromotions(response.data);
     } catch (error) {
       console.error("Error fetching promotions:", error);
@@ -23,7 +26,7 @@ const FormulaireBesoin: React.FC = () => {
 
   const fetchContributors = async () => {
     try {
-      const response = await axios.get<any[]>(`${api}/api/contributors`);
+      const response = await axios.get<any[]>(`${api}/api/contributors`,{headers:{Authorization: `Bearer ${session?.accessToken}`}});
       setContributors(response.data);
     } catch (error) {
       console.error("Error fetching contributors:", error);
@@ -32,7 +35,7 @@ const FormulaireBesoin: React.FC = () => {
 
   const fetchSubjects = async () => {
     try {
-      const response = await axios.get<any[]>(`${api}/api/subjects`);
+      const response = await axios.get<any[]>(`${api}/api/subjects`,{headers:{Authorization: `Bearer ${session?.accessToken}`}});
       setSubjects(response.data);
     } catch (error) {
       console.error("Error fetching subjects:", error);
@@ -40,10 +43,13 @@ const FormulaireBesoin: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchPromotions();
+    if (session){
+     fetchPromotions();
     fetchContributors();
     fetchSubjects();
-  }, []);
+    }
+    
+  }, [session]);
 
   const handleSubmit = function (event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -69,7 +75,7 @@ const FormulaireBesoin: React.FC = () => {
           connect: subjects.map((subject) => ({ id: parseInt(subject) })),
         },
         hoursVolume: totalHours,
-      })
+      },{headers:{Authorization: `Bearer ${session?.accessToken}`}})
       .then((response) => {
         console.log("Need created:", response.data);
         if (response.status === 201) {
