@@ -43,6 +43,7 @@ const Page = () => {
   const handleChangePriority = (priority: number |string)=>{
     setPriority(priority)
   } 
+  const [data, setData] = React.useState<Dei[]>([]); 
 
 
 useEffect(() => {
@@ -53,8 +54,8 @@ useEffect(() => {
 }, [selectedItem]);
   return (
     <div className="group-componen mx-36 mt-8 flex justify-center gap-3 rounded-lg p-8 pt-16 font-main">
-      <ScrollArea className="left-side mx-auto mt-2 w-2/6 rounded-3xl bg-white p-8 shadow-lg">
-        <h3 className="text-lg ">Mes tâches</h3>
+      <ScrollArea className="left-side mx-s mt-2 w-2/6 rounded-3xl bg-white flex flex-col items-center ml-2 shadow-lg">
+       <div className="w-full py-4"> <h3 className="text-lg text-left ">Mes tâches</h3></div>
         <Tabs defaultValue="0" className="w-full">
           <TabsList className="grid w-full grid-cols-2 bg-transparent">
             <TabsTrigger className='data-[state=active]:border-solid data-[state=active]:border-b-2 data-[state=active]:border-electric-blue' value="0">A faire</TabsTrigger>
@@ -63,30 +64,35 @@ useEffect(() => {
             <TabsTrigger className='data-[state=active]:border-solid data-[state=active]:border-b-2 data-[state=active]:border-electric-blue' value="3">Terminée</TabsTrigger>
           </TabsList>
           <TabsContent value="0">
-            <ListTasks updateState={statusUpdated} key={0} status={0} session={session} selectedItem={selectedItem} handleItemClick={handleItemClick} />
+            <ListTasks data={data} setData={setData} updateState={statusUpdated} key={0} status={0} session={session} selectedItem={selectedItem} handleItemClick={handleItemClick} />
           </TabsContent>
           <TabsContent value="1">
-            <ListTasks updateState={statusUpdated} key={1}  status={1} session={session} selectedItem={selectedItem} handleItemClick={handleItemClick} />
+            <ListTasks  data={data} setData={setData} updateState={statusUpdated} key={1}  status={1} session={session} selectedItem={selectedItem} handleItemClick={handleItemClick} />
           </TabsContent>
           <TabsContent value="2">
-            <ListTasks updateState={statusUpdated} key={2}  status={2} session={session} selectedItem={selectedItem} handleItemClick={handleItemClick} />
+            <ListTasks data={data} setData={setData} updateState={statusUpdated} key={2}  status={2} session={session} selectedItem={selectedItem} handleItemClick={handleItemClick} />
           </TabsContent>
           <TabsContent value="3">
-            <ListTasks updateState={statusUpdated} key={3}  status={3} session={session} selectedItem={selectedItem} handleItemClick={handleItemClick} />
+            <ListTasks data={data} setData={setData} updateState={statusUpdated} key={3}  status={3} session={session} selectedItem={selectedItem} handleItemClick={handleItemClick} />
           </TabsContent>
         </Tabs>
         <ScrollBar orientation="horizontal" />
       </ScrollArea>
-        <div className="right-side mx-auto w-4/5">
+        <div className="right-side mx-auto w-4/6">
         <ScrollArea className="top mx-auto mt-2 flex flex-row gap-y-2 rounded-3xl bg-white shadow-lg h-96">
             {selectedItem !== null && selectedItem !== undefined && 
             <>
-            <CardDei update={handleRefreshData} dei={selectedItem} key={selectedItem.id} disabled={disabled} session={session}/>
-            <StatusBanner session={session} dei={selectedItem} setStatusUpdated={setStatusUpdated} />
+            <div className="w-2/3">
+              <CardDei update={handleRefreshData} dei={selectedItem} key={selectedItem.id} disabled={disabled} session={session}/>
+            </div>
+            <div className="w-1/3">
+
+             <StatusBanner session={session} dei={selectedItem} setStatusUpdated={setStatusUpdated} />
+            </div>
            </> } 
            <ScrollBar orientation="horizontal" />
           </ScrollArea>
-          <Calendar/>
+          <Calendar data={data} />
         </div>
       </div>
     

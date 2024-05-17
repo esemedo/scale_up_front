@@ -23,11 +23,11 @@ const  StatusBanner : FC<Dei> = ({dei, setStatusUpdated, session}) => {
   
   return (
     <div className="bg-primary rounded-r-3xl w-full py-5 px-3 h-full flex flex-col justify-between gap-12">
-        <p className="text-white">Statut : {STATUS[ dei?.status? 1:0]} </p>
+        <p className="text-white">Statut : {STATUS[ dei?.status]} </p>
         <div className="flex flex-col justify-self-end">
-        <button className="bg-orange-500 text-white rounded-3xl p-2 text-xs" onClick={()=>{updateStatus(0)}}>Mettre en attente</button>   
+        <button className="bg-orange-500 text-white rounded-3xl p-2 text-xs" onClick={()=>{updateStatus(1)}}>Mettre en attente</button>   
 
-        <button className="bg-electric-blue text-white rounded-3xl p-2 text-xs" onClick={()=>{updateStatus(1)}}>Marquer comme complétée</button>   
+        <button className="bg-electric-blue text-white rounded-3xl p-2 text-xs" onClick={()=>{updateStatus(2)}}>Marquer comme complétée</button>   
     </div></div>
   );
 }

@@ -42,10 +42,14 @@ interface StatusConfig {
     priority: boolean;
   };
 }
-type TasksProps = { id: number; status: number, priority :number }
+type TasksProps = { id: number; status: number, priority :number ,  sashaStatus?: number;}
+type Calendar = {
 
+    data : Array<{id: number; dueDate: string;}>;
+}
 type ListTasksProps = {
-    // data : Array<TasksProps>;
+    data : Array<TasksProps>;
+    setData: Function
     updateState: boolean
     status: number
     session: Session | null

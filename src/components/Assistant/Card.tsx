@@ -89,7 +89,7 @@ function CardDei({dei, disabled, session, update}: DeiProps) {
 
   return (
       <FormProvider {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col items-center justify-center'>
         <h1 className="text-3xl font-bold text-[#41494e]">Tâche n°{dei?.id}</h1>
         <div className="flex justify-between gap-2">
             <InputInfoDei form={form} label="Date d'écheance" property='dueDate' type='date' readOnly={disabled.dueDate} />
@@ -103,7 +103,7 @@ function CardDei({dei, disabled, session, update}: DeiProps) {
         </div>
         <Label htmlFor="purchaseOrder">Bon de commande</Label>
         {dei.sashaStatus == 3 ? 
-            <Card>
+            <Card className='w-4/5 h-24'>
                 <CardContent>
                     {dei.purchaseOrder.map((purchaseOrder, index) => <Badge key={index}>{purchaseOrder.fileUrl ?? ""}</Badge>)}
                 </CardContent>   
