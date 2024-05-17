@@ -17,18 +17,14 @@ function Home() {
   const [currentComponent, setCurrentComponent] = useState("dashboard");
 
   useEffect(() => {
-    if (
-      process.env.NODE_ENV !== "development" &&
-      status === "unauthenticated"
-    ) {
+    if (status === "unauthenticated") {
       signIn("keycloak", {
         callbackUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/`,
       }); // Force sign in if not authenticated
       //!!! ROLES ARE IN session.user.roles when authenticated !!!
     }
   }, [session]);
-
-  if (process.env.NODE_ENV !== "development" && status === "unauthenticated")
+  if (status === "unauthenticated")
     return (
       <div>
         <LoadingSpinner />
