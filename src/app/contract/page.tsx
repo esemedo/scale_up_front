@@ -68,7 +68,7 @@ export default function Page() {
           type="number"
           name="hourlyPrice"
           id="hourlyPrice"
-          placeholder="hourlyPrice"
+          placeholder="prix horaire"
         />
 
         {errors.hourlyPrice && (
@@ -81,7 +81,7 @@ export default function Page() {
           type="number"
           name="hoursVolume"
           id="hoursVolume"
-          placeholder="hoursVolume"
+          placeholder="volume d'heure"
         />
 
         {errors.hoursVolume && (
