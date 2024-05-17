@@ -5,6 +5,8 @@ import Papa from 'papaparse';
 import * as XLSX from 'xlsx';
 import { FaLightbulb } from 'react-icons/fa';
 import { useSession } from 'next-auth/react';
+const api = process.env.NEXT_PUBLIC_API_URL;
+
 
 interface Promotion {
     id: number;
@@ -53,14 +55,17 @@ const PromotionTab = () => {
     
 
     useEffect(() => {
+        if (session){
         getAllPromo();
         getNeeds();
         getUsers();
-    }, []);
+        }
+        
+    }, [session]);
 
     const getAllPromo = async () => {
         try {
-            const response = await axios.get<Promotion[]>(`${api}/api/promotions`);
+            const response = await axios.get<Promotion[]>(`${api}/api/promotions`,{headers:{Authorization: `Bearer ${session?.accessToken}`}});
             setPromotions(response.data);
         } catch (error) {
             console.error(error);
@@ -80,7 +85,7 @@ const PromotionTab = () => {
 
     const getUsers = async () => {
         try {
-            const response = await axios.get<User[]>(`${api}/api/users`);
+            const response = await axios.get<User[]>(`${api}/api/users`,{headers:{Authorization: `Bearer ${session?.accessToken}`}});
             setUsers(response.data);
         } catch (error) {
             console.error(error);
@@ -137,7 +142,7 @@ const PromotionTab = () => {
         };
 
         axios
-            .post(`${api}/api/promotions/upload`, requestData)
+            .post(`${api}/api/promotions/upload`, requestData,{headers:{Authorization: `Bearer ${session?.accessToken}`}})
             .then((response) => {
                 console.log(response.data);
                 setMessage(response.data.message);

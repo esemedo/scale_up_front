@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios, { AxiosError } from "axios";
+import { useSession } from 'next-auth/react';
+const api = process.env.NEXT_PUBLIC_API_URL;
+
 
 interface Bill {
   id: number;
@@ -26,23 +29,26 @@ const ValidationFactures = () => {
   const [selectedBill, setSelectedBill] = useState<Bill | null>(null);
   const [message, setMessage] = useState("");
   const api = process.env.NEXT_PUBLIC_API_URL;
+  const { data: session  } = useSession();
 
   useEffect(() => {
     const fetchBills = async () => {
       try {
-        const response = await axios.get<Bill[]>(`${api}/api/bills`);
+        const response = await axios.get<Bill[]>(`${api}/api/bills`,{headers:{Authorization: `Bearer ${session?.accessToken}`}});
         setBills(response.data);
       } catch (error) {
         console.error(error);
       }
     };
+    if (session){
+      fetchBills();
+    }
 
-    fetchBills();
-  }, [api]);
+  }, [api,session]);
 
   const validateBill = async (id: number) => {
     try {
-      await axios.put(`${api}/api/bills/${id}/validate`);
+      await axios.put(`${api}/api/bills/${id}/validate`,{headers:{Authorization: `Bearer ${session?.accessToken}`}});
       setMessage("Facture validée avec succès");
       setBills(
         bills.map((bill) =>
@@ -59,7 +65,7 @@ const ValidationFactures = () => {
 
   const cancelBill = async (id: number) => {
     try {
-      await axios.put(`${api}/api/bills/${id}/cancel`);
+      await axios.put(`${api}/api/bills/${id}/cancel`,{headers:{Authorization: `Bearer ${session?.accessToken}`}});
       setMessage("Facture annulée avec succès");
       setBills(
         bills.map((bill) =>
