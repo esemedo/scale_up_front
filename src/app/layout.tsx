@@ -1,4 +1,6 @@
-import type { Metadata } from "next";
+import type { Metadata } from "next"
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { Inter } from "next/font/google";
 import "./globals.css";
 import NextAuthProvider from "@/app/context/NextAuthProvider";
@@ -20,6 +22,7 @@ export default async function RootLayout({
       <body
         className={`h-screen ${inter.className} bg-back-pattern bg-light-gray bg-background bg-cover bg-center bg-no-repeat font-light`}
       >
+        <ToastContainer />
         <NextAuthProvider>{children}</NextAuthProvider>
       </body>
     </html>
