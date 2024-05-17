@@ -3,46 +3,57 @@ import axios from 'axios';
 import { TextField, Button, Select, MenuItem, FormControl, InputLabel, FormHelperText } from '@mui/material';
 import { MultiSelect } from 'react-multi-select-component';
 
+interface Promotion {
+    id: number;
+    startSchoolYear: number;
+    endSchoolYear: number;
+}
+
+interface Contributor {
+    id: number;
+    firstName: string;
+    lastName: string;
+}
+
+interface Subject {
+    id: number;
+    name: string;
+}
+
 const SearchForm: React.FC = () => {
-    const [promotions, setPromotions] = useState<any[]>([]);
-    const [contributors, setContributors] = useState<any[]>([]);
-    const [subjects, setSubjects] = useState<any[]>([]);
+    const [promotions, setPromotions] = useState<Promotion[]>([]);
+    const [contributors, setContributors] = useState<Contributor[]>([]);
+    const [subjects, setSubjects] = useState<Subject[]>([]);
     const [selectedSubjects, setSelectedSubjects] = useState<any[]>([]);
     const api = process.env.NEXT_PUBLIC_API_URL;
 
     useEffect(() => {
-        // Appeler les fonctions pour récupérer les données
-        (async () => {
-            await fetchPromotions();
-            await fetchContributors();
-            await fetchSubjects();
-        })();
+        fetchPromotions();
+        fetchContributors();
+        fetchSubjects();
     }, []);
 
-    // Fonction pour récupérer les promotions
     const fetchPromotions = async () => {
         try {
-            const response = await axios.get<any[]>(`${api}/api/promotions`);
+            const response = await axios.get<Promotion[]>(`${api}/api/promotions`);
             setPromotions(response.data);
         } catch (error) {
             console.error('Error fetching promotions:', error);
         }
     };
 
-    // Fonction pour récupérer les contributeurs
     const fetchContributors = async () => {
         try {
-            const response = await axios.get<any[]>(`${api}/api/contributors`);
+            const response = await axios.get<Contributor[]>(`${api}/api/contributors`);
             setContributors(response.data);
         } catch (error) {
             console.error('Error fetching contributors:', error);
         }
     };
 
-    // Fonction pour récupérer les matières
     const fetchSubjects = async () => {
         try {
-            const response = await axios.get<any[]>(`${api}/api/subjects`);
+            const response = await axios.get<Subject[]>(`${api}/api/subjects`);
             setSubjects(response.data);
         } catch (error) {
             console.error('Error fetching subjects:', error);
@@ -66,15 +77,11 @@ const SearchForm: React.FC = () => {
                         label="Promotion"
                         required
                     >
-                        {promotions.length > 0 ? (
-                            promotions.map((promotion) => (
-                                <MenuItem key={promotion.id} value={promotion.id}>
-                                    {promotion.startSchoolYear}-{promotion.endSchoolYear}
-                                </MenuItem>
-                            ))
-                        ) : (
-                            <MenuItem disabled>Aucune promotion disponible</MenuItem>
-                        )}
+                        {promotions.map((promotion) => (
+                            <MenuItem key={promotion.id} value={promotion.id}>
+                                {promotion.startSchoolYear}-{promotion.endSchoolYear}
+                            </MenuItem>
+                        ))}
                     </Select>
                     <FormHelperText>Sélectionnez une promotion</FormHelperText>
                 </FormControl>
@@ -96,22 +103,19 @@ const SearchForm: React.FC = () => {
                         label="Intervenant"
                         required
                     >
-                        {contributors.length > 0 ? (
-                            contributors.map((contributor) => (
-                                <MenuItem key={contributor.id} value={contributor.id}>
-                                    {contributor.firstName} {contributor.lastName}
-                                </MenuItem>
-                            ))
-                        ) : (
-                            <MenuItem disabled>Aucun intervenant disponible</MenuItem>
-                        )}
+                        {contributors.map((contributor) => (
+                            <MenuItem key={contributor.id} value={contributor.id}>
+                                {contributor.firstName} {contributor.lastName}
+                            </MenuItem>
+                        ))}
                     </Select>
                     <FormHelperText>Sélectionnez un intervenant</FormHelperText>
                 </FormControl>
 
-                <Button type="submit" variant="contained" color="primary">
-                    Rechercher
+                <Button type="submit" variant="contained" color="primary" style={{ backgroundColor: '#3f51b5' }}>
+                Rechercher
                 </Button>
+
             </form>
         </div>
     );
