@@ -92,25 +92,34 @@ const SearchForm: React.FC = () => {
                     onChange={setSelectedSubjects}
                     labelledBy="Sélectionnez les matières"
                     overrideStrings={{ selectSomeItems: 'Sélectionnez les matières' }}
-                    className="w-full"
+                    className="w-full mb-4" // Ajouter une marge en bas
                 />
 
-                <FormControl className="mb-4 w-full">
+                <FormControl className="mb-4 w-full" style={{ zIndex: 1 }}>
                     <InputLabel id="contributor-label">Intervenant</InputLabel>
                     <Select
                         labelId="contributor-label"
                         id="contributor"
                         label="Intervenant"
                         required
+                        style={{ zIndex: 2 }}
                     >
-                        {contributors.map((contributor) => (
-                            <MenuItem key={contributor.id} value={contributor.id}>
-                                {contributor.firstName} {contributor.lastName}
-                            </MenuItem>
-                        ))}
+                        {contributors.length > 0 ? (
+                            contributors.map((contributor) => (
+                                <MenuItem key={contributor.id} value={contributor.id}>
+                                    {contributor.firstName} {contributor.lastName}
+                                </MenuItem>
+                            ))
+                        ) : (
+                            <MenuItem disabled>Aucun intervenant disponible</MenuItem>
+                        )}
                     </Select>
                     <FormHelperText>Sélectionnez un intervenant</FormHelperText>
                 </FormControl>
+
+
+
+
 
                 <Button type="submit" variant="contained" color="primary" style={{ backgroundColor: '#3f51b5' }}>
                 Rechercher
