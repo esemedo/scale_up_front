@@ -1,11 +1,19 @@
-import { ErrorMessage, Field } from "formik";
 import { Input } from "@/components/ui/input";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Control } from "react-hook-form";
 
 type TextInputProps = {
   label: string;
   name: string;
   type: string;
   placeholder?: string;
+  control?: Control<any> | undefined;
 };
 
 export const TextInput = ({
@@ -13,30 +21,33 @@ export const TextInput = ({
   name,
   type,
   placeholder,
+  control,
 }: TextInputProps) => {
   return (
-    <div className={"relative flex flex-1 flex-col gap-2"}>
-      <label
-        className={
-          'absolute -top-2.5 left-3 bg-white px-1 text-sm after:text-red-600 after:content-["*"]'
-        }
-        htmlFor={name}
-      >
-        {label}
-      </label>
-      <Field
-        className={"rounded border border-black p-3.5"}
-        type={type}
-        id={name}
-        name={name}
-        placeholder={placeholder || label}
-      />
-      <Input className={"rounded border border-black p-3.5"} />
-      <ErrorMessage
-        className={"text-sm font-normal italic text-red-600"}
-        component={"span"}
-        name={name}
-      />
-    </div>
+    <FormField
+      control={control}
+      name={name}
+      render={({ field }) => (
+        <FormItem className={"relative flex flex-1 flex-col gap-2"}>
+          <FormLabel
+            className={
+              'absolute -top-2.5 left-3 line-clamp-1 bg-white text-sm after:text-red-600 after:content-["*"]'
+            }
+            htmlFor={name}
+          >
+            {label}
+          </FormLabel>
+          <FormControl>
+            <Input
+              placeholder={placeholder || label}
+              {...field}
+              type={type}
+              className={"rounded border border-black p-3.5"}
+            />
+          </FormControl>
+          <FormMessage className={"text-sm font-light"} />
+        </FormItem>
+      )}
+    />
   );
 };
