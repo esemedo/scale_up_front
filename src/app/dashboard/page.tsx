@@ -99,7 +99,6 @@ const Page = () => {
           {selectedItem !== null && selectedItem !== undefined && (
             <>
               <CardDei update={handleRefreshData} dei={selectedItem} key={selectedItem.id} disabled={disabled} session={session} />
-              <StatusBanner session={session} dei={selectedItem} setStatusUpdated={setStatusUpdated} />
             </>
           )}
           <ScrollBar orientation="horizontal" />

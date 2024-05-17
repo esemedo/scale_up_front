@@ -96,8 +96,7 @@ function CardDei({dei, disabled, session, update}: DeiProps) {
             <SelectComponent form={form} placeholder="Sélectionner une priorité" options={PRIORITY} label="Priorité" property='priority' disabled={disabled.priority} />
         
         </div>
-            <SelectComponent form={form} placeholder="Sélectionner un statut" options={dei.sashaStatus >= 2 ?SACHA_STATUS: SACHA_STATUS.filter(status => SACHA_STATUS.indexOf(status) !== 2)} label="Statut SACHA" property='sashaStatus' disabled={disabled.sashaStatus} />
-        <div className="field-groupe flex flex-row gap-2">
+        <SelectComponent form={form} placeholder="Sélectionner un statut" options={session.user.roles.includes("management-controller") ?SACHA_STATUS :dei.sashaStatus >= 2 ?SACHA_STATUS: SACHA_STATUS.filter(status => SACHA_STATUS.indexOf(status) !== 2)} label="Statut SACHA" property='sashaStatus' disabled={disabled.sashaStatus} />        <div className="field-groupe flex flex-row gap-2">
             <InputInfoDei form={form} label="Tarif horaire en €" property='hourlyPrice' type='text' readOnly={disabled.hourlyPrice} />
             <InputInfoDei form={form} label="Prix total en €" property='totalPrice' type='text' readOnly={disabled.totalPrice} />
         </div>
