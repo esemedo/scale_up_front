@@ -16,6 +16,7 @@ function Home() {
       //!!! ROLES ARE IN session.user.roles when authenticated !!!
     }
   }, [session]);
+  const authorizedUser = !session?.user.roles.includes("speaker-company");
   
   return (
     <div className={"flex flex-col"}>
@@ -23,7 +24,9 @@ function Home() {
         <button onClick={() => signOut()}>Sign out</button>
         welcome to home{session?.user?.name}
       </>
-      <Link href="/company">company</Link>
+      {authorizedUser && (
+        <Link href="/company">company</Link>
+      )}
     </div>
   );
 }
