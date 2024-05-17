@@ -87,7 +87,7 @@ export default function Factures() {
                                     
                                 <button className="bg-black mr-4 p-2 px-6 hover:bg-gray-800 active:bg-slate-500 flex items-center justify-center space-x-2 rounded-full text-white w-3/4">
                                         <FiCheckSquare/>
-                                    <p> Génerer mon bilan</p>
+                                    <p> Générer mon bilan</p>
                                 </button>
                                     
                                 </form>
