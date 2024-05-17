@@ -66,11 +66,15 @@ const SearchForm: React.FC = () => {
                         label="Promotion"
                         required
                     >
-                        {promotions.map((promotion) => (
-                            <MenuItem key={promotion.id} value={promotion.id}>
-                                {promotion.startSchoolYear}-{promotion.endSchoolYear}
-                            </MenuItem>
-                        ))}
+                        {promotions.length > 0 ? (
+                            promotions.map((promotion) => (
+                                <MenuItem key={promotion.id} value={promotion.id}>
+                                    {promotion.startSchoolYear}-{promotion.endSchoolYear}
+                                </MenuItem>
+                            ))
+                        ) : (
+                            <MenuItem disabled>Aucune promotion disponible</MenuItem>
+                        )}
                     </Select>
                     <FormHelperText>Sélectionnez une promotion</FormHelperText>
                 </FormControl>
@@ -92,11 +96,15 @@ const SearchForm: React.FC = () => {
                         label="Intervenant"
                         required
                     >
-                        {contributors.map((contributor) => (
-                            <MenuItem key={contributor.id} value={contributor.id}>
-                                {contributor.firstName} {contributor.lastName}
-                            </MenuItem>
-                        ))}
+                        {contributors.length > 0 ? (
+                            contributors.map((contributor) => (
+                                <MenuItem key={contributor.id} value={contributor.id}>
+                                    {contributor.firstName} {contributor.lastName}
+                                </MenuItem>
+                            ))
+                        ) : (
+                            <MenuItem disabled>Aucun intervenant disponible</MenuItem>
+                        )}
                     </Select>
                     <FormHelperText>Sélectionnez un intervenant</FormHelperText>
                 </FormControl>
