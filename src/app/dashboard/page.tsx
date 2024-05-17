@@ -46,7 +46,7 @@ export default function dashboard() {
                     <SelectValue placeholder="Choisir une option" />
                 </SelectTrigger>
                 <SelectContent>
-                    <SelectItem value="light">Priorité</SelectItem>
+                    <SelectItem value="light">PrioritÃ©</SelectItem>
                     <SelectItem value="dark">Date</SelectItem>
                     <SelectItem value="system">System</SelectItem>
                             </SelectContent>
@@ -55,21 +55,19 @@ export default function dashboard() {
                           <Checkbox/>
                </CardContent>
                     <CardFooter className="p-2">
-                                             <TaskCard/>
+                    <TaskCard/>
 
                     </CardFooter>
                 </Card>
                         
                 <Card className="w-1/2 bg-white shadow-md rounded-lg overflow-hidden">
                     <CardHeader>
-                        {/* Contenu du CardHeader */}
                     </CardHeader>
                     <CardContent className="p-4">
                         
                          
                     </CardContent>
                     <CardFooter className="p-2">
-                        {/* Contenu du CardFooter */}
                     </CardFooter>
                 </Card>
                 </div>
