@@ -18,6 +18,8 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs"
 import CardDei from "@/components/Assistant/Card";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 
 const Page = () => {
@@ -55,7 +57,10 @@ useEffect(() => {
   return (
     <div className="group-componen mx-36 mt-8 flex justify-center gap-3 rounded-lg p-8 pt-16 font-main">
       <ScrollArea className="left-side mx-s mt-2 w-2/6 rounded-3xl bg-white flex flex-col items-center ml-2 shadow-lg">
-       <div className="w-full py-4"> <h3 className="text-lg text-left ">Mes tâches</h3></div>
+       <div className="w-full py-4 flex justify-around items-center">
+         <h3 className="text-lg text-left ">Mes tâches</h3>
+         <Link href={`/absence`} className="border-solid border-2 p-1 border-slate-700 rounded-lg hover:bg-neutral-700 hover:text-white">Absence</Link>
+         </div>
         <Tabs defaultValue="0" className="w-full">
           <TabsList className="grid w-full grid-cols-2 bg-transparent">
             <TabsTrigger className='data-[state=active]:border-solid data-[state=active]:border-b-2 data-[state=active]:border-electric-blue' value="0">A faire</TabsTrigger>
