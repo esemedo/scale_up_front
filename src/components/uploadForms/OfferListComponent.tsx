@@ -65,8 +65,12 @@ export default function OfferListComponent() {
         <>
             <div className="bg-slate-50 shadow-md p-6 w-1/3 h-full mx-2 rounded-md">
                 <p>Offres :</p>
+                <div className="flex">
+                    <a href={`http://localhost:3000/api/getTemplatePTF`} className="my-2 mr-2 bg-slate-100 p-2 rounded-md hover:bg-slate-300">Download PTF Template</a>
+                    <a href={`http://localhost:3000/api/getTemplateSyllabus`} className="my-2 mr-2 bg-slate-100 p-2 rounded-md hover:bg-slate-300">Download Syllabus Template</a>
+                </div>
                 {offers == null || offers.length <= 0 ? <>
-                    <p className="my-2 p-2 h-full rounded-md bg-slate-200">Vous n&apos;avez pas de d&apos;offres</p>
+                    <p className="my-2 p-2 h-full rounded-md bg-slate-200">Vous n&apos;avez pas d&apos;offres</p>
                 </> : offers.map((offer, index) => {
                         return(
                             <>
