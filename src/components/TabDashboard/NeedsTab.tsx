@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios, { AxiosError } from "axios";
+import { useSession } from 'next-auth/react';
+const api = process.env.NEXT_PUBLIC_API_URL;
+
 
 interface ResponseData {
   message?: string;
@@ -52,12 +55,13 @@ const NeedsTab = () => {
   const [selectedPromotion, setSelectedPromotion] = useState(null);
   const [sortStatus, setSortStatus] = useState("");
   const [selectedNeed, setSelectedNeed] = useState<Need | null>(null);
+  const { data: session  } = useSession();
 
   useEffect(() => {
     const fetchNeeds = async () => {
       try {
         const response = await axios.get<Need[]>(
-          "http://localhost:3000/api/needs",
+          `${api}/api/needs`,{headers:{Authorization: `Bearer ${session?.accessToken}`}}
         );
         setNeeds(response.data);
       } catch (error) {
@@ -65,8 +69,11 @@ const NeedsTab = () => {
       }
     };
 
-    fetchNeeds();
-  }, [needsUpdated]);
+    if (session){
+      fetchNeeds();
+    }
+
+  }, [needsUpdated,session]);
 
   const updateNeedStatus = async (id: string, status: string) => {
     if (status === "DRAFT") {
@@ -81,7 +88,7 @@ const NeedsTab = () => {
   const handlePublish = async (id: string) => {
     try {
       const response = await axios.put<ResponseData>(
-        `${api}/api/needs/${id}/publish`,
+        `${api}/api/needs/${id}/publish`,{headers:{Authorization: `Bearer ${session?.accessToken}`}}
       );
       if (response.data && response.data.message) {
         setMessage(response.data.message);
@@ -101,7 +108,7 @@ const NeedsTab = () => {
   const handleUpdate = async (id: string) => {
     try {
       const response = await axios.put<ResponseData>(
-        `${api}/api/needs/${id}/draft`,
+        `${api}/api/needs/${id}/draft`,{headers:{Authorization: `Bearer ${session?.accessToken}`}}
       );
       if (response.data && response.data.message) {
         setMessage(response.data.message);
@@ -121,7 +128,7 @@ const NeedsTab = () => {
   const handleCancel = async (id: string) => {
     try {
       const response = await axios.put<ResponseData>(
-        `${api}/api/needs/${id}/cancel`,
+        `${api}/api/needs/${id}/cancel`,{headers:{Authorization: `Bearer ${session?.accessToken}`}}
       );
       if (response.data && response.data.message) {
         setMessage(response.data.message);

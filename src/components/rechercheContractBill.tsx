@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useSession } from 'next-auth/react';
+const api = process.env.NEXT_PUBLIC_API_URL;
+
 
 interface Contract {
   id: number;
@@ -13,10 +16,12 @@ interface Contract {
 const RechercheContrats = () => {
   const [contracts, setContracts] = useState<Contract[]>([]);
   const [searchParams, setSearchParams] = useState({ intervenant: '', matiere: '', promotion: '' });
+  const { data: session  } = useSession();
+
 
   const fetchContracts = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/api/contracts', { params: searchParams });
+      const response = await axios.get(`${api}/api/contracts`,{ params: searchParams,headers:{Authorization: `Bearer ${session?.accessToken}`}} );
       setContracts(response.data);
     } catch (error) {
       console.error('Error fetching contracts:', error);
@@ -24,8 +29,10 @@ const RechercheContrats = () => {
   };
 
   useEffect(() => {
-    fetchContracts();
-  }, [searchParams]);
+    if (session){
+     fetchContracts();
+    }
+  }, [searchParams,session]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;

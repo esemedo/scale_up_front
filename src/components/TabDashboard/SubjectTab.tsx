@@ -4,6 +4,9 @@ import { FaLightbulb } from 'react-icons/fa';
 import Modal from "react-modal";
 import Papa from "papaparse";
 import * as XLSX from 'xlsx';
+import { useSession } from 'next-auth/react';
+const api = process.env.NEXT_PUBLIC_API_URL;
+
 
 interface Subject {
     id: number;
@@ -60,10 +63,12 @@ const SubjectsTab: React.FC = () => {
     const [categories, setCategories] = useState<Category[]>([]);
     const [csvData, setCsvData] = useState<CsvRow[]>([]);
     const [selectedCategory, setSelectedCategory] = useState<string>("");
+    const { data: session  } = useSession();
+
 
     const getSubjects = async () => {
         try {
-            const response = await axios.get<Subject[]>(`${api}/api/subjects/`);
+            const response = await axios.get<Subject[]>(`${api}/api/subjects/`,{headers:{Authorization: `Bearer ${session?.accessToken}`}});
             setSubjects(response.data);
         } catch (error) {
             console.error(error);
@@ -72,7 +77,7 @@ const SubjectsTab: React.FC = () => {
 
     const getNeeds = async () => {
         try {
-            const response = await axios.get<Need[]>(`${api}/api/needs/`);
+            const response = await axios.get<Need[]>(`${api}/api/needs/`,{headers:{Authorization: `Bearer ${session?.accessToken}`}});
             setNeeds(response.data);
         } catch (error) {
             console.error(error);
@@ -81,7 +86,7 @@ const SubjectsTab: React.FC = () => {
 
     const getPromotions = async () => {
         try {
-            const response = await axios.get<Promotion[]>(`${api}/api/promotion/`);
+            const response = await axios.get<Promotion[]>(`${api}/api/promotion/`,{headers:{Authorization: `Bearer ${session?.accessToken}`}});
             setPromotions(response.data);
         } catch (error) {
             console.error(error);
@@ -94,7 +99,7 @@ const SubjectsTab: React.FC = () => {
                 await axios.post(`${api}/api/subject/addSubjectToPromotion`, {
                     subjectId: selectedSubject.id,
                     promotionId: selectedPromotion.id
-                });
+                },{headers:{Authorization: `Bearer ${session?.accessToken}`}});
                 setMessage('Sujet ajouté avec succès à la promotion.');
                 const need = needs.find(need => need.idSubject === selectedSubject.id);
                 if (need) {
@@ -110,12 +115,15 @@ const SubjectsTab: React.FC = () => {
     };
   
     useEffect(() => {
-      getCategories();
-    }, []);
+        if (session){
+        getCategories();
+        }
+
+    }, [session]);
   
     const getCategories = async () => {
       try {
-        const response = await axios.get<Category[]>(`${api}/api/categories`);
+        const response = await axios.get<Category[]>(`${api}/api/categories`,{headers:{Authorization: `Bearer ${session?.accessToken}`}});
         setCategories(response.data);
       } catch (error) {
         console.error(error);
@@ -172,7 +180,7 @@ const SubjectsTab: React.FC = () => {
       };
 
       axios
-      axios.post(`${api}/api/subjects/upload`, requestData)
+      axios.post(`${api}/api/subjects/upload`, requestData,{headers:{Authorization: `Bearer ${session?.accessToken}`}})
           .then((response) => {
               console.log(response.data);
               setMessage(response.data.message);
@@ -196,10 +204,12 @@ const SubjectsTab: React.FC = () => {
     };
 
     useEffect(() => {
+        if (session){
         getSubjects();
         getNeeds();
         getPromotions();
-    }, []);
+        }
+    }, [session]);
 
     const filteredSubjects = subjects
     .filter(subject => subject && subject.name && subject.name.toLowerCase().includes(searchTerm.toLowerCase()))

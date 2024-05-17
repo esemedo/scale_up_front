@@ -1,6 +1,10 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import 'tailwindcss/tailwind.css';
+import { useSession } from 'next-auth/react';
+const api = process.env.NEXT_PUBLIC_API_URL;
+
 
 const HistoriqueBesoins: React.FC = () => {
   const [years, setYears] = useState<string[]>([]);
@@ -9,6 +13,8 @@ const HistoriqueBesoins: React.FC = () => {
   const api = process.env.NEXT_PUBLIC_API_URL;
   const startYear = 2015;
   const futureYears = 5;
+  const { data: session  } = useSession();
+
 
   const statusCode: { [key: number]: string } = {
     0: 'Refusée',
@@ -29,7 +35,7 @@ const HistoriqueBesoins: React.FC = () => {
 
   const fetchNeedsByYear = async (year: string) => {
     try {
-      const response = await axios.get<any[]>(`${api}/api/needs/${year}`);
+      const response = await axios.get<any[]>(`${api}/api/needs/${year}`,{headers:{Authorization: `Bearer ${session?.accessToken}`}});
       setNeeds(response.data);
     } catch (error) {
       console.error(`Error fetching needs for year ${year}:`, error);
@@ -37,8 +43,10 @@ const HistoriqueBesoins: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchYears();
-  }, []);
+    if (session){
+      fetchYears();
+    }
+  }, [session]);
 
   const handleYearChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedYear = event.target.value;

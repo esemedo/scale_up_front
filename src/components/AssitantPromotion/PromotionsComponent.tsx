@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-const api = process.env.NEXT_PUBLIC_API_URL;
 
 
 interface Promotion {
