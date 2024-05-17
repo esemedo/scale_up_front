@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import {MdUnarchive} from "react-icons/md"
-import {FiCheckSquare} from "react-icons/fi"
+import TrainReportFormComponent from "@/components/uploadForms/TrainReportFormComponent";
 
 // import { useSession, signIn, signOut } from "next-auth/react";
 
@@ -72,25 +72,22 @@ export default function Factures() {
     return(
         <>
         <form className="flex bg-slate-200 p-4 rounded-md flex-col w-2/5 max-w-48" action={() => handleSubmit()}>
-                                <div className="flex items-center mb-4 w-3/4 space-x-4">
-                                <div className="bg-blue-700 p-2 px-4 hover:bg-blue-400 active:bg-slate-500 flex items-center justify-center space-x-2 rounded-full text-white">
-                                        <MdUnarchive className=""/>
-                                        <label htmlFor="billBtn">{billFileName == "" ?
-                                            "Déposer une nouvelle facture" : billFileName}
-                                        </label>
-                                        <input id="billBtn" className="hidden" type="file" name="bill" onChange={(e) => handleChange(e)}/>
-                                    </div>
-                                    {/* <input id="offerID" className="hidden" type="text" name="offerID" value={bill.id}></input> */}
-                                    <button type="submit" className="bg-black mr-4 p-2 px-4 hover:bg-gray-800 active:bg-slate-500 flex items-center justify-center  rounded-full text-white">Valider</button>
-                                </div>
+            <div className="flex items-center mb-4 w-3/4 space-x-4">
+            <div className="bg-blue-700 p-2 px-4 hover:bg-blue-400 active:bg-slate-500 flex items-center justify-center space-x-2 rounded-full text-white">
+                    <MdUnarchive className=""/>
+                    <label htmlFor="billBtn">{billFileName == "" ?
+                        "Déposer une nouvelle facture" : billFileName}
+                    </label>
+                    <input id="billBtn" className="hidden" type="file" name="bill" onChange={(e) => handleChange(e)}/>
+                </div>
+                {/* <input id="offerID" className="hidden" type="text" name="offerID" value={bill.id}></input> */}
+                <button type="submit" className="bg-black mr-4 p-2 px-4 hover:bg-gray-800 active:bg-slate-500 flex items-center justify-center  rounded-full text-white">Valider</button>
+            </div>
 
                                     
-                                <button className="bg-black mr-4 p-2 px-6 hover:bg-gray-800 active:bg-slate-500 flex items-center justify-center space-x-2 rounded-full text-white w-3/4">
-                                        <FiCheckSquare/>
-                                    <p> Générer mon bilan</p>
-                                </button>
                                     
-                                </form>
+        </form>
+        <TrainReportFormComponent />
         {feedback == "" ? <></> : <p className="bg-slate-200 p-2 rounded-md">{feedback}</p>}
         </>
     )
