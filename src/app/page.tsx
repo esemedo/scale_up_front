@@ -6,9 +6,11 @@ import Dashboard from "./dashboard";
 import HistoriqueBesoins from "../components/historiqueDesBesoins";
 import FormulaireBesoin from "../components/formulaireBesoin";
 import ValidationFactures from "../components/ValidationFactures";
+import PromotionAssistant from "../app/promotion/assistant/page"
 // import RechercheContrats from "../components/rechercheContractBill";
 
 import { AiFillHome, AiOutlineForm, AiOutlineHistory } from "react-icons/ai";
+import { GrValidate } from "react-icons/gr";
 import { RiBillLine } from "react-icons/ri";
 import { FaFileContract } from "react-icons/fa";
 
@@ -61,6 +63,13 @@ function Home() {
         >
           <RiBillLine className="h-7 w-7 hover:text-blue-500" />
         </button>
+        <button
+          onClick={() => setCurrentComponent("PromotionAssistant")}
+          className={`${currentComponent === "PromotionAssistant" ? "text-blue-500" : "text-gray-500"}`}
+          title="PromotionAssistant"
+        >
+          <GrValidate className="h-7 w-7 hover:text-blue-500" />
+        </button>
         {/* <button
           onClick={() => setCurrentComponent("rechercheContrats")}
           className={`${currentComponent === "rechercheContrats" ? "text-blue-500" : "text-gray-500"}`}
@@ -75,6 +84,7 @@ function Home() {
         {currentComponent === "historiqueDesBesoins" && <HistoriqueBesoins />}
         {currentComponent === "formulaireBesoin" && <FormulaireBesoin />}
         {currentComponent === "validationFactures" && <ValidationFactures />}
+        {currentComponent === "PromotionAssistant" && <PromotionAssistant />}
         {/* {currentComponent === "rechercheContrats" && <RechercheContrats />} */}
       </div>
     </div>
