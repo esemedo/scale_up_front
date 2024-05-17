@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import { isSameMonth, isSameWeek } from "date-fns";
+import { Badge } from "../ui/badge";
 
 function Calendar({data }: Calendar) {
   const [currentWeek, setCurrentWeek] = useState(0);
@@ -22,11 +23,9 @@ function Calendar({data }: Calendar) {
      }
     
     )
-    console.log(regroupement, itemByWeek);
-    
     setDeis(regroupement)
  
-  }, []);
+  }, [data]);
 
   const today = new Date();
   const dayNames = ["Dim","lun", "Mar", "Mer", "Jeu", "Ven", "Sam" ];
@@ -69,9 +68,9 @@ function Calendar({data }: Calendar) {
            <div className="day-header rounded-t-xl bg-light-gray py-1 text-center">
              <h6>{dayNames[deiKey]}</h6>
            </div>
-           <div className="day-content h-28">
+           <div className="day-content h-28 text-center">
              {deis[deiKey].map((item:number) => (
-               <div key={item}>Tâche n°{item}</div>
+               <Badge key={item}>Tâche n°{item}</Badge>
              ))}
            </div>
          </li>
