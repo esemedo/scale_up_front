@@ -2,19 +2,19 @@
 
 import axios from "axios";
 import React , { FC, useState } from "react";
-import { STATUS } from "./constants";
+import { STATUS } from "../../lib/constants";
 import { Session } from "next-auth";
 
 type Dei = {
   setStatusUpdated : Function,
-    dei: {id:number, status: boolean} |undefined |null,
+    dei: {id:number, status: number} ,
     session: Session | null
   }
 const  StatusBanner : FC<Dei> = ({dei, setStatusUpdated, session}) => {
   const updateStatus = async (newStatus : number)=>{
     if(dei?.id){
     try {
-       await axios.patch(`http://localhost:3000/api/dei/${dei.id}/status`, {status: newStatus}, {headers:{Authorization: `Bearer ${session?.accessToken}`}})
+       await axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/dei/${dei.id}/status`, {status: newStatus}, {headers:{Authorization: `Bearer ${session?.accessToken}`}})
         setStatusUpdated((prev: any) => !prev)
     } catch (error: any) {
       console.error('Erreur lors de la soumission du status:', error.message);

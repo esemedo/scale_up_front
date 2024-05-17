@@ -60,7 +60,7 @@ function CalendarAbsenceCreate({update, absence, assistants }: CalendarAbsencePr
         substitutUserId: data.substitute === ""? null : parseInt(data.substitute)
       };
 
-      const response = await axios.post(`http://localhost:3000/api/absence/create`, formData, {headers:{Authorization: `Bearer ${session?.accessToken}`}});
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/absence/create`, formData, {headers:{Authorization: `Bearer ${session?.accessToken}`}});
 
       console.log('Réponse du serveur:', response.data.message);
       update()

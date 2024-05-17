@@ -20,7 +20,7 @@ const Page = () => {
   useEffect(() => {
     if(session){
 
-    let url = "http://localhost:3000/api/absence"
+    let url = `${process.env.NEXT_PUBLIC_API_URL}/absence`
     axios
       .get<Absence[]>(url, {headers:{Authorization: `Bearer ${session?.accessToken}`}}) 
       .then((result) => {
@@ -37,7 +37,7 @@ const Page = () => {
   useEffect(() => {
     if(session){
 
-    let url = "http://localhost:3000/api/users/assistants"
+    let url = `${process.env.NEXT_PUBLIC_API_URL}/users/assistants`
     axios
         .get<[]>(url, {headers:{Authorization: `Bearer ${session?.accessToken}`}}) 
         .then((result) => {

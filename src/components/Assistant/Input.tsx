@@ -1,32 +1,28 @@
-import React, { ChangeEventHandler, EventHandler } from 'react'
+import React from 'react'
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form'
+import { Input } from '../ui/input'
 type InputComponent = {
     label : string,
-    value:string |number, 
-    position: string,
-    type?: string, 
-    onChange?: ChangeEventHandler
+    property: "id" | "status" | "totalPrice" | "dueDate" | "hourlyPrice" | "priority" | "sashaStatus" |"purchaseOrder",
+    form: any
     readOnly: boolean 
+    type?: string
 }
-function InputInfoDei({label,value, position, type = "text", onChange = ()=>{}, readOnly }: InputComponent) {
+function InputInfoDei({label,property,form, type = "text", readOnly }: InputComponent) {
   return (
-    <div className={position}>
-        <label
-            htmlFor={label}
-            className="absolute -top-2 -left-1 text-xs bg-white px-1 text-sm transition-all duration-200 ease-in-out peer-placeholder-shown:top-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:opacity-100 peer-focus:top-1 peer-focus:scale-75 peer-focus:opacity-100"
-            >
-       {label} 
-        </label>
-        <input
-            readOnly={readOnly}
-            disabled={readOnly}
-            type={type}
-            placeholder={label}
-            onChange={onChange}
-            value={value}
-            id={label}
-            className="w-full rounded-md border border-black py-3 text-center"
-        />
-    </div>
+    <FormField
+    control={form.control}
+    name={property}
+    render={({ field }) => {
+      return <FormItem>
+        <FormLabel>{label}</FormLabel>
+        <FormControl>
+          <Input placeholder={label} type={type} disabled={readOnly} {...field} />
+        </FormControl>
+        <FormMessage />
+      </FormItem>
+    }}
+  />
   )
 }
 

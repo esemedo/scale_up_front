@@ -6,96 +6,86 @@ import InputInfoDei from "@/components/Assistant/Input";
 import SelectComponentLabel from "@/components/Assistant/SelectComponentLabel";
 import Calendar from "@/components/Assistant/Calendar";
 import ListTasks from "@/components/Assistant/ListTasks";
-import { PRIORITY, SACHA_STATUS } from "@/components/Assistant/constants";
+import { PRIORITY, SACHA_STATUS, statusConfig } from "@/lib/constants";
 import { useSession } from "next-auth/react";
-
+import Card from "@/components/Assistant/Card";
+import { ScrollArea } from "@radix-ui/react-scroll-area";
+import { ScrollBar } from "@/components/ui/scroll-area";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/tabs"
+import CardDei from "@/components/Assistant/Card";
 
 
 const Page = () => {
-  const [data, setData] = useState<Dei[]>([]); 
   const [selectedItem, setItemSelected] = useState<Dei | null>(null); 
+  const [disabled, setDisabled] = useState<DeiDisabled>({
+    purchaseOrder: true,
+    sashaStatus: true,
+    totalPrice: true,
+    dueDate: true,
+    hourlyPrice: true,
+    priority: true
+  }); 
   const [statusUpdated, setStatusUpdated] = useState<boolean>(false); 
   const [priority, setPriority] = useState<number|string>(''); 
   const { data: session  } = useSession();
-    
-  React.useEffect(() => {
-    
-    if(session){
-      let url = "http://localhost:3000/api/dei"
-      if(priority !== ""){
-          url += `?priority=${priority}`
-      }
-      axios
-        .get<Dei[]>(url, {headers:{Authorization: `Bearer ${session?.accessToken}`}}) 
-        .then((result) => {
-          setData(result.data);
-          if(selectedItem)
-            setItemSelected(result.data.find(item => item.id === selectedItem.id)?? null)
 
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
-    }
-  }, [session,statusUpdated, priority]);
-
-  const handleItemClick = (itemId: number) => {
-    const selectedItem = data.find((item) => item.id === itemId);
+  const handleItemClick = (selectedItem: Dei|null) => {
     setItemSelected(selectedItem ?? null);
   };
+  const handleRefreshData = ()=> {
+    setStatusUpdated(prev =>!prev)
+  }
   const handleChangePriority = (priority: number |string)=>{
     setPriority(priority)
-  }
+  } 
 
+
+useEffect(() => {
+  if(selectedItem){
+  const config =statusConfig[selectedItem?.sashaStatus]  ?  statusConfig[selectedItem?.sashaStatus] : statusConfig.default;
+  setDisabled(config);
+}
+}, [selectedItem]);
   return (
-      <div className="group-componen mx-36 mt-8 flex justify-center gap-3 rounded-lg p-8 pt-16 font-main">
-        <ListTasks data={data} selectedItem={selectedItem} handleItemClick={handleItemClick} handleChangePrioritySelect={handleChangePriority} prioritySelect={priority}/>
+    <div className="group-componen mx-36 mt-8 flex justify-center gap-3 rounded-lg p-8 pt-16 font-main">
+      <ScrollArea className="left-side mx-auto mt-2 w-2/6 rounded-3xl bg-white p-8 shadow-lg">
+        <h3 className="text-lg ">Mes tâches</h3>
+        <Tabs defaultValue="0" className="w-full">
+          <TabsList className="grid w-full grid-cols-2 bg-transparent">
+            <TabsTrigger className='data-[state=active]:border-solid data-[state=active]:border-b-2 data-[state=active]:border-electric-blue' value="0">A faire</TabsTrigger>
+            <TabsTrigger className='data-[state=active]:border-solid data-[state=active]:border-b-2 data-[state=active]:border-electric-blue' value="1">En attente de retour</TabsTrigger>
+            <TabsTrigger className='data-[state=active]:border-solid data-[state=active]:border-b-2 data-[state=active]:border-electric-blue' value="2">Retourné</TabsTrigger>
+            <TabsTrigger className='data-[state=active]:border-solid data-[state=active]:border-b-2 data-[state=active]:border-electric-blue' value="3">Terminée</TabsTrigger>
+          </TabsList>
+          <TabsContent value="0">
+            <ListTasks updateState={statusUpdated} key={0} status={0} session={session} selectedItem={selectedItem} handleItemClick={handleItemClick} />
+          </TabsContent>
+          <TabsContent value="1">
+            <ListTasks updateState={statusUpdated} key={1}  status={1} session={session} selectedItem={selectedItem} handleItemClick={handleItemClick} />
+          </TabsContent>
+          <TabsContent value="2">
+            <ListTasks updateState={statusUpdated} key={2}  status={2} session={session} selectedItem={selectedItem} handleItemClick={handleItemClick} />
+          </TabsContent>
+          <TabsContent value="3">
+            <ListTasks updateState={statusUpdated} key={3}  status={3} session={session} selectedItem={selectedItem} handleItemClick={handleItemClick} />
+          </TabsContent>
+        </Tabs>
+        <ScrollBar orientation="horizontal" />
+      </ScrollArea>
         <div className="right-side mx-auto w-4/5">
-        <div className="top mx-auto mt-2 flex flex-row gap-y-2 rounded-3xl bg-white shadow-lg h-96">
-            {selectedItem !== null && selectedItem !== undefined && <><div className="top-left w-3/4 p-8 flex flex-col justify-around">
-            <h1 className="text-3xl font-bold text-[#41494e]">
-              Tâche n. {selectedItem ? selectedItem.id : ""}
-            </h1>
-            <div className="flex justify-between gap-2">
-
-              <InputInfoDei label="Titre" position="relative w-1/3" value={""} readOnly={true} type="text" />
-              <InputInfoDei label="Date d'échéance" position="relative w-1/3" value={selectedItem.dueDate.split("T")[0]} readOnly={true} type="date" />
-              <SelectComponentLabel label="Priorité" position="relative w-1/3" value={selectedItem?.priority !== undefined ? selectedItem.priority : 0} options={PRIORITY} onChange={(value: string) => {
-                axios.patch(`http://localhost:3000/api/dei/${selectedItem?.id}/priority`, { priority: parseInt(value) }, {headers:{Authorization: `Bearer ${session?.accessToken}`}}).then(result => {
-                  setStatusUpdated(prev => !prev);
-                }).catch(e => {
-                  console.log(e.error);
-                });
-              } } />
-
-            </div>
-            <SelectComponentLabel label="Statut Sacha" position="relative" value={selectedItem?.sashaStatus !== undefined ? selectedItem.sashaStatus : 0} options={SACHA_STATUS} onChange={(value: string) => {
-              axios.patch(`http://localhost:3000/api/dei/${selectedItem?.id}/sachaStatus`, { sachaStatus: parseInt(value) }, {headers:{Authorization: `Bearer ${session?.accessToken}`}}).then(result => {
-                setStatusUpdated(prev => !prev);
-              }).catch(e => {
-                console.log(e.error);
-              });
-            } } classSelect="py-3" />
-            <div className="field-groupe flex flex-row gap-2">
-              <InputInfoDei label="Tarif horaire en €" position="relative w-1/2" value={selectedItem?.hourlyPrice !== undefined ? selectedItem?.hourlyPrice : ""} readOnly={true} />
-              <InputInfoDei label="Prix total en €" position="relative w-1/2" value={selectedItem?.totalPrice !== undefined ? selectedItem?.totalPrice : ""} readOnly={true} />
-            </div>
-            <div className="relative">
-              <label
-                htmlFor="linkedFile"
-                className="absolute -top-2 left-3 bg-white px-1 text-sm transition-all duration-200 ease-in-out peer-placeholder-shown:top-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:opacity-100 peer-focus:top-1 peer-focus:scale-75 peer-focus:opacity-100"
-              >
-                Pièce Jointe(s)
-              </label>
-              <input
-                type="text"
-                name="linkedFile"
-                className="w-full rounded-md border border-black py-3" />
-            </div>
-          </div><div className="top-right w-1/4">
-              <StatusBanner session={session} dei={selectedItem} setStatusUpdated={setStatusUpdated} />
-            </div></>}
-          </div>
+        <ScrollArea className="top mx-auto mt-2 flex flex-row gap-y-2 rounded-3xl bg-white shadow-lg h-96">
+            {selectedItem !== null && selectedItem !== undefined && 
+            <>
+            <CardDei update={handleRefreshData} dei={selectedItem} key={selectedItem.id} disabled={disabled} session={session}/>
+            <StatusBanner session={session} dei={selectedItem} setStatusUpdated={setStatusUpdated} />
+           </> } 
+           <ScrollBar orientation="horizontal" />
+          </ScrollArea>
           <Calendar/>
         </div>
       </div>

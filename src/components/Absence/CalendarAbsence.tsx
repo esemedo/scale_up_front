@@ -56,7 +56,7 @@ function CalendarAbsence({update, absence, assistants }: CalendarAbsenceProps) {
   const updateSubstitute =async (data: z.infer<typeof formSchema>)=>{
     try {
       const substitutUserId= data.substitute === ""? null : parseInt(data.substitute)
-      await axios.patch(`http://localhost:3000/api/absence/${absence.id}/substitute`,{substitutUserId},{headers:{Authorization: `Bearer ${session?.accessToken}`}})
+      await axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/absence/${absence.id}/substitute`,{substitutUserId},{headers:{Authorization: `Bearer ${session?.accessToken}`}})
       update()
   } catch (error) {
       console.error(`Error:${error}`)
@@ -65,7 +65,7 @@ function CalendarAbsence({update, absence, assistants }: CalendarAbsenceProps) {
 
   const deleteAbsence =async ()=>{
     try {
-      await axios.delete(`http://localhost:3000/api/absence/${absence.id}/delete`,{headers:{Authorization: `Bearer ${session?.accessToken}`}})
+      await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/absence/${absence.id}/delete`,{headers:{Authorization: `Bearer ${session?.accessToken}`}})
       update()
   } catch (error) {
       console.error(`Error:${error}`)

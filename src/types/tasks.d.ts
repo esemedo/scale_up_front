@@ -1,29 +1,55 @@
 interface Dei {
     id: number;
     sashaStatus: number;
-    status: boolean;
+    status: number;
     totalPrice: number;
     dueDate: string;
     hourlyPrice: number;
     priority: number;
+    purchaseOrder: Array<{fileUrl: string}>
+  
   }
-
-
-  type SelectType = {
-    label : string;
-    options: Array<string>;
-    value: number | string;
-    position: string;
-    onChange: Function;
-    classSelect?: string;
-    withNoValue?: boolean
+type DeiDisabled =  {
+  sashaStatus: boolean;
+  totalPrice: boolean;
+  dueDate: boolean;
+  hourlyPrice: boolean;
+  priority: boolean;
+  purchaseOrder: boolean;
+}
+type DeiProps = {
+    dei : Dei,
+    update: Function,
+    disabled:  DeiDisabled
+    session: Session|null
 }
 
-type ListTasksParams = {
-    data : Array<{ id: number; status: boolean, priority :number }>;
+type SelectType = {
+    label : string;
+    options: Array<string>;
+    placeholder: string;
+    property: string;
+    disabled: boolean;form: any;
+}
+
+interface StatusConfig {
+  [key: number |string]: {
+    purchaseOrder: boolean;
+    sashaStatus: boolean;
+    totalPrice: boolean;
+    dueDate: boolean;
+    hourlyPrice: boolean;
+    priority: boolean;
+  };
+}
+type TasksProps = { id: number; status: number, priority :number }
+
+type ListTasksProps = {
+    // data : Array<TasksProps>;
+    updateState: boolean
+    status: number
+    session: Session | null
     handleItemClick: Function;
     selectedItem: Dei | null;
-    handleChangePrioritySelect: Function;
-    prioritySelect: string |number
    
 }
