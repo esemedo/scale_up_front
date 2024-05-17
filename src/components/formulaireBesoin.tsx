@@ -124,7 +124,7 @@ const FormulaireBesoin: React.FC = () => {
           >
             {promotions.map((promotion) => (
               <option key={promotion.id} value={promotion.id}>
-                {promotion.startSchoolYear}-{promotion.endSchoolYear}
+                {promotion.name}
               </option>
             ))}
           </select>
