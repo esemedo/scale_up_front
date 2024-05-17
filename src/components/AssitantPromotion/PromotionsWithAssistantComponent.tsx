@@ -30,8 +30,8 @@ const PromotionWithAssistantComponent: React.FC<PromotionWithAssistantComponentP
       <ul>
         {promotionWithAssistant.map((item, index) => (
           <li key={index}> 
-            {item.name || 'N/A'}
-            ,{assistants.find(assistant => assistant.id === item.assistantId)?.name || 'N/A'}
+            {item.name || ''}
+            {assistants.find(assistant => assistant.id === item.assistantId)?.name || ''}
           </li>
         ))}
       </ul>
