@@ -8,7 +8,7 @@ import PromotionWithAssistantComponent from '../../../components/AssitantPromoti
 import { useSession } from 'next-auth/react';
 const api = process.env.NEXT_PUBLIC_API_URL;
 
-const Dashboard: React.FC = () => {
+const PromotionAssistant: React.FC = () => {
   const [promotions, setPromotions] = useState<any[]>([]);
   const [assistants, setAssistants] = useState<any[]>([]);
   const [promotionWithAssistant, setPromotionWithAssistant] = useState<any[]>([]);
@@ -109,4 +109,4 @@ const Dashboard: React.FC = () => {
   
 };
 
-export default Dashboard;
+export default PromotionAssistant;
