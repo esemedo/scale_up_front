@@ -18,6 +18,7 @@ interface Syllabus {
     authorId: number,
     offerId: number,
     fileName: string,
+    path: '',
     createdAt: Date,
     user: User
 }
@@ -44,6 +45,7 @@ export default function SubjectList() {
                     authorId: placeholderID,
                     offerId: parseInt(params.offerID),
                     fileName: file.name,
+                    path: '',
                     createdAt: new Date(),
                     user: { uuid: session.user.id } 
                 }
@@ -60,7 +62,9 @@ export default function SubjectList() {
                 await fetch('http://localhost:3000/api/uploadSyllabusFile', {
                     method: 'POST',
                     body: new FormData(document.querySelector('form')!),
-                }).then(async () => {
+                }).then(res => res.json())
+                .then(json => syllabusFile.path = json.path)
+                .then(async () => {
                     const response = await fetch('http://localhost:3000/api/uploadSyllabus', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
