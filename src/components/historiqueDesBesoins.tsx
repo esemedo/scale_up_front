@@ -11,11 +11,12 @@ const HistoriqueBesoins: React.FC = () => {
   const startYear = 2015;
   const futureYears = 5;
 
-  const statusCode = {
+  const statusCode: { [key: number]: string } = {
     0: 'Refusée',
     1: 'En attente',
     2: 'Traitée',
-    3: 'Validée'
+    3: 'Validée',
+    4: 'Brouillon',
   }
 
   const fetchYears =  () => {
@@ -47,8 +48,8 @@ const HistoriqueBesoins: React.FC = () => {
   };
 
   return (
-    <div className='flex justify-center items-center h-screen bg-blue-500'>
-      <div className='bg-white p-8 rounded-lg'>
+    <div className="flex flex-col items-center justify-center min-h-screen ">
+      <div className="p-8 bg-white rounded-lg shadow-md w-3/4 h-[700px]">
         <h1 className='text-3xl font-bold mb-4'>Historique des besoins par année</h1>
         <div className='year-selector mb-4'>
           <label htmlFor="year" className='mr-2'>Sélectionnez une année :</label>
