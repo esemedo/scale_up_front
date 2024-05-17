@@ -51,11 +51,11 @@ export default function SubjectList() {
     }
 
     useEffect(() => {
-        /*if (status === "unauthenticated") {
+        if (status === "unauthenticated") {
             signIn("keycloak", {
               callbackUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/`,
             }); // Force sign in if not authenticated
-            }*/
+            }
       }, [params.needID, status]);
       //will need to sanitize form to not have code injection issues
     return(
