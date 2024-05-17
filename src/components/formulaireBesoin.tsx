@@ -1,7 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import 'tailwindcss/tailwind.css';
 import { MultiSelect } from 'react-multi-select-component';
 import Alert from '@mui/material/Alert';
 import { useSession } from 'next-auth/react';
