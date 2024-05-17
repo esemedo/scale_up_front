@@ -19,10 +19,10 @@ function Home() {
   
   return (
     <div className={"flex flex-col"}>
-        <>
-      <button onClick={() => signOut()}>Sign out</button>
-          welcome to home{session?.user?.name}
-        </>
+      <>
+        <button onClick={() => signOut()}>Sign out</button>
+        welcome to home{session?.user?.name}
+      </>
       <Link href="/company">company</Link>
     </div>
   );
