@@ -1,83 +1,112 @@
-'use client';
-import { useRouter } from 'next/navigation';
-import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
+"use client";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import StatusBanner from "@/components/Assistant/StatusBanner";
+import InputInfoDei from "@/components/Assistant/Input";
+import SelectComponentLabel from "@/components/Assistant/SelectComponentLabel";
+import Calendar from "@/components/Assistant/Calendar";
+import TaskView from "@/components/TaskView/TaskView";
+import { PRIORITY, SACHA_STATUS, statusConfig } from "@/lib/constants";
+import { useSession } from "next-auth/react";
+import Card from "@/components/Assistant/Card";
 import CardsGrey from "@/components/CardsGrey/CardsUser"
-import TaskCard from "@/components/TaskCard/TaskCard"
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
+import { ScrollArea } from "@radix-ui/react-scroll-area";
+import { ScrollBar } from "@/components/ui/scroll-area";
 import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-  } from "@/components/ui/select"
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/tabs";
+import CardDei from "@/components/Assistant/Card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
-  
+const Page = () => {
+  const [selectedItem, setItemSelected] = useState<Dei | null>(null);
+  const [disabled, setDisabled] = useState<DeiDisabled>({
+    purchaseOrder: true,
+    sashaStatus: true,
+    totalPrice: true,
+    dueDate: true,
+    hourlyPrice: true,
+    priority: true,
+  });
+  const [statusUpdated, setStatusUpdated] = useState<boolean>(false);
+  const [priority, setPriority] = useState<number | string>('');
+  const { data: session } = useSession();
 
-export default function dashboard() {
-    const router = useRouter();
+  const handleItemClick = (selectedItem: Dei | null) => {
+    setItemSelected(selectedItem ?? null);
+  };
 
-    return (
-        <div className={"flex flex-row"}>
-            <div className={"flex flex-col"}>
-                <div className="flex flex-col items-center w-full">
-            <Button className="bg-transparent border border-blue-800 text-blue-800 hover:bg-blue-800 hover:text-white font-semibold py-2 px-4 rounded w-48 mb-4" variant="outline">
-                Modifier les taux horaires 
-            </Button>
-            
-            <div className="flex flex-row gap-8 w-full px-4 justify-center">
-                <Card className="w-1/2 bg-white shadow-md rounded-lg overflow-hidden">
-                <CardsGrey />
+  const handleRefreshData = () => {
+    setStatusUpdated((prev) => !prev);
+  };
 
-                    <CardContent className="p-4">
-                    </CardContent>
-                    <CardFooter className="p-2">
-                    </CardFooter>
-                </Card>
+  const handleChangePriority = (priority: number | string) => {
+    setPriority(priority);
+  };
 
-                <Card className="w-1/2 bg-white shadow-md rounded-lg overflow-hidden">
-                    <CardHeader>
-                    </CardHeader>
-                    <CardContent className="p-4 flex items-center">
-                    <div className="flex-1 mr-4">
-            <Select>
-                    <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Choisir une option" />
-                </SelectTrigger>
-                <SelectContent>
-                    <SelectItem value="light">PrioritÃ©</SelectItem>
-                    <SelectItem value="dark">Date</SelectItem>
-                    <SelectItem value="system">System</SelectItem>
-                            </SelectContent>
-                        </Select>
-                     </div>
-                          <Checkbox/>
-               </CardContent>
-                    <CardFooter className="p-2">
-                    <TaskCard/>
+  useEffect(() => {
+    if (selectedItem) {
+      const config = statusConfig[selectedItem?.sashaStatus] ? statusConfig[selectedItem?.sashaStatus] : statusConfig.default;
+      setDisabled(config);
+    }
+  }, [selectedItem]);
 
-                    </CardFooter>
-                </Card>
-                        
-                <Card className="w-1/2 bg-white shadow-md rounded-lg overflow-hidden">
-                    <CardHeader>
-                    </CardHeader>
-                    <CardContent className="p-4">
-                        
-                         
-                    </CardContent>
-                    <CardFooter className="p-2">
-                    </CardFooter>
-                </Card>
-                </div>
-   
-                        <div className={"flex flex-col"}>
-                       
+  return (
 
-                        </div>
-                    </div>
-            </div>
-        </div>
-    );
-}
+    <div className="group-componen mx-36 mt-8 flex justify-center gap-3 rounded-lg p-8 pt-16 font-main">
+      <ScrollArea className="left-side mx-auto mt-2 w-2/6 rounded-3xl bg-white p-8 shadow-lg">
+      <h1 className="text-lg ">Les dérogations récentes en cours</h1>
+
+      <CardsGrey />
+      </ScrollArea>
+      <ScrollArea className="left-side mx-auto mt-2 w-2/6 rounded-3xl bg-white p-8 shadow-lg">
+        <h3 className="text-lg ">Mes tâches</h3>
+        <Tabs defaultValue="0" className="w-full">
+          <TabsList className="grid w-full grid-cols-4 bg-transparent">
+            <TabsTrigger className="data-[state=active]:border-solid data-[state=active]:border-b-2 data-[state=active]:border-electric-blue" value="0">
+              A faire
+            </TabsTrigger>
+           
+          </TabsList>
+         
+
+
+          <TabsContent value="0">
+            <TaskView updateState={statusUpdated} key={0} status={0} session={session} selectedItem={selectedItem} handleItemClick={handleItemClick} />
+          </TabsContent>
+          <TabsContent value="1">
+            <TaskView updateState={statusUpdated} key={1} status={1} session={session} selectedItem={selectedItem} handleItemClick={handleItemClick} />
+          </TabsContent>
+          <TabsContent value="2">
+            <TaskView updateState={statusUpdated} key={2} status={2} session={session} selectedItem={selectedItem} handleItemClick={handleItemClick} />
+          </TabsContent>
+          <TabsContent value="3">
+            <TaskView updateState={statusUpdated} key={3} status={3} session={session} selectedItem={selectedItem} handleItemClick={handleItemClick} />
+          </TabsContent>
+        </Tabs>
+        <ScrollBar orientation="horizontal" />
+      </ScrollArea>
+        <ScrollArea className="left-side mx-auto mt-2 w-2/6 rounded-3xl bg-white p-8 shadow-lg">
+          {selectedItem !== null && selectedItem !== undefined && (
+            <>
+              <CardDei update={handleRefreshData} dei={selectedItem} key={selectedItem.id} disabled={disabled} session={session} />
+              <StatusBanner session={session} dei={selectedItem} setStatusUpdated={setStatusUpdated} />
+            </>
+          )}
+          <ScrollBar orientation="horizontal" />
+        </ScrollArea>
+      </div>
+    
+  );
+};
+
+export default Page;

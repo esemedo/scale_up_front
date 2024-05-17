@@ -51,7 +51,6 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className=" max-w-7xl w-full mx-auto px-4 py-6 overflow-visible">
-      <h1 className="text-xl font-semibold whitespace-nowrap">Les dérogations récentes en cours</h1>
       {cardsData.map(cardsGrey => (
         <CardsGrey key={cardsGrey.id} name={cardsGrey.name} rate={cardsGrey.rate} status={cardsGrey.status} />
       ))}
