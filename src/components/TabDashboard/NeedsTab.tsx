@@ -66,7 +66,11 @@ const NeedsTab = () => {
         );
         setNeeds(response.data);
       } catch (error) {
-        console.error(error);
+        const axiosError = error as AxiosError<ResponseData>;
+        setMessage(
+          axiosError.response?.data?.error ||
+            "An error occurred while publishing the need",
+        );
       }
     };
 

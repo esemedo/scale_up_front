@@ -149,7 +149,6 @@ const PromotionTab = () => {
         headers: { Authorization: `Bearer ${session?.accessToken}` },
       })
       .then((response) => {
-        console.log(response.data);
         setMessage(response.data.message);
         closeModal();
         getAllPromo();
