@@ -4,8 +4,6 @@ import React, { useState } from "react";
 import { MdUnarchive } from "react-icons/md";
 import TrainReportFormComponent from "@/components/uploadForms/TrainReportFormComponent";
 
-// import { useSession, signIn, signOut } from "next-auth/react";
-
 interface Bill {
   contractId: number;
   quotationId: number;
@@ -19,8 +17,6 @@ export default function Factures() {
   const [billFileName, setBillFileName] = useState("");
   const [billFile, setBillFile] = useState<Bill>();
   const [feedback, setFeedback] = useState("");
-  // const [preValidMp, setPreValidMp] = useState(false);
-  // const [validAssist, setValidAssist] = useState(false);
 
   async function handleSubmit() {
     try {
@@ -30,7 +26,6 @@ export default function Factures() {
           'input[name="bill"]',
         ) as HTMLInputElement;
         if (fileInput.files && fileInput.files.length > 0) {
-          // Ajoutez le fichier sous le champ 'file' pour le serveur
           formData.append("file", fileInput.files[0]);
         }
         await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/bills`, {
@@ -68,10 +63,6 @@ export default function Factures() {
       setFeedback("Please upload a PDF or DOCX");
     }
   }
-
-  //getAllContracts (demande la fonction de Coralie stv)
-  //tu affiches tous les contrats avec un .map comme dans mes autres listes (OfferList, SubjectList)
-  //ensuite tu peux essayer de copier mes submits et mes requêtes, si t'y arrives pas tu reviens me voir
 
   return (
     <>
