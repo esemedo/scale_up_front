@@ -35,8 +35,8 @@ const ListingCategory = ({ onCategorySelect }: ListingCategoryProps) => {
             error.response?.data ||
               "An error occurred while fetching categories.",
           );
-        } else {
-          console.error("Unexpected error:", error);
+        } else if (error instanceof Error) {
+          console.error("Unexpected error:", error.message);
           setError("An unexpected error occurred.");
         }
       }
