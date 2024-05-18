@@ -1,6 +1,8 @@
+import type { Config } from "tailwindcss";
+
 import defaultTheme from "tailwindcss/defaultTheme";
-/** @type {import('tailwindcss').Config} */
-module.exports = {
+
+const config = {
   darkMode: ["class"],
   content: [
     "./pages/**/*.{ts,tsx}",
@@ -8,6 +10,7 @@ module.exports = {
     "./app/**/*.{ts,tsx}",
     "./src/**/*.{ts,tsx}",
   ],
+  prefix: "",
   theme: {
     fontFamily: {
       sans: [...defaultTheme.fontFamily.sans],
@@ -92,4 +95,6 @@ module.exports = {
     },
   },
   plugins: [require("tailwindcss-animate")],
-};
+} satisfies Config;
+
+export default config;
