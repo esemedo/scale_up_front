@@ -1,45 +1,38 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import SubjectsTab from "../components/TabDashboard/SubjectTab";
 import PromotionTab from "../components/TabDashboard/PromotionTab";
 import NeedsTab from "@/components/TabDashboard/NeedsTab";
+import TabButton from "../components/TabDashboard/TadButton";
 
-const Dashboard = () => {
-  const [activeTab, setActiveTab] = useState("promotions");
+
+const Dashboard: React.FC = () => {
+  const [activeTab, setActiveTab] = useState<string>("promotions");
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center ">
-                <div className="rounded p-5 text-center text-4xl font-bold mb-5 text-blue-500">
-          DASHBOARD
-        </div>
-      <div
-        className="w-3/4 rounded-lg bg-white p-8 shadow-md h-[700px]" 
-      >
-        <div className="mb-4 flex ">
-          <button
+    <div className="flex min-h-screen flex-col items-center justify-center">
+      <div className="rounded p-5 text-center text-4xl font-bold mb-5 text-blue-500">
+        DASHBOARD
+      </div>
+      <div className="w-3/4 rounded-lg bg-white p-8 shadow-md h-[700px]">
+        <div className="mb-4 flex">
+          <TabButton
+            isActive={activeTab === "promotions"}
             onClick={() => setActiveTab("promotions")}
-            className={`flex-grow py-2 text-center ${
-              activeTab === "promotions" ? "border-b-2 border-blue-500" : ""
-            }`}
           >
             Nos Promotions
-          </button>
-          <button
+          </TabButton>
+          <TabButton
+            isActive={activeTab === "subjects"}
             onClick={() => setActiveTab("subjects")}
-            className={`flex-grow py-2 text-center ${
-              activeTab === "subjects" ? "border-b-2 border-blue-500" : ""
-            }`}
           >
             Nos Matières
-          </button>
-          <button
+          </TabButton>
+          <TabButton
+            isActive={activeTab === "needs"}
             onClick={() => setActiveTab("needs")}
-            className={`flex-grow py-2 text-center ${
-              activeTab === "needs" ? "border-b-2 border-blue-500" : ""
-            }`}
           >
             Nos Besoins
-          </button>
+          </TabButton>
         </div>
         {activeTab === "promotions" && <PromotionTab />}
         {activeTab === "subjects" && <SubjectsTab />}

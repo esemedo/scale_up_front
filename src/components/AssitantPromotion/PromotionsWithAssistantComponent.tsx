@@ -3,13 +3,13 @@ import React from 'react';
 interface PromotionWithAssistant {
   promotionId: number;
   assistantId: number;
-  name: string; 
-  assistantName: string; 
+  name: string;
+  assistantName: string;
 }
 
 interface PromotionWithAssistantComponentProps {
   promotionWithAssistant: PromotionWithAssistant[];
-  promotions: Promotion[]; 
+  promotions: Promotion[];
   assistants: Assistant[];
 }
 
@@ -23,15 +23,22 @@ interface Assistant {
   name: string;
 }
 
-const PromotionWithAssistantComponent: React.FC<PromotionWithAssistantComponentProps> = ({ promotionWithAssistant, promotions, assistants }) => {
-  
+const PromotionWithAssistantComponent: React.FC<PromotionWithAssistantComponentProps> = ({ promotionWithAssistant, assistants }) => {
+  const assistantDict = React.useMemo(() => {
+    const dict: { [key: number]: string } = {};
+    assistants.forEach(assistant => {
+      dict[assistant.id] = assistant.name;
+    });
+    return dict;
+  }, [assistants]);
+
   return (
     <div>
       <ul>
         {promotionWithAssistant.map((item, index) => (
-          <li key={index}> 
+          <li key={index}>
             {item.name || ''}
-            &nbsp;{assistants.find(assistant => assistant.id === item.assistantId)?.name || ''}
+            &nbsp;{assistantDict[item.assistantId] || ''}
           </li>
         ))}
       </ul>

@@ -28,9 +28,6 @@ const AddAssistantToPromotionComponent: React.FC<AddAssistantProps> = ({ promoti
   
 
   const handleAddAssistant = async () => {
-
-     console.log(selectedAssistantId);
-  console.log(selectedPromotionId);
     if (selectedPromotionId !== null && selectedAssistantId !== null) {
       onAddAssistantToPromotion(selectedPromotionId, selectedAssistantId);
     }

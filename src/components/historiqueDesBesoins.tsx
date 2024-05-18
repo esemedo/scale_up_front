@@ -2,8 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
-const api = process.env.NEXT_PUBLIC_API_URL;
-
 
 const HistoriqueBesoins: React.FC = () => {
   const [years, setYears] = useState<string[]>([]);
@@ -37,7 +35,7 @@ const HistoriqueBesoins: React.FC = () => {
       const response = await axios.get<any[]>(`${api}/needs/${year}`,{headers:{Authorization: `Bearer ${session?.accessToken}`}});
       setNeeds(response.data);
     } catch (error) {
-      console.error(`Error fetching needs for year ${year}:`, error);
+      alert(`Erreur lors du chargement des besoins pour l'année ${year}. Veuillez réessayer plus tard.`);
     }
   };
 

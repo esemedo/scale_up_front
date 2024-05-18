@@ -5,7 +5,6 @@ import Papa from "papaparse";
 import * as XLSX from "xlsx";
 import { FaLightbulb } from "react-icons/fa";
 import { useSession } from "next-auth/react";
-const api = process.env.NEXT_PUBLIC_API_URL;
 
 interface Promotion {
   id: number;
@@ -68,7 +67,7 @@ const PromotionTab = () => {
       });
       setPromotions(response.data);
     } catch (error) {
-      console.error(error);
+      alert('Une erreur est survenue lors du chargement des promotions.');
     }
   };
 
@@ -79,7 +78,7 @@ const PromotionTab = () => {
       });
       setNeeds(response.data);
     } catch (error) {
-      console.error(error);
+      alert('Une erreur est survenue lors du chargement des besoins.');
     }
   };
 
@@ -90,7 +89,7 @@ const PromotionTab = () => {
       });
       setUsers(response.data);
     } catch (error) {
-      console.error(error);
+      alert('Une erreur est survenue lors du chargement des utilisateurs');
     }
   };
 
@@ -135,7 +134,7 @@ const PromotionTab = () => {
     event.preventDefault();
 
     if (csvData.length === 0) {
-      console.error("No data parsed from file");
+      alert("Aucune donnée n'a été analysée à partir du fichier.");
       return;
     }
 
@@ -154,7 +153,13 @@ const PromotionTab = () => {
         getAllPromo();
       })
       .catch((error) => {
-        console.error(error);
+        if (error.response) {
+          alert(`Erreur: ${error.response.data.message || 'Une erreur est survenue lors de l\'envoi des données.'}`);
+        } else if (error.request) {
+          alert('Erreur: Aucune réponse du serveur. Veuillez vérifier votre connexion.');
+        } else {
+          alert(`Erreur: ${error.message}`);
+        }
       });
   };
 

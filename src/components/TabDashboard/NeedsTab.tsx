@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios, { AxiosError } from "axios";
 import { useSession } from 'next-auth/react';
-const api = process.env.NEXT_PUBLIC_API_URL;
 
 
 interface ResponseData {

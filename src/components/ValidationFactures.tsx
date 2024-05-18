@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios, { AxiosError } from "axios";
 import { useSession } from 'next-auth/react';
-const api = process.env.NEXT_PUBLIC_API_URL;
 
 
 interface Bill {
@@ -37,7 +36,7 @@ const ValidationFactures = () => {
         const response = await axios.get<Bill[]>(`${api}/bills`,{headers:{Authorization: `Bearer ${session?.accessToken}`}});
         setBills(response.data);
       } catch (error) {
-        console.error(error);
+        alert('Une erreur est survenue lors du chargement des factures.');
       }
     };
     if (session){

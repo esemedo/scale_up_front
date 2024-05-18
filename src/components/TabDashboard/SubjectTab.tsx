@@ -5,7 +5,6 @@ import Modal from "react-modal";
 import Papa from "papaparse";
 import * as XLSX from "xlsx";
 import { useSession } from "next-auth/react";
-const api = process.env.NEXT_PUBLIC_API_URL;
 
 interface Subject {
   id: number;
@@ -74,7 +73,7 @@ const SubjectsTab: React.FC = () => {
       });
       setSubjects(response.data);
     } catch (error) {
-      console.error(error);
+      alert(`Erreur lors de la récupération des matières : ${error}`);
     }
   };
 
@@ -85,7 +84,7 @@ const SubjectsTab: React.FC = () => {
       });
       setNeeds(response.data);
     } catch (error) {
-      console.error(error);
+      alert(`Erreur lors de la récupération des besoins : ${error}`);
     }
   };
 
@@ -96,7 +95,7 @@ const SubjectsTab: React.FC = () => {
       });
       setPromotions(response.data);
     } catch (error) {
-      console.error(error);
+      alert(`Erreur lors de la récupération des promotions : ${error}`);
     }
   };
 
@@ -121,7 +120,7 @@ const SubjectsTab: React.FC = () => {
         getNeeds();
         getSubjects();
       } catch (error) {
-        console.error(error);
+        alert(error);
         setMessage(
           "Une erreur s'est produite lors de l'ajout du sujet à la promotion.",
         );
@@ -142,7 +141,7 @@ const SubjectsTab: React.FC = () => {
       });
       setCategories(response.data);
     } catch (error) {
-      console.error(error);
+      alert(error);
     }
   };
 
@@ -187,7 +186,7 @@ const SubjectsTab: React.FC = () => {
     event.preventDefault();
 
     if (csvData.length === 0) {
-      console.error("No data parsed from file");
+      alert("No data parsed from file");
       return;
     }
 
@@ -202,13 +201,12 @@ const SubjectsTab: React.FC = () => {
         headers: { Authorization: `Bearer ${session?.accessToken}` },
       })
       .then((response) => {
-        console.log(response.data);
         setMessage(response.data.message);
         closeModal();
         getSubjects();
       })
       .catch((error) => {
-        console.error(error);
+        alert(error);
       });
   };
 

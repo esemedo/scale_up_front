@@ -15,6 +15,8 @@ const Dashboard = () => {
     const newMatiere = prompt('Entrez le nom de la nouvelle matière');
     if (newMatiere) {
       setCol1([...col1, { id: Math.random().toString(), nom: newMatiere }]);
+    } else {
+      alert('La saisie a échoué ou le nom de la matière est vide. Veuillez réessayer.');
     }
   };
 
