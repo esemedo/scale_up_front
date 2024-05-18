@@ -34,16 +34,14 @@ export default async function CompanyPage() {
   };
 
   const company: Company = await fetch(
-    `http://localhost:3000/api/users/${user.id}/company`,
+    `${process.env.NEXT_PUBLIC_API_URL}/api/users/${user.id}/company`,
   ).then((res) => res.json());
 
-  console.log(company);
-
   const contributors: Contributor[] = await axios
-    .get(`http://localhost:3000/api/companies/${company.id}/contributors`)
+    .get(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/companies/${company.id}/contributors`,
+    )
     .then((res) => res.data);
-
-  console.log(contributors);
 
   return (
     <>

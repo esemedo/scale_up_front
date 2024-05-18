@@ -41,7 +41,7 @@ export default function ContributorList({
     };
 
     const newContributor: Contributor = await fetch(
-      `http://localhost:3000/api/contributors`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/contributors`,
       {
         method: "POST",
         body: JSON.stringify(contributor),
@@ -56,9 +56,12 @@ export default function ContributorList({
   };
 
   const handleRemoveContributor = async (contributor: Contributor) => {
-    await fetch(`http://localhost:3000/api/contributors/${contributor.id}`, {
-      method: "DELETE",
-    });
+    await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/contributors/${contributor.id}`,
+      {
+        method: "DELETE",
+      },
+    );
 
     setContributorList(contributorList.filter((c) => c.id !== contributor.id));
   };
