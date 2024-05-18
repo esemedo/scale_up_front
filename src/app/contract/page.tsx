@@ -2,7 +2,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { API_URL } from "../../../utils/url";
 
 const contractFormSchema = z.object({
   hourlyPrice: z.string(),
@@ -14,13 +13,16 @@ const contractFormSchema = z.object({
 type contractFormField = z.infer<typeof contractFormSchema>;
 
 const generateContract = async (data: contractFormField) => {
-  const response = await fetch(API_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/pdf/generatePDF`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
     },
-    body: JSON.stringify(data),
-  });
+  );
 
   if (!response.ok) {
     throw new Error("one error occured during the contract generation");
