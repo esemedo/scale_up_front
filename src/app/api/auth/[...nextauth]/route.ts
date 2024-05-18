@@ -1,9 +1,9 @@
+import axios, { AxiosError } from "axios";
 import NextAuth from "next-auth";
 import KeycloakProvider from "next-auth/providers/keycloak";
-import axios, { AxiosError } from "axios";
 
-import { signOut } from "next-auth/react";
 import { JWT } from "next-auth/jwt";
+import { signOut } from "next-auth/react";
 
 const refreshAccessToken = async (token: JWT) => {
   try {

@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import axios from 'axios';
-import { useState, useEffect } from 'react';
-import * as React from 'react';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Label } from '../ui/label';
-import { Card } from '../ui/card';
-import { ButtonAddCategory } from './ButtonAddCategory';
+import axios from "axios";
+import { useState, useEffect } from "react";
+import * as React from "react";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Label } from "../ui/label";
+import { Card } from "../ui/card";
+import { ButtonAddCategory } from "./ButtonAddCategory";
 
 export interface Category {
   id?: number;
@@ -26,17 +26,20 @@ const ListingCategory = ({ onCategorySelect }: ListingCategoryProps) => {
   useEffect(() => {
     const getCategories = async () => {
       try {
-        console.log('Fetching categories from:', apiEndPoint);
+        console.log("Fetching categories from:", apiEndPoint);
         const { data: res } = await axios.get(apiEndPoint);
-        console.log('API response:', res);
+        console.log("API response:", res);
         setCategories(res);
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          console.error('Axios error:', error);
-          setError(error.response?.data || 'An error occurred while fetching categories.');
+          console.error("Axios error:", error);
+          setError(
+            error.response?.data ||
+              "An error occurred while fetching categories.",
+          );
         } else {
-          console.error('Unexpected error:', error);
-          setError('An unexpected error occurred.');
+          console.error("Unexpected error:", error);
+          setError("An unexpected error occurred.");
         }
       }
     };
@@ -48,7 +51,7 @@ const ListingCategory = ({ onCategorySelect }: ListingCategoryProps) => {
   };
 
   return (
-    <ScrollArea className="rounded-md border bg-white h-[600px] max-h-full pt-1">
+    <ScrollArea className="h-[600px] max-h-full rounded-md border bg-white pt-1">
       {error ? (
         <div className="overflow-auto">
           <h2>Error: {error}</h2>
@@ -64,7 +67,7 @@ const ListingCategory = ({ onCategorySelect }: ListingCategoryProps) => {
           <ButtonAddCategory />
           {categories.map((category) => (
             <Card
-              className="bg-[#F0F2FC] mt-1 h-[100px] grid justify-items-center content-center m-2"
+              className="m-2 mt-1 grid h-[100px] content-center justify-items-center bg-[#F0F2FC]"
               key={category.id}
               onClick={() => handleCategoryCard(category.id)}
             >
