@@ -9,8 +9,7 @@ import ListTasks from "@/components/Assistant/ListTasks";
 import { PRIORITY, SACHA_STATUS, statusConfig } from "@/lib/constants";
 import { useSession } from "next-auth/react";
 import Card from "@/components/Assistant/Card";
-import { ScrollArea } from "@radix-ui/react-scroll-area";
-import { ScrollBar } from "@/components/ui/scroll-area";
+import { ScrollBar, ScrollArea } from "@/components/ui/scroll-area";
 import {
   Tabs,
   TabsContent,
@@ -87,7 +86,7 @@ useEffect(() => {
         <ScrollArea className="top mx-auto mt-2 flex flex-row gap-y-2 rounded-3xl bg-white shadow-lg h-96">
             {selectedItem !== null && selectedItem !== undefined && 
             <>
-            <div className="w-2/3">
+              <div className="w-2/3">
               <CardDei update={handleRefreshData} dei={selectedItem} key={selectedItem.id} disabled={disabled} session={session}/>
             </div>
             <div className="w-1/3">
