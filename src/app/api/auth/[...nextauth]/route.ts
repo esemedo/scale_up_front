@@ -75,9 +75,6 @@ async function doFinalSignoutHandshake(jwt: JWT) {
         process.env.KEYCLOAK_ISSUER
       }/protocol/openid-connect/logout?${params.toString()}`,
     );
-
-    // The response body should contain a confirmation that the user has been logged out
-    console.log("Completed post-logout handshake", status, statusText);
   } catch (e: any) {
     console.error(
       "Unable to perform post-logout handshake",
@@ -93,7 +90,6 @@ const handler = NextAuth({
       if (params.account && params.user) {
         return true;
       } else {
-        // TODO : Add unauthorized page
         return "/unauthorized";
       }
     },

@@ -50,9 +50,7 @@ export default function OfferListComponent() {
             : setFeedback("Error occurred"),
         );
       }
-    } catch (error) {
-      console.error("Error:", error);
-    }
+    } catch (error) {}
   }
 
   useEffect(() => {

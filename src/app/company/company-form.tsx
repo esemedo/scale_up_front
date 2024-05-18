@@ -80,7 +80,6 @@ export default function CompanyForm({
 }: CompanyFormProps) {
   const form = useForm<CompanySchemaType>({
     resolver: zodResolver(companySchema),
-    // TODO : Define default values by fetching from the database  (Structure depends on the company status)
     defaultValues: {
       status: "llc",
       name: company.name || "",
@@ -101,7 +100,7 @@ export default function CompanyForm({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(console.log)}>
+      <form onSubmit={form.handleSubmit()}>
         <FormField
           control={form.control}
           name="status"

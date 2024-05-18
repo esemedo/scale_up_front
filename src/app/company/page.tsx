@@ -22,7 +22,6 @@ export default async function CompanyPage() {
     .then((res) => res.json())
     .then((data) => Object.keys(data.data))
     .catch((error) => {
-      console.error("Erreur lors de la récupération des ISO de pays", error);
       return [];
     });
 

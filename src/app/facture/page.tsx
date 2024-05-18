@@ -33,9 +33,7 @@ export default function Factures() {
           body: formData,
         }).catch((e) => {});
       }
-    } catch (error) {
-      console.error("Error:", error);
-    }
+    } catch (error) {}
   }
 
   function handleChange(e: React.FormEvent<HTMLInputElement>) {
@@ -86,7 +84,6 @@ export default function Factures() {
               onChange={(e) => handleChange(e)}
             />
           </div>
-          {/* <input id="offerID" className="hidden" type="text" name="offerID" value={bill.id}></input> */}
           <button
             type="submit"
             className="mr-4 flex items-center justify-center rounded-full bg-black p-2 px-4 text-white  hover:bg-gray-800 active:bg-slate-500"
