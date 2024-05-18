@@ -26,13 +26,11 @@ const ListingCategory = ({ onCategorySelect }: ListingCategoryProps) => {
   useEffect(() => {
     const getCategories = async () => {
       try {
-        console.log("Fetching categories from:", apiEndPoint);
         const { data: res } = await axios.get(apiEndPoint);
-        console.log("API response:", res);
         setCategories(res);
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          console.error("Axios error:", error);
+          console.error("Axios error:", error.message);
           setError(
             error.response?.data ||
               "An error occurred while fetching categories.",

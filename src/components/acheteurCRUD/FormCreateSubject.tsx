@@ -66,7 +66,6 @@ function FormCreateSubject({ className }: React.ComponentProps<"form">) {
         level: validatedData.level,
         categoryId: validatedData.categoryId,
       };
-      console.log(newSubject);
       await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/subjects`,
         newSubject,

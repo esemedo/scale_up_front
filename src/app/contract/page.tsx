@@ -40,13 +40,9 @@ export default function Page() {
   } = useForm<contractFormField>({ resolver: zodResolver(contractFormSchema) });
 
   const onSubmit = async (data: contractFormField) => {
-    console.log("form data: ", JSON.stringify(data));
-
     try {
       const blob = await generateContract(data);
-      console.log("blob:", blob);
       const url = window.URL.createObjectURL(blob);
-      console.log("blob url: ", url);
 
       const lien = document.createElement("a");
       lien.href = url;
