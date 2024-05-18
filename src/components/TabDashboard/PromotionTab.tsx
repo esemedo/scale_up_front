@@ -63,7 +63,7 @@ const PromotionTab = () => {
 
   const getAllPromo = async () => {
     try {
-      const response = await axios.get<Promotion[]>(`${api}/api/promotions`, {
+      const response = await axios.get<Promotion[]>(`${api}/promotions`, {
         headers: { Authorization: `Bearer ${session?.accessToken}` },
       });
       setPromotions(response.data);
@@ -74,7 +74,7 @@ const PromotionTab = () => {
 
   const getNeeds = async () => {
     try {
-      const response = await axios.get<Need[]>(`${api}/api/needs/`, {
+      const response = await axios.get<Need[]>(`${api}/needs/`, {
         headers: { Authorization: `Bearer ${session?.accessToken}` },
       });
       setNeeds(response.data);
@@ -85,7 +85,7 @@ const PromotionTab = () => {
 
   const getUsers = async () => {
     try {
-      const response = await axios.get<User[]>(`${api}/api/users`, {
+      const response = await axios.get<User[]>(`${api}/users`, {
         headers: { Authorization: `Bearer ${session?.accessToken}` },
       });
       setUsers(response.data);
@@ -145,7 +145,7 @@ const PromotionTab = () => {
     };
 
     axios
-      .post(`${api}/api/promotions/upload`, requestData, {
+      .post(`${api}/promotions/upload`, requestData, {
         headers: { Authorization: `Bearer ${session?.accessToken}` },
       })
       .then((response) => {

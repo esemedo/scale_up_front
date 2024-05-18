@@ -17,7 +17,7 @@ const FormulaireBesoin: React.FC = () => {
 
   const fetchPromotions = async () => {
     try {
-      const response = await axios.get<any[]>(`${api}/api/promotions`,{headers:{Authorization: `Bearer ${session?.accessToken}`}});
+      const response = await axios.get<any[]>(`${api}/promotions`,{headers:{Authorization: `Bearer ${session?.accessToken}`}});
       setPromotions(response.data);
     } catch (error) {
       console.error("Error fetching promotions:", error);
@@ -26,7 +26,7 @@ const FormulaireBesoin: React.FC = () => {
 
   const fetchContributors = async () => {
     try {
-      const response = await axios.get<any[]>(`${api}/api/contributors`,{headers:{Authorization: `Bearer ${session?.accessToken}`}});
+      const response = await axios.get<any[]>(`${api}/contributors`,{headers:{Authorization: `Bearer ${session?.accessToken}`}});
       setContributors(response.data);
     } catch (error) {
       console.error("Error fetching contributors:", error);
@@ -35,7 +35,7 @@ const FormulaireBesoin: React.FC = () => {
 
   const fetchSubjects = async () => {
     try {
-      const response = await axios.get<any[]>(`${api}/api/subjects`,{headers:{Authorization: `Bearer ${session?.accessToken}`}});
+      const response = await axios.get<any[]>(`${api}/subjects`,{headers:{Authorization: `Bearer ${session?.accessToken}`}});
       setSubjects(response.data);
     } catch (error) {
       console.error("Error fetching subjects:", error);
@@ -65,7 +65,7 @@ const FormulaireBesoin: React.FC = () => {
     const totalHours = hours.reduce((total, current) => total + current, 0);
 
     axios
-      .post(`${api}/api/needs`, {
+      .post(`${api}/needs`, {
         promotion: { connect: { id: parseInt(promotion) } },
         status: 1,
         contributor: { connect: { id: parseInt(contributor) } },

@@ -34,7 +34,7 @@ const HistoriqueBesoins: React.FC = () => {
 
   const fetchNeedsByYear = async (year: string) => {
     try {
-      const response = await axios.get<any[]>(`${api}/api/needs/${year}`,{headers:{Authorization: `Bearer ${session?.accessToken}`}});
+      const response = await axios.get<any[]>(`${api}/needs/${year}`,{headers:{Authorization: `Bearer ${session?.accessToken}`}});
       setNeeds(response.data);
     } catch (error) {
       console.error(`Error fetching needs for year ${year}:`, error);

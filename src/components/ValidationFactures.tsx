@@ -34,7 +34,7 @@ const ValidationFactures = () => {
   useEffect(() => {
     const fetchBills = async () => {
       try {
-        const response = await axios.get<Bill[]>(`${api}/api/bills`,{headers:{Authorization: `Bearer ${session?.accessToken}`}});
+        const response = await axios.get<Bill[]>(`${api}/bills`,{headers:{Authorization: `Bearer ${session?.accessToken}`}});
         setBills(response.data);
       } catch (error) {
         console.error(error);
@@ -48,7 +48,7 @@ const ValidationFactures = () => {
 
   const validateBill = async (id: number) => {
     try {
-      await axios.put(`${api}/api/bills/${id}/validate`,{headers:{Authorization: `Bearer ${session?.accessToken}`}});
+      await axios.put(`${api}/bills/${id}/validate`,{headers:{Authorization: `Bearer ${session?.accessToken}`}});
       setMessage("Facture validée avec succès");
       setBills(
         bills.map((bill) =>
@@ -65,7 +65,7 @@ const ValidationFactures = () => {
 
   const cancelBill = async (id: number) => {
     try {
-      await axios.put(`${api}/api/bills/${id}/cancel`,{headers:{Authorization: `Bearer ${session?.accessToken}`}});
+      await axios.put(`${api}/bills/${id}/cancel`,{headers:{Authorization: `Bearer ${session?.accessToken}`}});
       setMessage("Facture annulée avec succès");
       setBills(
         bills.map((bill) =>
@@ -82,7 +82,7 @@ const ValidationFactures = () => {
 
   const downloadBill = (id: number) => {
     const link = document.createElement("a");
-    link.href = `${api}/api/bills/${id}/download`;
+    link.href = `${api}/bills/${id}/download`;
     link.setAttribute("download", `bill_${id}.pdf`);
     document.body.appendChild(link);
     link.click();
@@ -90,7 +90,7 @@ const ValidationFactures = () => {
   };
 
   const viewBill = (id: number) => {
-    const url = `${api}/api/bills/${id}/view`;
+    const url = `${api}/bills/${id}/view`;
     window.open(url, "_blank");
   };
 

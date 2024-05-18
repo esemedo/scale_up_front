@@ -21,7 +21,7 @@ const RechercheContrats = () => {
 
   const fetchContracts = async () => {
     try {
-      const response = await axios.get(`${api}/api/contracts`,{ params: searchParams,headers:{Authorization: `Bearer ${session?.accessToken}`}} );
+      const response = await axios.get(`${api}/contracts`,{ params: searchParams,headers:{Authorization: `Bearer ${session?.accessToken}`}} );
       setContracts(response.data);
     } catch (error) {
       console.error('Error fetching contracts:', error);

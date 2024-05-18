@@ -21,7 +21,7 @@ const PromotionAssistant: React.FC = () => {
   useEffect(() => {
     const fetchPromotions = async () => {
       try {
-        const response = await axios.get(`${api}/api/promotions`,{headers:{Authorization: `Bearer ${session?.accessToken}`}});
+        const response = await axios.get(`${api}/promotions`,{headers:{Authorization: `Bearer ${session?.accessToken}`}});
         setPromotions(response.data);
       } catch (error) {
         console.error('Error fetching promotions:', error);
@@ -30,7 +30,7 @@ const PromotionAssistant: React.FC = () => {
 
     const fetchAssistants = async () => {
       try {
-        const response = await axios.get(`${api}/api/users/assistants`,{headers:{Authorization: `Bearer ${session?.accessToken}`}});
+        const response = await axios.get(`${api}/users/assistants`,{headers:{Authorization: `Bearer ${session?.accessToken}`}});
         setAssistants(response.data);
       } catch (error) {
         console.error('Error fetching assistants:', error);
@@ -39,7 +39,7 @@ const PromotionAssistant: React.FC = () => {
 
     const fetchPromotionsWithAssistant = async () => {
       try {
-        const response = await axios.get(`${api}/api/promotions/promotions-with-assistants`,{headers:{Authorization: `Bearer ${session?.accessToken}`}});
+        const response = await axios.get(`${api}/promotions/promotions-with-assistants`,{headers:{Authorization: `Bearer ${session?.accessToken}`}});
         setPromotionWithAssistant(response.data);
       } catch (error) {
         console.error('Error fetching promotions with assistants:', error);
@@ -56,7 +56,7 @@ const PromotionAssistant: React.FC = () => {
 
   const handleAddAssistantToPromotion = async (promotionId: number, assistantId: number) => {
     try {
-      await axios.post(`${api}/api/promotions/${promotionId}/assistants`, {
+      await axios.post(`${api}/promotions/${promotionId}/assistants`, {
         assistantId: assistantId
       },{headers:{Authorization: `Bearer ${session?.accessToken}`}});
 

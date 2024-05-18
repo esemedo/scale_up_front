@@ -69,7 +69,7 @@ const SubjectsTab: React.FC = () => {
 
   const getSubjects = async () => {
     try {
-      const response = await axios.get<Subject[]>(`${api}/api/subjects/`, {
+      const response = await axios.get<Subject[]>(`${api}/subjects/`, {
         headers: { Authorization: `Bearer ${session?.accessToken}` },
       });
       setSubjects(response.data);
@@ -80,7 +80,7 @@ const SubjectsTab: React.FC = () => {
 
   const getNeeds = async () => {
     try {
-      const response = await axios.get<Need[]>(`${api}/api/needs/`, {
+      const response = await axios.get<Need[]>(`${api}/needs/`, {
         headers: { Authorization: `Bearer ${session?.accessToken}` },
       });
       setNeeds(response.data);
@@ -91,7 +91,7 @@ const SubjectsTab: React.FC = () => {
 
   const getPromotions = async () => {
     try {
-      const response = await axios.get<Promotion[]>(`${api}/api/promotion/`, {
+      const response = await axios.get<Promotion[]>(`${api}/promotion/`, {
         headers: { Authorization: `Bearer ${session?.accessToken}` },
       });
       setPromotions(response.data);
@@ -104,7 +104,7 @@ const SubjectsTab: React.FC = () => {
     if (selectedSubject && selectedPromotion) {
       try {
         await axios.post(
-          `${api}/api/subject/addSubjectToPromotion`,
+          `${api}/subject/addSubjectToPromotion`,
           {
             subjectId: selectedSubject.id,
             promotionId: selectedPromotion.id,
@@ -116,7 +116,7 @@ const SubjectsTab: React.FC = () => {
           (need) => need.idSubject === selectedSubject.id,
         );
         if (need) {
-          await axios.delete(`${api}/api/needs/${need.id}`);
+          await axios.delete(`${api}/needs/${need.id}`);
         }
         getNeeds();
         getSubjects();
@@ -137,7 +137,7 @@ const SubjectsTab: React.FC = () => {
 
   const getCategories = async () => {
     try {
-      const response = await axios.get<Category[]>(`${api}/api/categories`, {
+      const response = await axios.get<Category[]>(`${api}/categories`, {
         headers: { Authorization: `Bearer ${session?.accessToken}` },
       });
       setCategories(response.data);
@@ -198,7 +198,7 @@ const SubjectsTab: React.FC = () => {
 
     axios;
     axios
-      .post(`${api}/api/subjects/upload`, requestData, {
+      .post(`${api}/subjects/upload`, requestData, {
         headers: { Authorization: `Bearer ${session?.accessToken}` },
       })
       .then((response) => {
