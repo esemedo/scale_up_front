@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Label } from '@radix-ui/react-label';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { Label } from "@radix-ui/react-label";
 
 interface Category {
   categoryId: number;
@@ -12,7 +12,9 @@ const ReturnCategory = ({ categoryId }: Category) => {
 
   useEffect(() => {
     const fetchCategory = async () => {
-      const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/categories/${categoryId}`);
+      const { data } = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/categories/${categoryId}`,
+      );
       setCategory(data);
     };
 
@@ -30,6 +32,6 @@ const ReturnCategory = ({ categoryId }: Category) => {
       )}
     </div>
   );
-}
+};
 
 export default ReturnCategory;
