@@ -38,6 +38,7 @@ module.exports = {
         "white-polar": "#F0F2FC",
         "light-gray": "#DFE1EA",
         "electric-blue": "#0047FF",
+        successful:"#3FC54C",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -88,6 +89,9 @@ module.exports = {
       },
       spacing: {
         "6.5": "1.625rem",
+        "192": "48rem",
+        "128": "32rem",
+
       },
     },
   },

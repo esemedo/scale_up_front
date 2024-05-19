@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import NextAuthProvider from "@/app/context/NextAuthProvider";
 import Link from "next/link";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,6 +24,7 @@ export default async function RootLayout({
       >
         <NextAuthProvider>{children}</NextAuthProvider>
         <Link href="/src/app/contract"></Link>
+        <Toaster />
       </body>
     </html>
   );
