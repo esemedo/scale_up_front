@@ -114,7 +114,7 @@ export default function Register() {
     delete postData.external;
     delete postData.passwordConfirm;
     axios
-      .post(`${process.env.NEXT_PUBLIC_API_URL}/user/register`, postData)
+      .post(`${process.env.NEXT_PUBLIC_API_URL}/users/`, postData)
       .then((_res) => {
         if (role !== SPEAKER_COMPANY_ROLE) {
           router.push("/register/success");
