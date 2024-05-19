@@ -28,7 +28,7 @@ export const TextInput = ({
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem className={"relative flex flex-1 flex-col gap-2"}>
+        <FormItem className={"relative flex flex-1 flex-col gap-2 space-y-0"}>
           <FormLabel
             className={
               'absolute -top-2.5 left-3 line-clamp-1 bg-white text-sm after:text-red-600 after:content-["*"]'

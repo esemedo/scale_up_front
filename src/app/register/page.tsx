@@ -180,7 +180,7 @@ export default function Register() {
                 render={({ field }) => (
                   <FormItem
                     className={
-                      "button flex w-fit items-center gap-2 rounded-xl bg-white-polar p-2"
+                      "button flex w-fit items-center gap-2 space-y-0 rounded-xl bg-white-polar p-2"
                     }
                   >
                     <FormControl>
@@ -222,7 +222,9 @@ export default function Register() {
                 control={form.control}
                 name={"phone"}
                 render={({ field }) => (
-                  <FormItem className={"relative flex flex-1 flex-col gap-2"}>
+                  <FormItem
+                    className={"relative flex flex-1 flex-col gap-2 space-y-0"}
+                  >
                     <FormLabel
                       className={
                         'absolute -top-2.5 left-3 line-clamp-1 bg-white text-sm after:text-red-600 after:content-["*"]'
