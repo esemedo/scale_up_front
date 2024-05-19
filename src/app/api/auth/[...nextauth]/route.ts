@@ -86,7 +86,6 @@ const handler = NextAuth({
       if (params.account && params.user) {
         return true;
       } else {
-        // TODO : Add unauthorized page
         return "/unauthorized";
       }
     },
