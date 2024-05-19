@@ -30,13 +30,11 @@ const ListingCategory = ({ onCategorySelect }: ListingCategoryProps) => {
         setCategories(res);
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          console.error("Axios error:", error);
           setError(
             error.response?.data ||
               "An error occurred while fetching categories.",
           );
-        } else {
-          console.error("Unexpected error:", error);
+        } else if (error instanceof Error) {
           setError("An unexpected error occurred.");
         }
       }
@@ -45,7 +43,7 @@ const ListingCategory = ({ onCategorySelect }: ListingCategoryProps) => {
   }, [apiEndPoint]);
 
   const handleCategoryCard = (categoryId?: number) => {
-    onCategorySelect(categoryId); // Call the callback function to pass the selected id to the parent
+    onCategorySelect(categoryId);
   };
 
   return (

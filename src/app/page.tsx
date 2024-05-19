@@ -3,7 +3,7 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import { useEffect } from "react";
 import { LoadingSpinner } from "@/components/LoadingSpinner/LoadingSpinner";
 
-export default function Home() {
+function Home() {
   const { data: session, status } = useSession();
 
   useEffect(() => {
@@ -29,3 +29,5 @@ export default function Home() {
     </div>
   );
 }
+
+export default Home;

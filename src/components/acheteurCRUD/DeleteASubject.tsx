@@ -1,21 +1,21 @@
-'use client'
+"use client";
 
-import axios from 'axios';
-import React from 'react';
-import { Button } from '../ui/button';
-
+import axios from "axios";
+import React from "react";
+import { Button } from "../ui/button";
 
 interface DeleteASubjectProps {
-  subjectId:number
-  }
-export default function DeleteASubject({subjectId}: DeleteASubjectProps) {
+  subjectId: number;
+}
+export default function DeleteASubject({ subjectId }: DeleteASubjectProps) {
   const handleDelete = async () => {
-      await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/subjects/${subjectId}`);
-  
+    await axios.delete(
+      `${process.env.NEXT_PUBLIC_API_URL}/subjects/${subjectId}`,
+    );
   };
-  return(
+  return (
     <>
-      <Button onClick={() => handleDelete()}>Delete</Button> 
+      <Button onClick={() => handleDelete()}>Delete</Button>
     </>
-    )
+  );
 }

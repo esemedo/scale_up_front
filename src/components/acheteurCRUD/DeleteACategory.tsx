@@ -1,16 +1,16 @@
-'use client'
+"use client";
 
-import axios from 'axios';
-import React,{useEffect,useState} from 'react';
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 
 interface Category {
   categoryId: number;
 }
 interface Subject {
-  id:number
+  id: number;
   name: string;
-  level:string;
-  categoryId:number;
+  level: string;
+  categoryId: number;
 }
 export default function DeleteACategory(props: Category) {
   const [subjectUsCategory, setSubjectUsCategory] = useState<Subject[]>([]);
@@ -24,15 +24,19 @@ export default function DeleteACategory(props: Category) {
     getCategorys();
   }, [apiEndPoint]);
   const handleDelete = async () => {
-    if(subjectUsCategory.length === 0){
-      await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/categories/${props.categoryId}`);
-    }else{
-      alert('vous ne pouvez pas supprimer une categorie utilisé dans une matière existante')
+    if (subjectUsCategory.length === 0) {
+      await axios.delete(
+        `${process.env.NEXT_PUBLIC_API_URL}/categories/${props.categoryId}`,
+      );
+    } else {
+      alert(
+        "vous ne pouvez pas supprimer une categorie utilisé dans une matière existante",
+      );
     }
   };
-  return(
+  return (
     <>
-      <button onClick={() => handleDelete()}>Delete</button> 
+      <button onClick={() => handleDelete()}>Delete</button>
     </>
-    )
+  );
 }
