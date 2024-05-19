@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Badge } from "../ui/badge";
 import { isSameMonth } from "date-fns";
 import { STATUS_COLOR_BG, STATUS_COLOR_TEXT } from "@/lib/constants";
-import { ScrollArea, ScrollBar } from "../ui/scroll-area";
+import { ScrollArea } from "../ui/scroll-area";
 
 function Calendar({data }: Calendar) {
   const [deis, setDeis] = useState({});

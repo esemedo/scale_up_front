@@ -16,6 +16,7 @@ import CardDei from "@/components/Assistant/Card";
 import Link from "next/link";
 import { LoadingSpinner } from "@/components/LoadingSpinner/LoadingSpinner";
 import useVerifyAccess from "@/lib/verifyAccess";
+import SelectPriority from "@/components/Assistant/SelectPriority";
 
 
 const Page = () => {
@@ -29,7 +30,6 @@ const Page = () => {
     priority: true
   }); 
   const [statusUpdated, setStatusUpdated] = useState<boolean>(false); 
-  const [priority, setPriority] = useState<number|string>(''); 
   const { data: session, status  } = useSession();
 
   const handleItemClick = (selectedItem: Dei|null) => {
@@ -38,9 +38,7 @@ const Page = () => {
   const handleRefreshData = ()=> {
     setStatusUpdated(prev =>!prev)
   }
-  const handleChangePriority = (priority: number |string)=>{
-    setPriority(priority)
-  } 
+  
   const [data, setData] = React.useState<Dei[]>([]); 
 
   useVerifyAccess("educational-assistant", session, status)
@@ -87,7 +85,7 @@ useEffect(() => {
         </Tabs>
         <ScrollBar orientation="horizontal" />
       </ScrollArea>
-        <div className="right-side mx-auto w-4/6">
+        <div className="right-side  w-4/6">
         < div className="top mx-auto mt-2 flex flex-row gap-y-2 rounded-3xl bg-white shadow-lg h-128">
             {selectedItem !== null && selectedItem !== undefined && 
             <>
@@ -99,7 +97,6 @@ useEffect(() => {
              <StatusBanner session={session} dei={selectedItem} setStatusUpdated={setStatusUpdated} />
             </div>
            </> } 
-           {/* <ScrollBar orientation="horizontal" /> */}
           </div>
           <Calendar data={data} />
         </div>
