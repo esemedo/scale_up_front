@@ -15,8 +15,9 @@ function Home() {
   }, [session]);
   if (status === "loading" || status === "unauthenticated")
     return (
-      <div>
-        <LoadingSpinner />
+      <div className={"flex h-full w-full items-center justify-center"}>
+        <LoadingSpinner className={"h-10 w-10"} />
+        <p className={"ml-2"}>Connexion...</p>
       </div>
     );
   return (
