@@ -14,12 +14,14 @@ import { Button } from '../ui/button';
 import TextareaAbsence from './TextareaAbsence';
 import { CalendarAbsenceProps } from '@/types/absence';
 import { formatTime, getCombinedDate } from '@/lib/datetime';
+import { useToast } from '../ui/use-toast';
 
 
 
 function CalendarAbsenceCreate({update, absence, assistants }: CalendarAbsenceProps) {
   const [date, setDate] = useState<DateRange | undefined>();
   const { data: session  } = useSession();
+  const {toast} = useToast()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -61,13 +63,21 @@ function CalendarAbsenceCreate({update, absence, assistants }: CalendarAbsencePr
       };
 
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/absence/create`, formData, {headers:{Authorization: `Bearer ${session?.accessToken}`}});
-
-      console.log('Réponse du serveur:', response.data.message);
+      toast({
+        variant: "successful",
+          title: response.data.message ?? "L'absence a été crée !",
+        })
       update()
       setDate(undefined);
       form.reset()
-    } catch (error: any) {
-      console.error('Erreur lors de la soumission du formulaire:', error.message);
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Oh là là ! Quelque chose s'est mal passé.",
+        description:axios.isAxiosError(error)?  error.response?.data?.error ??
+        "Une erreur s'est produite lors de la création d'une absence.": "Une erreur inattendue s'est produite.",
+      })
+
     }
   };
   ;

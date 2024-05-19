@@ -3,23 +3,35 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ListAbsence from "@/components/Absence/ListAbsence";
 import CalendarAbsence from "@/components/Absence/CalendarAbsence";
-import { useSession } from "next-auth/react";
+import { signIn, useSession, } from "next-auth/react";
 import CalendarAbsenceCreate from "@/components/Absence/CalendarAbsenceCreate";
 import { Absence } from "@/types/absence";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { LoadingSpinner } from "@/components/LoadingSpinner/LoadingSpinner";
+import { redirect } from "next/navigation";
+import { useToast } from "@/components/ui/use-toast";
 
 const Page = () => {
-  const [data, setData] = useState<Absence[]>([]); 
+  const [data, setData] = useState<Absence[]>([]);
+  const {toast} = useToast() 
+  // const [error, setError] = useState<boolean>([]); 
   const [selectedItem, setItemSelected] = useState<Absence | null>(null); 
   const [updated, setUpdated] = useState<boolean>(false); 
   const [isCreateMode, setIsCreateMode] = useState<boolean>(false);
-  const { data: session  } = useSession();
+  const { data: session, status  } = useSession();
   const [calendarKey, setCalendarKey] = useState<number>(0);
   const [assistants, setAssistants] = useState<Array<{id: number, name: string}>>([])
-
   useEffect(() => {
+    if (status === "unauthenticated") {
+      signIn("keycloak", {
+        callbackUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/`,
+      }); 
+    }
+    
     if(session){
-
+      if(!session?.user.roles.includes("educational-assistant")){  
+        redirect('/')
+      }
     let url = `${process.env.NEXT_PUBLIC_API_URL}/absence`
     axios
       .get<Absence[]>(url, {headers:{Authorization: `Bearer ${session?.accessToken}`}}) 
@@ -44,7 +56,12 @@ const Page = () => {
           setAssistants(result.data);
         })
         .catch((error) => {
-          console.error("Error:", error.message);
+          toast({
+            variant: "destructive",
+            title: "Oh là là ! Quelque chose s'est mal passé.",
+            description:axios.isAxiosError(error)?  error.response?.data?.error ??
+            "Une erreur s'est produite lors de la création d'une absence.": "Une erreur inattendue s'est produite.",
+          })
         });
       }
   }, [session]);
@@ -62,6 +79,12 @@ const Page = () => {
     setItemSelected(null); 
     setIsCreateMode(true); 
   };
+  if (status === "loading" || status === "unauthenticated")
+    return (
+      <div>
+        <LoadingSpinner />
+      </div>
+    );
   return (
     <div className="group-componen mx-36 mt-8 flex justify-center gap-3 rounded-lg p-8 pt-16 font-main h-screen">
         <ListAbsence handleMode={createNewAbsence} data={data} handleItemClick={selectExistingAbsence} selectedItem={selectedItem}/>   

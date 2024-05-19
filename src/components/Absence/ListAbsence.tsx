@@ -8,11 +8,17 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs"
 import { isBefore } from 'date-fns'
+import { isCancellable } from '@/lib/datetime'
 
 function ListAbsence({data, selectedItem, handleItemClick, handleMode} : ListAbsenceParams) {
-  const isCancellable = (date1: Date, date2: Date)=>{
-    return isBefore(date1, date2)
+  
+  const sortedTab = (data : Array<{ id?: number; startDate: string , endDate : string,reason: string, substituteUserId:number|null} >)=>{
+   const dataPast= data.filter(item => !isCancellable(new Date(), new Date(item.startDate)) )
+   
+  dataPast.sort((a,b)=> new Date(b.startDate).getTime()- new Date(a.startDate).getTime() )
+    return dataPast
   }
+  
   return (
     <ScrollArea className="left-side mx-auto mt-2 w-2/5 rounded-3xl bg-white p-8 shadow-lg h-full">
       <div className='flex justify-between items-center w-full px-2'>
@@ -43,7 +49,7 @@ function ListAbsence({data, selectedItem, handleItemClick, handleMode} : ListAbs
         </TabsContent>
         <TabsContent value="past">
       <ul className="task-list max-h-full ">
-            {data.map((item: Absence, index : number) => 
+            {sortedTab(data).map((item: Absence, index : number) => 
              { if (!isCancellable(new Date(), new Date(item.startDate)))
               return <li
                 key={item?.id ?? index}

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Calendar } from "@/components/ui/calendar";
 import { DateRange } from 'react-day-picker';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useSession } from 'next-auth/react';
-import { addDays, isBefore, parseISO } from 'date-fns';
+import { addDays, isBefore, isSameDay, parseISO } from 'date-fns';
 import TimePickerWithRange from './TimePickerWithRange';
 import { z } from "zod"
 import { formSchema } from './FormSchema';
@@ -12,7 +12,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { SelectSubstitut } from './SelectSubstitut';
 import TextareaAbsence from './TextareaAbsence';
 import { CalendarAbsenceProps } from '@/types/absence';
-import { formatTime } from '@/lib/datetime';
+import { formatTime, isCancellable } from '@/lib/datetime';
 import { Button } from '../ui/button';
 import {
   Tooltip,
@@ -20,6 +20,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { useToast } from '../ui/use-toast';
 
 
 
@@ -27,6 +28,7 @@ function CalendarAbsence({update, absence, assistants }: CalendarAbsenceProps) {
   const [date, setDate] = useState<DateRange | undefined>();
   const [currentMonth, setCurrentMonth] = useState<Date>(new Date(absence.startDate));
   const { data: session  } = useSession();
+ const {toast} = useToast() 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -56,24 +58,40 @@ function CalendarAbsence({update, absence, assistants }: CalendarAbsenceProps) {
   const updateSubstitute =async (data: z.infer<typeof formSchema>)=>{
     try {
       const substitutUserId= data.substitute === ""? null : parseInt(data.substitute)
-      await axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/absence/${absence.id}/substitute`,{substitutUserId},{headers:{Authorization: `Bearer ${session?.accessToken}`}})
+      const result = await axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/absence/${absence.id}/substitute`,{substitutUserId},{headers:{Authorization: `Bearer ${session?.accessToken}`}})
+      toast({
+        variant: "successful",
+          title: result.data.message ?? "L'absence a été mis à jour",
+        })
       update()
   } catch (error) {
-      console.error(`Error:${error}`)
+    toast({
+      variant: "destructive",
+      title: "Uh oh! Something went wrong.",
+      description:axios.isAxiosError(error)?  error.response?.data ??
+      "An error occurred while updating subtitute.": "An unexpected error occurred.",
+    })
     }
   }
 
   const deleteAbsence =async ()=>{
     try {
-      await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/absence/${absence.id}/delete`,{headers:{Authorization: `Bearer ${session?.accessToken}`}})
+     const result =  await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/absence/${absence.id}/delete`,{headers:{Authorization: `Bearer ${session?.accessToken}`}})
+      toast({
+      variant: "successful",
+        title: result.data.message ?? "L'absence a été supprimée",
+      })
       update()
   } catch (error) {
-      console.error(`Error:${error}`)
+    toast({
+      variant: "destructive",
+      title: "Oh là là ! Quelque chose s'est mal passé.",
+      description:axios.isAxiosError(error)?  error.response?.data?.error ??
+      "Une erreur s'est produite lors de la création d'une absence.": "Une erreur inattendue s'est produite.",
+    })
     }
   }
-  const isCancellable = (date1: Date, date2: Date)=>{
-    return isBefore(date1, date2)
-  }
+ 
   
   return (
     <FormProvider {...form}>

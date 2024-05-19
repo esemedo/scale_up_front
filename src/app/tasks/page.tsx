@@ -7,7 +7,7 @@ import SelectComponentLabel from "@/components/Assistant/SelectComponentLabel";
 import Calendar from "@/components/Assistant/Calendar";
 import ListTasks from "@/components/Assistant/ListTasks";
 import { PRIORITY, SACHA_STATUS, statusConfig } from "@/lib/constants";
-import { useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import Card from "@/components/Assistant/Card";
 import { ScrollBar, ScrollArea } from "@/components/ui/scroll-area";
 import {
@@ -19,6 +19,7 @@ import {
 import CardDei from "@/components/Assistant/Card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { LoadingSpinner } from "@/components/LoadingSpinner/LoadingSpinner";
 
 
 const Page = () => {
@@ -33,7 +34,7 @@ const Page = () => {
   }); 
   const [statusUpdated, setStatusUpdated] = useState<boolean>(false); 
   const [priority, setPriority] = useState<number|string>(''); 
-  const { data: session  } = useSession();
+  const { data: session, status  } = useSession();
 
   const handleItemClick = (selectedItem: Dei|null) => {
     setItemSelected(selectedItem ?? null);
@@ -46,13 +47,27 @@ const Page = () => {
   } 
   const [data, setData] = React.useState<Dei[]>([]); 
 
-
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      signIn("keycloak", {
+        callbackUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/`,
+      }); // Force sign in if not authenticated
+      //!!! ROLES ARE IN session.user.roles when authenticated !!!
+    }
+  }, [session]);
 useEffect(() => {
   if(selectedItem){
   const config =statusConfig[selectedItem?.sashaStatus]  ?  statusConfig[selectedItem?.sashaStatus] : statusConfig.default;
   setDisabled(config);
 }
 }, [selectedItem]);
+
+  if (status === "loading" || status === "unauthenticated")
+    return (
+      <div>
+        <LoadingSpinner />
+      </div>
+    );
   return (
     <div className="group-componen mx-36 mt-8 flex justify-center gap-3 rounded-lg p-8 pt-16 font-main">
       <ScrollArea className="left-side mx-s mt-2 w-2/6 rounded-3xl bg-white flex flex-col items-center ml-2 shadow-lg">
