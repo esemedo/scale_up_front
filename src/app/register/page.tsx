@@ -215,7 +215,7 @@ export default function Register() {
                 type={"email"}
                 control={form.control}
                 placeholder={
-                  external ? "exemple@mail.com" : "exemple@esiee-it.fr"
+                  external ? "exemple@mail.com" : "exemple@edu.esiee-it.fr"
                 }
               />
               <FormField
