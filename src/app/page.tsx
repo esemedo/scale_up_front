@@ -1,8 +1,8 @@
 "use client";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { useEffect } from "react";
-import { LoadingSpinner } from "@/components/LoadingSpinner/LoadingSpinner";
 import Link from "next/link";
+import errorMessage from "@/app/company/page";
 
 
 

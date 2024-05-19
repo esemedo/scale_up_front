@@ -7,6 +7,7 @@ function ListeIntervenant() {
   const [companies, setCompanies] = useState([]);
   const [loading, setLoading] = useState(true);
   const { data: session  } = useSession();
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,10 +23,7 @@ function ListeIntervenant() {
         const companyData = await response.json();
         setCompanies(companyData);
       } catch (error) {
-        const errorAction = () => {
-          window.location.replace("/");
-        }
-        errorAction();
+          setErrorMessage("Une erreur est survenu, veuillez réessayer plus tard.");
       } finally {
         setLoading(false);
       }
@@ -41,7 +39,8 @@ function ListeIntervenant() {
 
   return (
     <div>
-      {companies.map((company: any) => (
+      {errorMessage && <div style={{ color: 'red', marginTop: '20px' }}>{errorMessage}</div>}
+      {companies.map((company: { id: string, name: string, phone: string, mail: string }) => (
         <div key={company.id}>
           <h1>{company.name}</h1>
           <p>{company.phone}</p>
