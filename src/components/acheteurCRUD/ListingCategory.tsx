@@ -30,13 +30,11 @@ const ListingCategory = ({ onCategorySelect }: ListingCategoryProps) => {
         setCategories(res);
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          console.error("Axios error:", error.message);
           setError(
             error.response?.data ||
               "An error occurred while fetching categories.",
           );
         } else if (error instanceof Error) {
-          console.error("Unexpected error:", error.message);
           setError("An unexpected error occurred.");
         }
       }

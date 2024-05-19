@@ -76,9 +76,7 @@ function FormCreateSubject({ className }: React.ComponentProps<"form">) {
       setsubjectCategoryId(undefined);
     } catch (error) {
       if (error instanceof Error) {
-        console.error(error.message);
       } else {
-        console.error(error);
       }
       alert("Veuillez remplir tous les champs.");
     }

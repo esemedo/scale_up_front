@@ -1,4 +1,4 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import NextAuth from "next-auth";
 import KeycloakProvider from "next-auth/providers/keycloak";
 
@@ -40,7 +40,6 @@ const refreshAccessToken = async (token: JWT) => {
         Date.now() + (refreshedTokens.refresh_expires_in - 15) * 1000,
     };
   } catch (error) {
-    console.error("Failed to refresh access token", error);
     await signOut();
     return {
       ...token,
@@ -77,12 +76,7 @@ async function doFinalSignoutHandshake(jwt: JWT) {
     );
 
     // The response body should contain a confirmation that the user has been logged out
-  } catch (e: any) {
-    console.error(
-      "Unable to perform post-logout handshake",
-      (e as AxiosError)?.code || e,
-    );
-  }
+  } catch (e: any) {}
 }
 
 const handler = NextAuth({
