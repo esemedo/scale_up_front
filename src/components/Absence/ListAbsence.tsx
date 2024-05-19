@@ -7,7 +7,6 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs"
-import { isBefore } from 'date-fns'
 import { isCancellable } from '@/lib/datetime'
 
 function ListAbsence({data, selectedItem, handleItemClick, handleMode} : ListAbsenceParams) {

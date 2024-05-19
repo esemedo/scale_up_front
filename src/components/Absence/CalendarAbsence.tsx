@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Calendar } from "@/components/ui/calendar";
 import { DateRange } from 'react-day-picker';
-import axios, { AxiosError } from 'axios';
-import { useSession } from 'next-auth/react';
-import { addDays, isBefore, isSameDay, parseISO } from 'date-fns';
+import axios from 'axios';
+import { addDays } from 'date-fns';
 import TimePickerWithRange from './TimePickerWithRange';
 import { z } from "zod"
 import { formSchema } from './FormSchema';
@@ -24,10 +23,9 @@ import { useToast } from '../ui/use-toast';
 
 
 
-function CalendarAbsence({update, absence, assistants }: CalendarAbsenceProps) {
+function CalendarAbsence({update, absence, assistants, session }: CalendarAbsenceProps) {
   const [date, setDate] = useState<DateRange | undefined>();
   const [currentMonth, setCurrentMonth] = useState<Date>(new Date(absence.startDate));
-  const { data: session  } = useSession();
  const {toast} = useToast() 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),

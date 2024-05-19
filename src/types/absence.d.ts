@@ -11,6 +11,7 @@ interface Absence {
 type CalendarAbsenceProps = {
     update: Function;
     absence: Absence 
+    session: Session |null
     assistants:Array<{id: number, name: string}>
 }
 type ListAbsenceParams = {

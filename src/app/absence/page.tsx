@@ -3,35 +3,27 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ListAbsence from "@/components/Absence/ListAbsence";
 import CalendarAbsence from "@/components/Absence/CalendarAbsence";
-import { signIn, useSession, } from "next-auth/react";
+import {  useSession, } from "next-auth/react";
 import CalendarAbsenceCreate from "@/components/Absence/CalendarAbsenceCreate";
 import { Absence } from "@/types/absence";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { LoadingSpinner } from "@/components/LoadingSpinner/LoadingSpinner";
-import { redirect } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
+import useVerifyAccess from "@/lib/verifyAccess";
 
 const Page = () => {
   const [data, setData] = useState<Absence[]>([]);
   const {toast} = useToast() 
-  // const [error, setError] = useState<boolean>([]); 
   const [selectedItem, setItemSelected] = useState<Absence | null>(null); 
   const [updated, setUpdated] = useState<boolean>(false); 
   const [isCreateMode, setIsCreateMode] = useState<boolean>(false);
   const { data: session, status  } = useSession();
   const [calendarKey, setCalendarKey] = useState<number>(0);
   const [assistants, setAssistants] = useState<Array<{id: number, name: string}>>([])
+  useVerifyAccess("educational-assistant", session, status)
+ 
   useEffect(() => {
-    if (status === "unauthenticated") {
-      signIn("keycloak", {
-        callbackUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/`,
-      }); 
-    }
-    
     if(session){
-      if(!session?.user.roles.includes("educational-assistant")){  
-        redirect('/')
-      }
     let url = `${process.env.NEXT_PUBLIC_API_URL}/absence`
     axios
       .get<Absence[]>(url, {headers:{Authorization: `Bearer ${session?.accessToken}`}}) 
@@ -41,7 +33,12 @@ const Page = () => {
           setItemSelected(result.data.find(item => item.id === selectedItem.id)?? null)
       })
       .catch((error) => {
-        console.error("Error:", error.message);
+        toast({
+          variant: "destructive",
+          title: "Oh là là ! Quelque chose s'est mal passé.",
+          description:axios.isAxiosError(error)?  error.response?.data?.error ??
+          "Une erreur s'est produite lors de la création d'une absence.": "Une erreur inattendue s'est produite.",
+        })
       });
     }
    
@@ -90,12 +87,12 @@ const Page = () => {
         <ListAbsence handleMode={createNewAbsence} data={data} handleItemClick={selectExistingAbsence} selectedItem={selectedItem}/>   
           {isCreateMode === true  && 
           <div className="right-side mx-auto w-4/5 rounded-3xl bg-white top mx-auto mt-2 h-full shadow-lg overflow-y-auto" > 
-            <CalendarAbsenceCreate assistants={assistants} update={toggleUpdatedState} absence={{ startDate: '', endDate: '', reason: '', substituteUserId:null }} />
+            <CalendarAbsenceCreate session={session} assistants={assistants} update={toggleUpdatedState} absence={{ startDate: '', endDate: '', reason: '', substituteUserId:null }} />
           </div>
           } 
           {selectedItem !== null && 
           <ScrollArea className="right-side mx-auto w-4/5 rounded-3xl bg-white top mx-auto mt-2 h-full shadow-lg" > 
-            <CalendarAbsence assistants={assistants} key={calendarKey} update={toggleUpdatedState} absence={selectedItem} /> 
+            <CalendarAbsence session={session} assistants={assistants} key={calendarKey} update={toggleUpdatedState} absence={selectedItem} /> 
             <ScrollBar orientation="horizontal" />
           </ScrollArea>
           }

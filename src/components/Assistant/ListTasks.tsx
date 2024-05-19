@@ -1,9 +1,15 @@
 import React from 'react'
-import { PRIORITY, PRIORITY_COLOR, STATUS } from '../../lib/constants';
+import {  PRIORITY_COLOR, STATUS, STATUS_COLOR_BG, STATUS_COLOR_TEXT } from '../../lib/constants';
 import axios from 'axios';
+import { useToast } from '../ui/use-toast';
+import { format } from 'date-fns';
+import { it } from 'node:test';
 
 function ListTasks({data, setData ,handleItemClick, selectedItem, status =0, session, updateState} :ListTasksProps) {
+  const {toast} = useToast()
+  
   React.useEffect(() => {
+    setData([])
     if(session){
       let url = `${process.env.NEXT_PUBLIC_API_URL}/dei?status=${status}`
      
@@ -15,28 +21,33 @@ function ListTasks({data, setData ,handleItemClick, selectedItem, status =0, ses
 
         })
         .catch((error) => {
-          console.error("Error:", error);
+          toast({
+            variant: "destructive",
+            title: "Oh là là ! Quelque chose s'est mal passé.",
+            description:axios.isAxiosError(error)?  error.response?.data?.error ??
+            "Une erreur s'est produite lors de la mis à jour de la tâche.": "Une erreur inattendue s'est produite.",
+          })
         });
   }
     }, [session, updateState]);
-
+ 
     return (    
-    <ul className="task-list max-h-96 overflow-auto mt-6 flex flex-col items-center">
-        {data.map((item: TasksProps) => (
-          <li
+    <ul className="task-list overflow-auto mt-6 flex flex-col items-center">
+        {data.map((item: TasksProps) => {
+         return  <li
             key={item.id}
-            className={`bg-[#f0f2fc]  p-5 mt-3 rounded-lg relative w-11/12 ${
+            style={{backgroundColor:STATUS_COLOR_BG[item.status]}}
+            className={`bg-${STATUS_COLOR_BG[item.status]} text-${STATUS_COLOR_TEXT[item.status]}  p-5 mt-3 rounded-lg relative w-11/12 ${
               selectedItem?.id === item.id ? "selected border-2 border-electric-blue border-solid" : ""
             }`}
             onClick={() => handleItemClick(item)}
           > 
           {item.sashaStatus !==3 && <div style={{background: PRIORITY_COLOR[item.priority]}} className={`rounded-3xl absolute top-0 left-0 -translate-x-1 bg-[${PRIORITY_COLOR[item.priority]}] w-3 h-3`}></div>}
             <h4>Tâche n°{item.id}</h4>
-            {STATUS[item.status]}
-          </li>
-        ))}
+           <span className='text-sm'>Date d'écheance : {format(new Date(item.dueDate), "dd/mm/yyyy")}</span> 
+          </li>}
+        )}
       </ul>
-    // </div>
   )
 }
 

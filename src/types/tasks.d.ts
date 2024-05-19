@@ -9,6 +9,11 @@ interface Dei {
     purchaseOrder: Array<{fileUrl: string}>
   
   }
+  type StatusBannerProps = {
+    setStatusUpdated : Function,
+      dei: {id:number, status: number} ,
+      session: Session | null
+    }
 type DeiDisabled =  {
   sashaStatus: boolean;
   totalPrice: boolean;
@@ -42,10 +47,10 @@ interface StatusConfig {
     priority: boolean;
   };
 }
-type TasksProps = { id: number; status: number, priority :number ,  sashaStatus?: number;}
+type TasksProps = { id: number; status: number, priority :number ,  sashaStatus?: number;dueDate:string}
 type Calendar = {
 
-    data : Array<{id: number; dueDate: string;}>;
+    data : Array<{id: number; dueDate: string;status: number;}>;
 }
 type ListTasksProps = {
     data : Array<TasksProps>;

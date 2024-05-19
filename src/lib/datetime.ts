@@ -22,3 +22,6 @@ export  const getCombinedDate = (date : string, time : string) =>{
     }
     return isBefore(date1, date2) 
   }
+
+
+  

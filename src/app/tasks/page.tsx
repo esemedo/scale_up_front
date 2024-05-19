@@ -1,14 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import StatusBanner from "@/components/Assistant/StatusBanner";
-import InputInfoDei from "@/components/Assistant/Input";
-import SelectComponentLabel from "@/components/Assistant/SelectComponentLabel";
 import Calendar from "@/components/Assistant/Calendar";
 import ListTasks from "@/components/Assistant/ListTasks";
-import { PRIORITY, SACHA_STATUS, statusConfig } from "@/lib/constants";
-import { signIn, useSession } from "next-auth/react";
-import Card from "@/components/Assistant/Card";
+import {  statusConfig } from "@/lib/constants";
+import {  useSession } from "next-auth/react";
 import { ScrollBar, ScrollArea } from "@/components/ui/scroll-area";
 import {
   Tabs,
@@ -17,9 +13,9 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs"
 import CardDei from "@/components/Assistant/Card";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { LoadingSpinner } from "@/components/LoadingSpinner/LoadingSpinner";
+import useVerifyAccess from "@/lib/verifyAccess";
 
 
 const Page = () => {
@@ -47,14 +43,8 @@ const Page = () => {
   } 
   const [data, setData] = React.useState<Dei[]>([]); 
 
-  useEffect(() => {
-    if (status === "unauthenticated") {
-      signIn("keycloak", {
-        callbackUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/`,
-      }); // Force sign in if not authenticated
-      //!!! ROLES ARE IN session.user.roles when authenticated !!!
-    }
-  }, [session]);
+  useVerifyAccess("educational-assistant", session, status)
+
 useEffect(() => {
   if(selectedItem){
   const config =statusConfig[selectedItem?.sashaStatus]  ?  statusConfig[selectedItem?.sashaStatus] : statusConfig.default;
@@ -69,8 +59,8 @@ useEffect(() => {
       </div>
     );
   return (
-    <div className="group-componen mx-36 mt-8 flex justify-center gap-3 rounded-lg p-8 pt-16 font-main">
-      <ScrollArea className="left-side mx-s mt-2 w-2/6 rounded-3xl bg-white flex flex-col items-center ml-2 shadow-lg">
+    <div className="group-componen w-full h-full items-center flex justify-center gap-3 rounded-lg  font-main">
+      <ScrollArea className="left-side h-5/6 mx-s mt-2 min-w-64 rounded-3xl bg-white flex flex-col items-center ml-2 shadow-lg">
        <div className="w-full py-4 flex justify-around items-center">
          <h3 className="text-lg text-left ">Mes tâches</h3>
          <Link href={`/absence`} className="border-solid border-2 p-1 border-slate-700 rounded-lg hover:bg-neutral-700 hover:text-white">Absence</Link>
@@ -98,7 +88,7 @@ useEffect(() => {
         <ScrollBar orientation="horizontal" />
       </ScrollArea>
         <div className="right-side mx-auto w-4/6">
-        <ScrollArea className="top mx-auto mt-2 flex flex-row gap-y-2 rounded-3xl bg-white shadow-lg h-96">
+        < div className="top mx-auto mt-2 flex flex-row gap-y-2 rounded-3xl bg-white shadow-lg h-128">
             {selectedItem !== null && selectedItem !== undefined && 
             <>
               <div className="w-2/3">
@@ -109,8 +99,8 @@ useEffect(() => {
              <StatusBanner session={session} dei={selectedItem} setStatusUpdated={setStatusUpdated} />
             </div>
            </> } 
-           <ScrollBar orientation="horizontal" />
-          </ScrollArea>
+           {/* <ScrollBar orientation="horizontal" /> */}
+          </div>
           <Calendar data={data} />
         </div>
       </div>

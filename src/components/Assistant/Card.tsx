@@ -15,6 +15,7 @@ import {
     CardContent,
   } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { useToast } from '../ui/use-toast'
 
 
 const isPdfFile = (file: { type: string }) => {
@@ -23,10 +24,19 @@ const isPdfFile = (file: { type: string }) => {
   
 function CardDei({dei, disabled, session, update}: DeiProps) {
     const [selectedFile, setSelectedFile] = useState<File |null>(null)
+    const {toast} = useToast()
     const handleFileChange = (e:  any) => {
         const file = e.target.files[0]
-        if(file &&isPdfFile(file)){
+        const isPdf =isPdfFile(file)
+        if(file &&isPdf){
             setSelectedFile(file);
+        }
+        if(!isPdf){
+            toast({
+                variant: "destructive",
+                title: "Un bon de commande est attendu !",          
+                description: "Veuillez entrer un fichier PDF."   
+            })
         }
       };
     const form = useForm<z.infer<typeof formSchemaDei>>({
@@ -44,10 +54,18 @@ function CardDei({dei, disabled, session, update}: DeiProps) {
     const updateDei = async(data: Object) =>{
         try {
             const result = await axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/dei/${dei.id}/update`, data, {headers:{Authorization: `Bearer ${session?.accessToken}`}})
-            console.log(result.data);
+            toast({
+                variant: "successful",
+                title: result.data.message ?? "La tâche a été mis à jour !",
+              })
             
-        } catch (error:any) {
-            console.error(error.message)
+        } catch (error) {
+            toast({
+                variant: "destructive",
+                title: "Oh là là ! Quelque chose s'est mal passé.",
+                description:axios.isAxiosError(error)?  error.response?.data?.error ??
+                "Une erreur s'est produite lors de la mis à jour de la tâche.": "Une erreur inattendue s'est produite.",
+              })
         }finally{
             update()
         }
@@ -73,6 +91,11 @@ function CardDei({dei, disabled, session, update}: DeiProps) {
                     formData.append('file', selectedFile);
                     formData.append('sashaStatus', data.sashaStatus);
                     canUpdate = true
+                }else{
+                    toast({
+                        variant: "destructive",
+                        title:"N'oubliez pas le bon de commande et de sélectionnez le bon statut.",          
+                    })
                 }
                 if (data.priority !== `${dei.priority}`){
                     formData.append('priority', data.priority);
@@ -89,7 +112,7 @@ function CardDei({dei, disabled, session, update}: DeiProps) {
 
   return (
       <FormProvider {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col items-center justify-center'>
+        <form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col items-center justify-around h-full'>
         <h1 className="text-3xl font-bold text-[#41494e]">Tâche n°{dei?.id}</h1>
         <div className="flex justify-between gap-2">
             <InputInfoDei form={form} label="Date d'écheance" property='dueDate' type='date' readOnly={disabled.dueDate} />
