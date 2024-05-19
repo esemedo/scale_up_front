@@ -1,13 +1,13 @@
-import * as React from "react"
+import * as React from "react";
 
-import { useMediaQuery } from '@mantine/hooks';
+import { useMediaQuery } from "@mantine/hooks";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 import {
   Drawer,
   DrawerClose,
@@ -16,22 +16,22 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "@/components/ui/drawer"
+} from "@/components/ui/drawer";
 import { Button } from "../ui/button";
 import { FilePlusIcon } from "lucide-react";
 import FormCreateSubject from "./FormCreateSubject";
 
 export function ButtonAddSubject() {
-
-  const [open, setOpen] = React.useState(false)
-  const isDesktop = useMediaQuery("(min-width: 768px)")
+  const [open, setOpen] = React.useState(false);
+  const isDesktop = useMediaQuery("(min-width: 768px)");
 
   if (isDesktop) {
-    
     return (
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger>
-          <Button className="bg-blue-700 rounded-full"><FilePlusIcon/></Button>
+          <Button className="rounded-full bg-blue-700">
+            <FilePlusIcon />
+          </Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
@@ -40,27 +40,27 @@ export function ButtonAddSubject() {
           <FormCreateSubject />
         </DialogContent>
       </Dialog>
-    )
+    );
   }
 
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger>
-        <Button className="bg-blue-700  rounded-full"><FilePlusIcon/></Button>
+        <Button className="rounded-full  bg-blue-700">
+          <FilePlusIcon />
+        </Button>
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader className="text-left">
           <DrawerTitle>Ajoutez une matière/module</DrawerTitle>
         </DrawerHeader>
-        <FormCreateSubject/>
+        <FormCreateSubject />
         <DrawerFooter className="pt-2">
           <DrawerClose asChild>
-            <Button className="bg-blue-700  rounded-full">Cancel</Button>
+            <Button className="rounded-full  bg-blue-700">Cancel</Button>
           </DrawerClose>
         </DrawerFooter>
       </DrawerContent>
     </Drawer>
-  )
+  );
 }
-
-
