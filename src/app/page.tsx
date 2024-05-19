@@ -12,8 +12,7 @@ function Home() {
     if (status === "unauthenticated") {
       signIn("keycloak", {
         callbackUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/`,
-      }); // Force sign in if not authenticated
-      //!!! ROLES ARE IN session.user.roles when authenticated !!!
+      });
     }
   }, [session]);
   const authorizedUser = !session?.user.roles.includes("speaker-company");
