@@ -106,9 +106,7 @@ export default function Register() {
   const onSubmit: SubmitHandler<z.infer<typeof RegisterFormSchema>> = (
     data,
   ) => {
-    console.log(data);
     const role = data.external ? SPEAKER_COMPANY_ROLE : data.role;
-    console.log(data, role);
     const postData = {
       ...data,
       role,
