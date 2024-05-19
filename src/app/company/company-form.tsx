@@ -100,7 +100,7 @@ export default function CompanyForm({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit()}>
+      <form onSubmit={form.handleSubmit(() => {})}>
         <FormField
           control={form.control}
           name="status"
